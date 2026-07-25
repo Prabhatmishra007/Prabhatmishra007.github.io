@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Quiz — if / elif / else / Nested if Challenge (Day 14)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --card: #1a1a1a;
+  --card-hover: #202020;
+  --gold: #c9942a;
+  --gold-dim: rgba(201,148,42,0.15);
+  --gold-border: rgba(201,148,42,0.3);
+  --accent: #c9942a;
+  --accent2: #e05c3a;
+  --accent3: #4a90d9;
+  --text: #f0ede8;
+  --text-secondary: #c8c0b0;
+  --muted: #7a7060;
+  --correct: #5a9e6f;
+  --wrong: #c0442a;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(201,148,42,0.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(201,148,42,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(74,144,217,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TOP BAR */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0a0a0a;
+  border-bottom: 2px solid var(--gold);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.top-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); }
+.top-bar-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.top-bar-right {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  padding: 4px 12px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* SCREEN VISIBILITY */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── WELCOME ── */
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.eyebrow span { color: var(--gold); }
+
+h1.main-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h1.main-title em { color: var(--gold); font-style: italic; }
+
+.welcome-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 540px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.topic-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: 4px 10px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+@media(min-width:520px){ .stat-grid { grid-template-columns: repeat(4,1fr); } }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1.1rem .9rem;
+  text-align: center;
+}
+.stat-card .val {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: .2rem;
+}
+.stat-card .lbl {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.notice-box {
+  background: var(--card);
+  border-left: 4px solid var(--accent3);
+  padding: 16px 20px;
+  margin-bottom: 2rem;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.notice-box strong { color: var(--text); }
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: .85rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-start:hover { background: #d4a840; transform: translateY(-2px); }
+
+.hint-text {
+  margin-top: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .5px;
+}
+.hint-text span { color: var(--accent2); }
+
+/* ── QUIZ HEADER ── */
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.q-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.q-counter strong { color: var(--text); }
+.timer {
+  font-family: 'Space Mono', monospace;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--border-gold);
+  padding: .3rem .75rem;
+  transition: color .3s, background .3s;
+}
+.timer.warn { color: var(--accent2); background: rgba(224,92,58,0.1); border-color: rgba(224,92,58,0.3); }
+
+.progress-wrap { margin-bottom: 1.5rem; }
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: .4rem;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .4s ease;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+}
+
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: .25rem .8rem;
+  margin-bottom: .9rem;
+}
+
+.difficulty-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .22rem .7rem;
+  margin-bottom: .9rem;
+  margin-left: 8px;
+}
+.diff-easy { color: var(--correct); border: 1px solid rgba(90,158,111,0.3); background: rgba(90,158,111,0.08); }
+.diff-medium { color: var(--accent3); border: 1px solid rgba(74,144,217,0.3); background: rgba(74,144,217,0.08); }
+.diff-hard { color: var(--accent2); border: 1px solid rgba(224,92,58,0.3); background: rgba(224,92,58,0.08); }
+
+.question-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+.question-text code {
+  font-family: 'Space Mono', monospace;
+  background: rgba(201,148,42,0.1);
+  border: 1px solid var(--border-gold);
+  padding: .15rem .45rem;
+  font-size: .88em;
+  color: var(--gold);
+}
+
+.sql-block {
+  background: #111;
+  border-left: 3px solid var(--gold);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 1.2rem;
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  color: #d4c9a8;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.sql-kw { color: var(--gold); font-weight: 700; }
+.sql-str { color: #8ec07c; }
+.sql-num { color: var(--accent3); }
+.sql-com { color: var(--muted); font-style: italic; }
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1.6rem;
+}
+.option-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: .85rem;
+  transition: border-color .15s, background .15s;
+  font-size: .93rem;
+  color: var(--text-secondary);
+  user-select: none;
+  line-height: 1.55;
+}
+.option-card:hover { border-left-color: var(--gold); background: var(--card-hover); color: var(--text); }
+.option-card.selected { border-left-color: var(--gold); background: rgba(201,148,42,0.07); color: var(--text); border-color: var(--border-gold); }
+.option-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+}
+.option-card.selected .option-label { color: var(--gold); }
+
+.option-card code {
+  font-family: 'Space Mono', monospace;
+  background: rgba(201,148,42,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .35rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+
+.nav-row {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+.btn {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .65rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .12s;
+}
+.btn:disabled { opacity: .3; cursor: not-allowed; transform: none !important; }
+.btn-skip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-skip:hover:not(:disabled) { border-color: rgba(255,255,255,0.2); color: var(--text-secondary); }
+.btn-next {
+  background: var(--gold);
+  color: #0d0d0d;
+}
+.btn-next:hover:not(:disabled) { background: #d4a840; transform: translateY(-1px); }
+
+/* ── RESULTS ── */
+.results-top { text-align: center; margin-bottom: 2.2rem; }
+.ring-wrap { display: flex; justify-content: center; margin-bottom: 1.2rem; }
+.ring-wrap svg { overflow: visible; }
+.ring-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 12; }
+.ring-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: butt;
+  stroke: var(--gold);
+  stroke-dasharray: 390;
+  stroke-dashoffset: 390;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1);
+}
+.ring-pct { font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700; fill: var(--text); }
+.ring-lbl { font-size: .7rem; fill: var(--muted); font-family: 'Space Mono', monospace; }
+
+.grade-label {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: .3rem;
+}
+.grade-sub { color: var(--text-secondary); font-size: .93rem; }
+
+.res-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+.res-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1rem;
+  text-align: center;
+}
+.res-stat-card .rv {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: .2rem;
+}
+.rv.green { color: var(--correct); }
+.rv.red { color: var(--wrong); }
+.rv.gold { color: var(--gold); }
+.res-stat-card .rl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-family: 'Space Mono', monospace; }
+
+.section-title {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-bottom: .9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-bars { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+.topic-row { display: flex; flex-direction: column; gap: .35rem; }
+.topic-row-head { display: flex; justify-content: space-between; align-items: center; }
+.topic-name { font-size: .85rem; font-weight: 500; color: var(--text-secondary); }
+.topic-status {
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .55rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.status-strong { background: rgba(90,158,111,0.1); color: var(--correct); border: 1px solid rgba(90,158,111,0.25); }
+.status-moderate { background: rgba(74,144,217,0.1); color: var(--accent3); border: 1px solid rgba(74,144,217,0.22); }
+.status-weak { background: rgba(192,68,42,0.1); color: var(--wrong); border: 1px solid rgba(192,68,42,0.22); }
+.bar-track { height: 4px; background: rgba(255,255,255,0.05); }
+.bar-fill { height: 100%; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+.focus-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent2);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.focus-box h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: .85rem;
+}
+.focus-item {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: .7rem;
+  font-size: .87rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.focus-item:last-child { margin-bottom: 0; }
+.focus-bullet { color: var(--gold); flex-shrink: 0; font-family: 'Space Mono', monospace; }
+
+.review-list { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 2rem; }
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 1rem 1.1rem;
+}
+.review-card.correct-card { border-left-color: var(--correct); }
+.review-card.wrong-card { border-left-color: var(--wrong); }
+.review-qnum {
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+  letter-spacing: .5px;
+}
+.review-q { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .55rem; line-height: 1.5; }
+.review-q code {
+  font-family: 'Space Mono', monospace;
+  background: rgba(201,148,42,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .3rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+.review-answers { display: flex; flex-direction: column; gap: .3rem; }
+.review-ans {
+  font-size: .8rem;
+  padding: .3rem .65rem;
+  font-family: 'Space Mono', monospace;
+  line-height: 1.5;
+}
+.ans-correct { background: rgba(90,158,111,0.08); color: var(--correct); border: 1px solid rgba(90,158,111,0.2); }
+.ans-wrong-pick { background: rgba(192,68,42,0.08); color: var(--wrong); border: 1px solid rgba(192,68,42,0.2); }
+.ans-skipped { background: rgba(122,122,154,0.08); color: var(--muted); border: 1px solid rgba(122,122,154,0.18); }
+
+.explanation-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(201,148,42,0.06);
+  border-left: 2px solid var(--gold);
+  font-size: .8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-family: 'DM Sans', sans-serif;
+}
+.explanation-box strong { color: var(--gold); font-family: 'Space Mono', monospace; font-size: .75rem; }
+
+.btn-retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .9rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-retry:hover { background: #d4a840; transform: translateY(-2px); }
+
+.divider { height: 1px; background: var(--border); margin: 1.6rem 0; }
+.footer-note {
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-top: 3rem;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-dot"></div>
+    <div class="top-bar-title">Python Fundamentals Quiz</div>
+  </div>
+  <div class="top-bar-right">Day 14 / 100</div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="container">
+    <div class="eyebrow">100 Days of Python · Day 14 · <span>Conditional Logic Challenge</span></div>
+    <h1 class="main-title">if / elif / else /<br><em>Nested if</em></h1>
+    <p class="welcome-sub">A tougher checkpoint quiz pulling together everything from Days 10–13 — if, else, elif chains, and nested if statements. Expect code-tracing questions with short-circuiting, chained comparisons, and multi-level nesting. Medium to hard difficulty.</p>
+
+    <div class="topic-tags">
+      <span class="topic-tag">if</span>
+      <span class="topic-tag">elif</span>
+      <span class="topic-tag">else</span>
+      <span class="topic-tag">Nested if</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><span class="val">20</span><span class="lbl">Questions</span></div>
+      <div class="stat-card"><span class="val">15</span><span class="lbl">Minutes</span></div>
+      <div class="stat-card"><span class="val">4</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">Med–Hard</span><span class="lbl">Difficulty</span></div>
+    </div>
+
+    <div class="notice-box">
+      <strong>This one's a step up.</strong> Trace through each code snippet carefully before answering — pay attention to indentation, condition order, and which branch actually gets skipped. Read each question carefully.
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+    <div class="hint-text">Timer starts immediately. <span>Skip costs you nothing — review is shown at the end.</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 2 — QUIZ
+════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="container">
+    <div class="quiz-header">
+      <div class="q-counter">Question <strong id="qNum">1</strong> of 20</div>
+      <div class="timer" id="timer">15:00</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">0 answered</div>
+    </div>
+    <span class="topic-pill" id="topicPill">if / elif / else</span>
+    <span class="difficulty-pill" id="diffPill">Easy</span>
+    <div class="question-text" id="questionText"></div>
+    <div id="sqlSnippet"></div>
+    <div class="options-list" id="optionsList"></div>
+    <div class="nav-row">
+      <button class="btn btn-skip" onclick="skipQuestion()">Skip</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 3 — RESULTS
+════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="results-top">
+      <div class="ring-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#c9942a"/>
+              <stop offset="100%" stop-color="#d4a840"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="65" cy="65" r="62"/>
+          <circle class="ring-fill" id="ringFill" cx="65" cy="65" r="62"/>
+          <text class="ring-pct" id="ringPct" x="65" y="62" text-anchor="middle" dominant-baseline="middle">0%</text>
+          <text class="ring-lbl" x="65" y="80" text-anchor="middle">Score</text>
+        </svg>
+      </div>
+      <div class="grade-label" id="gradeLabel"></div>
+      <div class="grade-sub" id="gradeSub"></div>
+    </div>
+
+    <div class="res-stat-grid">
+      <div class="res-stat-card"><span class="rv green" id="resCorrect">0</span><span class="rl">Correct</span></div>
+      <div class="res-stat-card"><span class="rv red" id="resWrong">0</span><span class="rl">Wrong</span></div>
+      <div class="res-stat-card"><span class="rv gold" id="resPct">0%</span><span class="rl">Score</span></div>
+    </div>
+
+    <div class="section-title">Performance by Topic</div>
+    <div class="topic-bars" id="topicBars"></div>
+
+    <div class="focus-box" id="focusBox">
+      <h3>→ Focus Areas</h3>
+      <div id="focusTips"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Full Review</div>
+    <div class="review-list" id="reviewList"></div>
+
+    <button class="btn-retry" onclick="retryQuiz()">↺ Retry Quiz</button>
+    <div class="footer-note" style="margin-top:2rem;">100 Days of Python · Day 14 · Conditional Logic Challenge</div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "if",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">if</span> x:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Truthy"</span>)\n<span class="sql-kw">if</span> <span class="sql-kw">not</span> x:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Falsy"</span>)`,
+    opts: [
+      "Truthy",
+      "Falsy",
+      "Truthy<br>Falsy",
+      "Nothing is printed"
+    ],
+    ans: 1,
+    explain: "0 is falsy in Python, so `if x:` is False and skipped. `not x` flips that falsy value to True, so the second if runs and prints Falsy."
+  },
+  {
+    topic: "if",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> <span class="sql-num">5</span>\nb <span class="sql-kw">=</span> <span class="sql-num">10</span>\n<span class="sql-kw">if</span> a <span class="sql-kw">&lt;</span> b <span class="sql-kw">and</span> b <span class="sql-kw">&lt;</span> <span class="sql-num">20</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Range OK"</span>)\n<span class="sql-kw">print</span>(<span class="sql-str">"Done"</span>)`,
+    opts: [
+      "Range OK<br>Done",
+      "Done",
+      "Range OK",
+      "Nothing is printed"
+    ],
+    ans: 0,
+    explain: "and needs both sides True; a < b (5<10) is True and b < 20 (10<20) is True, so the if block runs, printing Range OK. print(\"Done\") isn't indented under the if, so it always runs afterward too."
+  },
+  {
+    topic: "if",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">5</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">==</span> <span class="sql-num">5</span> <span class="sql-kw">or</span> x <span class="sql-kw">/</span> <span class="sql-num">0</span> <span class="sql-kw">==</span> <span class="sql-num">1</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Safe"</span>)`,
+    opts: [
+      "Safe",
+      "It raises a ZeroDivisionError",
+      "Nothing is printed",
+      "It raises a SyntaxError"
+    ],
+    ans: 0,
+    explain: "or short-circuits: once the left side (x == 5) is already True, Python never bothers evaluating the right side, so x / 0 is never computed and no error occurs. It prints Safe."
+  },
+  {
+    topic: "if",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">3</span>\n<span class="sql-kw">if</span> <span class="sql-num">1</span> <span class="sql-kw">&lt;</span> x <span class="sql-kw">&lt;</span> <span class="sql-num">10</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"In range"</span>)`,
+    opts: [
+      "In range",
+      "It causes a SyntaxError",
+      "False",
+      "Nothing is printed"
+    ],
+    ans: 0,
+    explain: "Python allows chained comparisons: 1 < x < 10 is equivalent to (1 < x) and (x < 10). Since x is 3, both parts are True, so it prints In range."
+  },
+  {
+    topic: "if",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `lst <span class="sql-kw">=</span> []\n<span class="sql-kw">if</span> lst:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Not empty"</span>)\n<span class="sql-kw">if</span> <span class="sql-kw">len</span>(lst) <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Empty"</span>)`,
+    opts: [
+      "Not empty",
+      "Empty",
+      "Not empty<br>Empty",
+      "Nothing is printed"
+    ],
+    ans: 1,
+    explain: "An empty list is falsy, so `if lst:` is False and skipped. The second condition, len(lst) == 0, is True, so it prints Empty."
+  },
+  {
+    topic: "elif",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `score <span class="sql-kw">=</span> <span class="sql-num">85</span>\n<span class="sql-kw">if</span> score <span class="sql-kw">&gt;=</span> <span class="sql-num">90</span>:\n    grade <span class="sql-kw">=</span> <span class="sql-str">"A"</span>\n<span class="sql-kw">elif</span> score <span class="sql-kw">&gt;=</span> <span class="sql-num">80</span>:\n    grade <span class="sql-kw">=</span> <span class="sql-str">"B"</span>\n<span class="sql-kw">elif</span> score <span class="sql-kw">&gt;=</span> <span class="sql-num">70</span>:\n    grade <span class="sql-kw">=</span> <span class="sql-str">"C"</span>\n<span class="sql-kw">else</span>:\n    grade <span class="sql-kw">=</span> <span class="sql-str">"F"</span>\n<span class="sql-kw">print</span>(grade)`,
+    opts: [
+      "A",
+      "B",
+      "C",
+      "F"
+    ],
+    ans: 1,
+    explain: "score (85) fails >= 90, then checks >= 80, which is True (85 >= 80), so grade becomes B and the remaining elif/else are skipped."
+  },
+  {
+    topic: "elif",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">15</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">10</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"A"</span>)\n<span class="sql-kw">elif</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">5</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"B"</span>)\n<span class="sql-kw">elif</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">20</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"C"</span>)`,
+    opts: [
+      "A",
+      "A<br>C",
+      "B",
+      "Nothing is printed"
+    ],
+    ans: 0,
+    explain: "x > 10 (15 > 10) is True, so that block runs and Python immediately skips every remaining elif in the chain — even the x > 20 branch, which is never checked."
+  },
+  {
+    topic: "elif",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `day <span class="sql-kw">=</span> <span class="sql-str">"Tue"</span>\n<span class="sql-kw">if</span> day <span class="sql-kw">==</span> <span class="sql-str">"Mon"</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Start"</span>)\n<span class="sql-kw">elif</span> day <span class="sql-kw">==</span> <span class="sql-str">"Tue"</span> <span class="sql-kw">or</span> day <span class="sql-kw">==</span> <span class="sql-str">"Wed"</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Mid"</span>)\n<span class="sql-kw">elif</span> day <span class="sql-kw">==</span> <span class="sql-str">"Tue"</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Never reached"</span>)`,
+    opts: [
+      "Start",
+      "Mid",
+      "Never reached",
+      "Mid<br>Never reached"
+    ],
+    ans: 1,
+    explain: "The elif condition day == \"Tue\" or day == \"Wed\" is True since day is \"Tue\", so it prints Mid. The next elif, even though it would also match \"Tue\", is never checked once a match is found."
+  },
+  {
+    topic: "elif",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `num <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">if</span> num <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Positive"</span>)\n<span class="sql-kw">elif</span> num <span class="sql-kw">&lt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Negative"</span>)\n<span class="sql-kw">elif</span> num <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Zero"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Unreachable"</span>)`,
+    opts: [
+      "Positive",
+      "Negative",
+      "Zero",
+      "Unreachable"
+    ],
+    ans: 2,
+    explain: "num is 0, so num > 0 is False and num < 0 is False, but num == 0 is True, so it prints Zero. The final else never runs since a match was already found."
+  },
+  {
+    topic: "elif",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `temp <span class="sql-kw">=</span> <span class="sql-num">72</span>\n<span class="sql-kw">if</span> temp <span class="sql-kw">&gt;</span> <span class="sql-num">100</span>:\n    status <span class="sql-kw">=</span> <span class="sql-str">"Boiling"</span>\n<span class="sql-kw">elif</span> temp <span class="sql-kw">&gt;</span> <span class="sql-num">32</span>:\n    status <span class="sql-kw">=</span> <span class="sql-str">"Liquid"</span>\n<span class="sql-kw">elif</span> temp <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    status <span class="sql-kw">=</span> <span class="sql-str">"Also liquid"</span>\n<span class="sql-kw">else</span>:\n    status <span class="sql-kw">=</span> <span class="sql-str">"Frozen"</span>\n<span class="sql-kw">print</span>(status)`,
+    opts: [
+      "Boiling",
+      "Liquid",
+      "Also liquid",
+      "Frozen"
+    ],
+    ans: 1,
+    explain: "temp (72) fails > 100, then checks > 32, which is True (72 > 32), so status becomes Liquid and the chain stops — the third elif is never evaluated even though it would also be True."
+  },
+  {
+    topic: "else",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `name <span class="sql-kw">=</span> <span class="sql-str">""</span>\n<span class="sql-kw">if</span> name:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Has name"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"No name"</span>)`,
+    opts: [
+      "Has name",
+      "No name",
+      "Nothing is printed",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "An empty string is falsy in Python, so the if condition is False, and the else block runs, printing No name."
+  },
+  {
+    topic: "else",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> <span class="sql-num">4</span>\nb <span class="sql-kw">=</span> <span class="sql-num">4</span>\n<span class="sql-kw">if</span> a <span class="sql-kw">&gt;</span> b:\n    <span class="sql-kw">print</span>(<span class="sql-str">"A bigger"</span>)\n<span class="sql-kw">elif</span> a <span class="sql-kw">&lt;</span> b:\n    <span class="sql-kw">print</span>(<span class="sql-str">"B bigger"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Equal"</span>)`,
+    opts: [
+      "A bigger",
+      "B bigger",
+      "Equal",
+      "Nothing is printed"
+    ],
+    ans: 2,
+    explain: "else attaches to the entire if-elif chain and runs only when every condition above — both a > b and a < b — is False, which happens here since a equals b."
+  },
+  {
+    topic: "else",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `flag <span class="sql-kw">=</span> <span class="sql-kw">False</span>\n<span class="sql-kw">if</span> flag:\n    <span class="sql-kw">print</span>(<span class="sql-str">"On"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Off"</span>)\n<span class="sql-kw">print</span>(<span class="sql-str">"Checked"</span>)`,
+    opts: [
+      "Off<br>Checked",
+      "On<br>Checked",
+      "Off",
+      "Checked"
+    ],
+    ans: 0,
+    explain: "flag is False, so the else block runs, printing Off. print(\"Checked\") isn't indented under the if-else, so it always executes afterward too."
+  },
+  {
+    topic: "else",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> <span class="sql-num">5</span>\nb <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">if</span> a <span class="sql-kw">&gt;</span> <span class="sql-num">0</span> <span class="sql-kw">and</span> b <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Both positive"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Not both positive"</span>)`,
+    opts: [
+      "Both positive",
+      "Not both positive",
+      "Nothing is printed",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "The condition needs both a > 0 and b > 0 to be True. Since b is 0, b > 0 is False, making the whole and expression False, so the else branch runs."
+  },
+  {
+    topic: "else",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">5</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">==</span> <span class="sql-num">5</span>:\n    <span class="sql-kw">pass</span>\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Not five"</span>)\n<span class="sql-kw">print</span>(<span class="sql-str">"End"</span>)`,
+    opts: [
+      "End",
+      "Not five<br>End",
+      "Nothing is printed",
+      "It causes an error"
+    ],
+    ans: 0,
+    explain: "pass is a no-op placeholder — it does nothing but keeps the if block valid. Since x == 5 is True, the (empty) if branch runs and else is skipped, so only print(\"End\") produces output."
+  },
+  {
+    topic: "Nested if",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">12</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">10</span>:\n    <span class="sql-kw">if</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">20</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Very big"</span>)\n    <span class="sql-kw">else</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Big"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Small"</span>)`,
+    opts: [
+      "Very big",
+      "Big",
+      "Small",
+      "Nothing is printed"
+    ],
+    ans: 1,
+    explain: "The outer condition x > 10 is True (12 > 10), so Python enters that block and checks the nested x > 20, which is False. The nested else runs instead, printing Big."
+  },
+  {
+    topic: "Nested if",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">10</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">&lt;</span> <span class="sql-num">5</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Low"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">if</span> x <span class="sql-kw">&lt;</span> <span class="sql-num">15</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Medium"</span>)\n    <span class="sql-kw">else</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"High"</span>)`,
+    opts: [
+      "Low",
+      "Medium",
+      "High",
+      "Nothing is printed"
+    ],
+    ans: 1,
+    explain: "The outer else contains a nested if-else. Since x < 5 is False, the outer else runs, and the nested condition x < 15 (10 < 15) is True, so it prints Medium."
+  },
+  {
+    topic: "Nested if",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `user <span class="sql-kw">=</span> <span class="sql-str">"admin"</span>\nactive <span class="sql-kw">=</span> <span class="sql-kw">True</span>\n<span class="sql-kw">if</span> user <span class="sql-kw">==</span> <span class="sql-str">"admin"</span>:\n    <span class="sql-kw">if</span> active:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Access granted"</span>)\n    <span class="sql-kw">else</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Account inactive"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Access denied"</span>)`,
+    opts: [
+      "Access granted",
+      "Account inactive",
+      "Access denied",
+      "Nothing is printed"
+    ],
+    ans: 0,
+    explain: "The outer condition user == \"admin\" is True, so Python enters that block and checks active, which is also True, so it prints Access granted."
+  },
+  {
+    topic: "Nested if",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> <span class="sql-num">5</span>\nb <span class="sql-kw">=</span> <span class="sql-num">15</span>\n<span class="sql-kw">if</span> a <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">if</span> b <span class="sql-kw">&gt;</span> <span class="sql-num">20</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Both large"</span>)\n    <span class="sql-kw">elif</span> b <span class="sql-kw">&gt;</span> <span class="sql-num">10</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"A positive, B medium"</span>)\n    <span class="sql-kw">else</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"A positive, B small"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"A not positive"</span>)`,
+    opts: [
+      "Both large",
+      "A positive, B medium",
+      "A positive, B small",
+      "A not positive"
+    ],
+    ans: 1,
+    explain: "a > 0 is True, so Python enters the outer block. Inside, b > 20 is False (15 is not > 20), but the elif b > 10 is True (15 > 10), so it prints A positive, B medium."
+  },
+  {
+    topic: "Nested if",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">8</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">if</span> x <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Positive even"</span>)\n    <span class="sql-kw">else</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"Positive odd"</span>)\n<span class="sql-kw">elif</span> x <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Zero"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Negative"</span>)`,
+    opts: [
+      "Positive even",
+      "Positive odd",
+      "Zero",
+      "Negative"
+    ],
+    ans: 0,
+    explain: "x > 0 is True (8 > 0), so Python enters that block and checks x % 2 == 0, which is also True since 8 is even, so it prints Positive even."
+  }
+];
+
+const tips = {
+  "if": "Standalone if statements only run their block when the condition is True — remember that 0, empty strings, and empty lists/collections are all falsy.",
+  "elif": "elif chains are checked top to bottom, and Python stops at the very first True condition — later branches are never evaluated even if they'd also match.",
+  "else": "else attaches to the whole if/elif chain above it and only runs when every one of those conditions was False.",
+  "Nested if": "A nested if is only reached at all when its outer if's condition is True — if the outer condition is False, the inner if is skipped entirely, untested."
+};
+
+let current = 0;
+let answered = 0;
+let userAnswers = [];
+let timerInterval = null;
+let secondsLeft = 15 * 60;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function startQuiz() {
+  current = 0;
+  answered = 0;
+  userAnswers = new Array(questions.length).fill(null);
+  secondsLeft = 15 * 60;
+  showScreen('quiz');
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  const el = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    el.textContent = formatTime(secondsLeft);
+    el.classList.toggle('warn', secondsLeft < 60);
+    if (secondsLeft <= 0) { clearInterval(timerInterval); showResults(); }
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qNum').textContent = current + 1;
+  document.getElementById('topicPill').textContent = q.topic;
+
+  const diffEl = document.getElementById('diffPill');
+  diffEl.textContent = q.difficulty;
+  diffEl.className = 'difficulty-pill';
+  if (q.difficulty === 'Easy') diffEl.classList.add('diff-easy');
+  else if (q.difficulty === 'Medium') diffEl.classList.add('diff-medium');
+  else diffEl.classList.add('diff-hard');
+
+  document.getElementById('questionText').innerHTML = q.q;
+
+  const sqlEl = document.getElementById('sqlSnippet');
+  if (q.sql) {
+    sqlEl.innerHTML = '<div class="sql-block">' + q.sql + '</div>';
+  } else {
+    sqlEl.innerHTML = '';
+  }
+
+  const pct = (answered / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = answered + ' of ' + questions.length + ' answered';
+
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if (userAnswers[current] === i) card.classList.add('selected');
+    card.innerHTML = `<div class="option-label">${labels[i]}</div><span>${opt}</span>`;
+    card.addEventListener('click', () => selectOption(i));
+    list.appendChild(card);
+  });
+
+  const btnNext = document.getElementById('btnNext');
+  btnNext.disabled = userAnswers[current] === null;
+  btnNext.textContent = current === questions.length - 1 ? 'Finish ✓' : 'Next →';
+}
+
+function selectOption(idx) {
+  if (userAnswers[current] === null) answered++;
+  userAnswers[current] = idx;
+  document.querySelectorAll('.option-card').forEach((card, i) => {
+    card.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function skipQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else showResults();
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else { clearInterval(timerInterval); showResults(); }
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  showScreen('results');
+
+  let correct = 0;
+  userAnswers.forEach((ans, i) => { if (ans === questions[i].ans) correct++; });
+  const wrong = userAnswers.filter((a,i) => a !== null && a !== questions[i].ans).length;
+  const pct = Math.round((correct / questions.length) * 100);
+
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = wrong;
+  document.getElementById('resPct').textContent = pct + '%';
+
+  let grade, sub;
+  if (pct >= 90) { grade = 'Excellent — Ready for Day 2'; sub = 'You have the basics down cold. On to variables and data types!'; }
+  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Solid grasp of the fundamentals. Quick review and you are set.'; }
+  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'You are getting the hang of it. Revisit the basics before moving on.'; }
+  else { grade = 'Needs Work — Back to Basics'; sub = 'Re-read the intro material on Python history and print statements.'; }
+  document.getElementById('gradeLabel').textContent = grade;
+  document.getElementById('gradeSub').textContent = sub;
+
+  setTimeout(() => {
+    document.getElementById('ringFill').style.strokeDashoffset = 390 - (390 * correct / questions.length);
+    document.getElementById('ringPct').textContent = pct + '%';
+  }, 150);
+
+  // Topic breakdown
+  const topicStats = {};
+  questions.forEach((q, i) => {
+    if (!topicStats[q.topic]) topicStats[q.topic] = { total: 0, correct: 0 };
+    topicStats[q.topic].total++;
+    if (userAnswers[i] === q.ans) topicStats[q.topic].correct++;
+  });
+
+  const barsEl = document.getElementById('topicBars');
+  barsEl.innerHTML = '';
+  Object.entries(topicStats).forEach(([topic, stat]) => {
+    const p = Math.round((stat.correct / stat.total) * 100);
+    let statusClass, statusLabel;
+    if (p >= 70) { statusClass = 'status-strong'; statusLabel = 'Strong'; }
+    else if (p >= 40) { statusClass = 'status-moderate'; statusLabel = 'Moderate'; }
+    else { statusClass = 'status-weak'; statusLabel = 'Needs Work'; }
+    const color = p >= 70 ? 'var(--correct)' : p >= 40 ? 'var(--accent3)' : 'var(--wrong)';
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML = `
+      <div class="topic-row-head">
+        <span class="topic-name">${topic} (${stat.correct}/${stat.total})</span>
+        <span class="topic-status ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" data-width="${p}" style="background:${color}"></div></div>
+    `;
+    barsEl.appendChild(row);
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
+    });
+  });
+
+  // Focus tips
+  const focusTipsEl = document.getElementById('focusTips');
+  focusTipsEl.innerHTML = '';
+  const weakTopics = Object.entries(topicStats).filter(([,s]) => (s.correct/s.total) < 0.7);
+  if (weakTopics.length === 0) {
+    document.getElementById('focusBox').style.display = 'none';
+  } else {
+    weakTopics.forEach(([topic]) => {
+      const div = document.createElement('div');
+      div.className = 'focus-item';
+      div.innerHTML = `<span class="focus-bullet">→</span><span><strong>${topic}:</strong> ${tips[topic]}</span>`;
+      focusTipsEl.appendChild(div);
+    });
+  }
+
+  // Review list
+  const reviewEl = document.getElementById('reviewList');
+  reviewEl.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const isCorrect = ua === q.ans;
+    const isSkipped = ua === null;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (isSkipped ? '' : isCorrect ? 'correct-card' : 'wrong-card');
+    let ansHTML = '';
+    if (isSkipped) {
+      ansHTML = `<div class="review-ans ans-skipped">⟶ Skipped &nbsp;|&nbsp; Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>`;
+    } else if (isCorrect) {
+      ansHTML = `<div class="review-ans ans-correct">✓ [${labels[ua]}] ${q.opts[ua]}</div>`;
+    } else {
+      ansHTML = `
+        <div class="review-ans ans-wrong-pick">✗ Your answer: [${labels[ua]}] ${q.opts[ua]}</div>
+        <div class="review-ans ans-correct">✓ Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>
+      `;
+    }
+    const diffClass = q.difficulty === 'Easy' ? 'diff-easy' : q.difficulty === 'Medium' ? 'diff-medium' : 'diff-hard';
+    card.innerHTML = `
+      <div class="review-qnum">Q${i+1} · ${q.topic} · <span class="difficulty-pill ${diffClass}" style="font-size:.62rem;padding:.1rem .45rem;">${q.difficulty}</span> ${isSkipped ? '· Skipped' : isCorrect ? '· ✓ Correct' : '· ✗ Wrong'}</div>
+      <div class="review-q">${q.q}</div>
+      <div class="review-answers">${ansHTML}</div>
+      <div class="explanation-box"><strong>Explanation →</strong> ${q.explain}</div>
+    `;
+    reviewEl.appendChild(card);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('focusBox').style.display = '';
+  startQuiz();
+}
+</script>
+</body>
+</html>

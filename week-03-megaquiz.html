@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Mega Quiz — Week 3 Review (Loops)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --card: #1a1a1a;
+  --card-hover: #202020;
+  --gold: #c9942a;
+  --gold-dim: rgba(201,148,42,0.15);
+  --gold-border: rgba(201,148,42,0.3);
+  --accent: #c9942a;
+  --accent2: #e05c3a;
+  --accent3: #4a90d9;
+  --text: #f0ede8;
+  --text-secondary: #c8c0b0;
+  --muted: #7a7060;
+  --correct: #5a9e6f;
+  --wrong: #c0442a;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(201,148,42,0.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(201,148,42,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(74,144,217,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TOP BAR */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0a0a0a;
+  border-bottom: 2px solid var(--gold);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.top-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); }
+.top-bar-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.top-bar-right {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  padding: 4px 12px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* SCREEN VISIBILITY */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── WELCOME ── */
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.eyebrow span { color: var(--gold); }
+
+h1.main-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h1.main-title em { color: var(--gold); font-style: italic; }
+
+.welcome-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 540px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.topic-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: 4px 10px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+@media(min-width:520px){ .stat-grid { grid-template-columns: repeat(4,1fr); } }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1.1rem .9rem;
+  text-align: center;
+}
+.stat-card .val {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: .2rem;
+}
+.stat-card .lbl {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.notice-box {
+  background: var(--card);
+  border-left: 4px solid var(--accent3);
+  padding: 16px 20px;
+  margin-bottom: 2rem;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.notice-box strong { color: var(--text); }
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: .85rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-start:hover { background: #d4a840; transform: translateY(-2px); }
+
+.hint-text {
+  margin-top: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .5px;
+}
+.hint-text span { color: var(--accent2); }
+
+/* ── QUIZ HEADER ── */
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.q-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.q-counter strong { color: var(--text); }
+.timer {
+  font-family: 'Space Mono', monospace;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--border-gold);
+  padding: .3rem .75rem;
+  transition: color .3s, background .3s;
+}
+.timer.warn { color: var(--accent2); background: rgba(224,92,58,0.1); border-color: rgba(224,92,58,0.3); }
+
+.progress-wrap { margin-bottom: 1.5rem; }
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: .4rem;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .4s ease;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+}
+
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: .25rem .8rem;
+  margin-bottom: .9rem;
+}
+
+.difficulty-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .22rem .7rem;
+  margin-bottom: .9rem;
+  margin-left: 8px;
+}
+.diff-easy { color: var(--correct); border: 1px solid rgba(90,158,111,0.3); background: rgba(90,158,111,0.08); }
+.diff-medium { color: var(--accent3); border: 1px solid rgba(74,144,217,0.3); background: rgba(74,144,217,0.08); }
+.diff-hard { color: var(--accent2); border: 1px solid rgba(224,92,58,0.3); background: rgba(224,92,58,0.08); }
+.diff-challenge { color: #d9376e; border: 1px solid rgba(217,55,110,0.35); background: rgba(217,55,110,0.1); }
+
+.question-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+.question-text code {
+  font-family: 'Space Mono', monospace;
+  background: rgba(201,148,42,0.1);
+  border: 1px solid var(--border-gold);
+  padding: .15rem .45rem;
+  font-size: .88em;
+  color: var(--gold);
+}
+
+.sql-block {
+  background: #111;
+  border-left: 3px solid var(--gold);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 1.2rem;
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  color: #d4c9a8;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.sql-kw { color: var(--gold); font-weight: 700; }
+.sql-str { color: #8ec07c; }
+.sql-num { color: var(--accent3); }
+.sql-com { color: var(--muted); font-style: italic; }
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1.6rem;
+}
+.option-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: .85rem;
+  transition: border-color .15s, background .15s;
+  font-size: .93rem;
+  color: var(--text-secondary);
+  user-select: none;
+  line-height: 1.55;
+}
+.option-card:hover { border-left-color: var(--gold); background: var(--card-hover); color: var(--text); }
+.option-card.selected { border-left-color: var(--gold); background: rgba(201,148,42,0.07); color: var(--text); border-color: var(--border-gold); }
+.option-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+}
+.option-card.selected .option-label { color: var(--gold); }
+
+.option-card code {
+  font-family: 'Space Mono', monospace;
+  background: rgba(201,148,42,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .35rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+
+.nav-row {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+.btn {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .65rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .12s;
+}
+.btn:disabled { opacity: .3; cursor: not-allowed; transform: none !important; }
+.btn-skip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-skip:hover:not(:disabled) { border-color: rgba(255,255,255,0.2); color: var(--text-secondary); }
+.btn-next {
+  background: var(--gold);
+  color: #0d0d0d;
+}
+.btn-next:hover:not(:disabled) { background: #d4a840; transform: translateY(-1px); }
+
+/* ── RESULTS ── */
+.results-top { text-align: center; margin-bottom: 2.2rem; }
+.ring-wrap { display: flex; justify-content: center; margin-bottom: 1.2rem; }
+.ring-wrap svg { overflow: visible; }
+.ring-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 12; }
+.ring-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: butt;
+  stroke: var(--gold);
+  stroke-dasharray: 390;
+  stroke-dashoffset: 390;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1);
+}
+.ring-pct { font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700; fill: var(--text); }
+.ring-lbl { font-size: .7rem; fill: var(--muted); font-family: 'Space Mono', monospace; }
+
+.grade-label {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: .3rem;
+}
+.grade-sub { color: var(--text-secondary); font-size: .93rem; }
+
+.res-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+.res-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1rem;
+  text-align: center;
+}
+.res-stat-card .rv {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: .2rem;
+}
+.rv.green { color: var(--correct); }
+.rv.red { color: var(--wrong); }
+.rv.gold { color: var(--gold); }
+.res-stat-card .rl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-family: 'Space Mono', monospace; }
+
+.section-title {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-bottom: .9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-bars { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+.topic-row { display: flex; flex-direction: column; gap: .35rem; }
+.topic-row-head { display: flex; justify-content: space-between; align-items: center; }
+.topic-name { font-size: .85rem; font-weight: 500; color: var(--text-secondary); }
+.topic-status {
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .55rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.status-strong { background: rgba(90,158,111,0.1); color: var(--correct); border: 1px solid rgba(90,158,111,0.25); }
+.status-moderate { background: rgba(74,144,217,0.1); color: var(--accent3); border: 1px solid rgba(74,144,217,0.22); }
+.status-weak { background: rgba(192,68,42,0.1); color: var(--wrong); border: 1px solid rgba(192,68,42,0.22); }
+.bar-track { height: 4px; background: rgba(255,255,255,0.05); }
+.bar-fill { height: 100%; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+.focus-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent2);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.focus-box h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: .85rem;
+}
+.focus-item {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: .7rem;
+  font-size: .87rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.focus-item:last-child { margin-bottom: 0; }
+.focus-bullet { color: var(--gold); flex-shrink: 0; font-family: 'Space Mono', monospace; }
+
+.review-list { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 2rem; }
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 1rem 1.1rem;
+}
+.review-card.correct-card { border-left-color: var(--correct); }
+.review-card.wrong-card { border-left-color: var(--wrong); }
+.review-qnum {
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+  letter-spacing: .5px;
+}
+.review-q { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .55rem; line-height: 1.5; }
+.review-q code {
+  font-family: 'Space Mono', monospace;
+  background: rgba(201,148,42,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .3rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+.review-answers { display: flex; flex-direction: column; gap: .3rem; }
+.review-ans {
+  font-size: .8rem;
+  padding: .3rem .65rem;
+  font-family: 'Space Mono', monospace;
+  line-height: 1.5;
+}
+.ans-correct { background: rgba(90,158,111,0.08); color: var(--correct); border: 1px solid rgba(90,158,111,0.2); }
+.ans-wrong-pick { background: rgba(192,68,42,0.08); color: var(--wrong); border: 1px solid rgba(192,68,42,0.2); }
+.ans-skipped { background: rgba(122,122,154,0.08); color: var(--muted); border: 1px solid rgba(122,122,154,0.18); }
+
+.explanation-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(201,148,42,0.06);
+  border-left: 2px solid var(--gold);
+  font-size: .8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-family: 'DM Sans', sans-serif;
+}
+.explanation-box strong { color: var(--gold); font-family: 'Space Mono', monospace; font-size: .75rem; }
+
+.btn-retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .9rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-retry:hover { background: #d4a840; transform: translateY(-2px); }
+
+.divider { height: 1px; background: var(--border); margin: 1.6rem 0; }
+.footer-note {
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-top: 3rem;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-dot"></div>
+    <div class="top-bar-title">Python Fundamentals Quiz</div>
+  </div>
+  <div class="top-bar-right">Week 03 / Mega Quiz</div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="container">
+    <div class="eyebrow">100 Days of Python · Week 3 Review · <span>Loops</span></div>
+    <h1 class="main-title">Week 3<br><em>Mega Quiz</em></h1>
+    <p class="welcome-sub">A full checkpoint covering everything loop-related — for loops, while loops, the range() function, break, continue, and nested loops. Questions range from easy warm-ups to genuine challenge-level traces.</p>
+
+    <div class="topic-tags">
+      <span class="topic-tag">for Loops</span>
+      <span class="topic-tag">while Loops</span>
+      <span class="topic-tag">range()</span>
+      <span class="topic-tag">break</span>
+      <span class="topic-tag">continue</span>
+      <span class="topic-tag">Nested Loops</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><span class="val">25</span><span class="lbl">Questions</span></div>
+      <div class="stat-card"><span class="val">20</span><span class="lbl">Minutes</span></div>
+      <div class="stat-card"><span class="val">6</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">Mixed</span><span class="lbl">Difficulty</span></div>
+    </div>
+
+    <div class="notice-box">
+      <strong>This is your Week 3 checkpoint.</strong> Difficulty ramps from Easy to Challenge within every topic — trace each code snippet carefully, especially where break, continue, and nesting interact. Read each question carefully.
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+    <div class="hint-text">Timer starts immediately. <span>Skip costs you nothing — review is shown at the end.</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 2 — QUIZ
+════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="container">
+    <div class="quiz-header">
+      <div class="q-counter">Question <strong id="qNum">1</strong> of 25</div>
+      <div class="timer" id="timer">20:00</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">0 answered</div>
+    </div>
+    <span class="topic-pill" id="topicPill">for Loops</span>
+    <span class="difficulty-pill" id="diffPill">Easy</span>
+    <div class="question-text" id="questionText"></div>
+    <div id="sqlSnippet"></div>
+    <div class="options-list" id="optionsList"></div>
+    <div class="nav-row">
+      <button class="btn btn-skip" onclick="skipQuestion()">Skip</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 3 — RESULTS
+════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="results-top">
+      <div class="ring-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#c9942a"/>
+              <stop offset="100%" stop-color="#d4a840"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="65" cy="65" r="62"/>
+          <circle class="ring-fill" id="ringFill" cx="65" cy="65" r="62"/>
+          <text class="ring-pct" id="ringPct" x="65" y="62" text-anchor="middle" dominant-baseline="middle">0%</text>
+          <text class="ring-lbl" x="65" y="80" text-anchor="middle">Score</text>
+        </svg>
+      </div>
+      <div class="grade-label" id="gradeLabel"></div>
+      <div class="grade-sub" id="gradeSub"></div>
+    </div>
+
+    <div class="res-stat-grid">
+      <div class="res-stat-card"><span class="rv green" id="resCorrect">0</span><span class="rl">Correct</span></div>
+      <div class="res-stat-card"><span class="rv red" id="resWrong">0</span><span class="rl">Wrong</span></div>
+      <div class="res-stat-card"><span class="rv gold" id="resPct">0%</span><span class="rl">Score</span></div>
+    </div>
+
+    <div class="section-title">Performance by Topic</div>
+    <div class="topic-bars" id="topicBars"></div>
+
+    <div class="focus-box" id="focusBox">
+      <h3>→ Focus Areas</h3>
+      <div id="focusTips"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Full Review</div>
+    <div class="review-list" id="reviewList"></div>
+
+    <button class="btn-retry" onclick="retryQuiz()">↺ Retry Quiz</button>
+    <div class="footer-note" style="margin-top:2rem;">100 Days of Python · Week 3 Mega Quiz · Loops</div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "for Loops",
+    difficulty: "Easy",
+    q: "Which type of loop is best suited for iterating over a known list of items, like a list of fruits?",
+    opts: [
+      "A for loop",
+      "A while loop",
+      "An if statement",
+      "A print loop"
+    ],
+    ans: 0,
+    explain: "for loops are ideal when you're iterating over a known sequence, like a list, string, or range() — the loop naturally visits each item once."
+  },
+  {
+    topic: "for Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">print</span>(i <span class="sql-kw">*</span> <span class="sql-num">2</span>)`,
+    opts: [
+      "0 1 2",
+      "0 2 4",
+      "2 4 6",
+      "1 2 3"
+    ],
+    ans: 1,
+    explain: "range(3) produces 0, 1, 2. Each value is multiplied by 2 before printing, giving 0, 2, 4."
+  },
+  {
+    topic: "for Loops",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `total <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> ch <span class="sql-kw">in</span> <span class="sql-str">"abc"</span>:\n    total <span class="sql-kw">=</span> total <span class="sql-kw">+</span> <span class="sql-num">1</span>\n<span class="sql-kw">print</span>(total)`,
+    opts: [
+      "abc",
+      "3",
+      "0",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "The loop runs once for every character in \"abc\", incrementing total each time. Since the string has 3 characters, total ends up as 3."
+  },
+  {
+    topic: "for Loops",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>, <span class="sql-num">9</span>, <span class="sql-num">4</span>]\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">&gt;</span> <span class="sql-num">5</span>:\n        total <span class="sql-kw">=</span> total <span class="sql-kw">+</span> n\n<span class="sql-kw">print</span>(total)`,
+    opts: [
+      "25",
+      "16",
+      "9",
+      "0"
+    ],
+    ans: 1,
+    explain: "The loop checks each number, only adding it to total when it's greater than 5. That matches 7 and 9 (2, 3, and 4 are skipped), so total ends up as 7 + 9 = 16."
+  },
+  {
+    topic: "while Loops",
+    difficulty: "Easy",
+    q: "Which of the following is the correct way to write a basic while loop?",
+    opts: [
+      "while (count > 0) { print(count) }",
+      "while count > 0:\n    print(count)",
+      "while count > 0 do print(count)",
+      "loop while count > 0: print(count)"
+    ],
+    ans: 1,
+    explain: "A while loop is written as while condition: followed by an indented block, no parentheses or braces required."
+  },
+  {
+    topic: "while Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `count <span class="sql-kw">=</span> <span class="sql-num">5</span>\n<span class="sql-kw">while</span> count <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(count)\n    count <span class="sql-kw">=</span> count <span class="sql-kw">-</span> <span class="sql-num">1</span>`,
+    opts: [
+      "5 4 3 2 1 0",
+      "5 4 3 2 1",
+      "1 2 3 4 5",
+      "0 1 2 3 4"
+    ],
+    ans: 1,
+    explain: "The loop prints count, then decreases it, as long as count > 0. It prints 5, 4, 3, 2, 1, and stops before printing 0, since 0 > 0 is False."
+  },
+  {
+    topic: "while Loops",
+    difficulty: "Hard",
+    q: "What happens when the following code runs?",
+    sql: `count <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">while</span> count <span class="sql-kw">&lt;</span> <span class="sql-num">3</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Hi"</span>)`,
+    opts: [
+      "It prints Hi three times and stops",
+      "It prints Hi once and stops",
+      "It becomes an infinite loop, printing Hi forever, since count is never updated",
+      "It causes a SyntaxError"
+    ],
+    ans: 2,
+    explain: "count is never changed inside the loop, so count < 3 stays True forever. Since the condition never becomes False, this is an infinite loop that keeps printing Hi indefinitely."
+  },
+  {
+    topic: "while Loops",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">10</span>\n<span class="sql-kw">while</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    x <span class="sql-kw">=</span> x <span class="sql-kw">-</span> <span class="sql-num">3</span>\n<span class="sql-kw">print</span>(x)`,
+    opts: [
+      "1",
+      "-2",
+      "0",
+      "10"
+    ],
+    ans: 1,
+    explain: "x goes 10 → 7 → 4 → 1 (all still > 0, so the loop keeps running). At x = 1, the condition is still True, so it runs once more: x becomes 1 - 3 = -2. Now -2 > 0 is False, so the loop stops, and -2 is printed."
+  },
+  {
+    topic: "range()",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">5</span>):\n    <span class="sql-kw">print</span>(i)`,
+    opts: [
+      "1 2 3 4 5",
+      "0 1 2 3 4",
+      "0 1 2 3 4 5",
+      "5"
+    ],
+    ans: 1,
+    explain: "range(5) starts at 0 by default and stops just before 5, producing 0, 1, 2, 3, 4."
+  },
+  {
+    topic: "range()",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">2</span>, <span class="sql-num">8</span>, <span class="sql-num">2</span>):\n    <span class="sql-kw">print</span>(i)`,
+    opts: [
+      "2 4 6",
+      "2 4 6 8",
+      "2 3 4 5 6 7",
+      "0 2 4 6"
+    ],
+    ans: 0,
+    explain: "range(2, 8, 2) starts at 2, stops just before 8, and jumps by 2 each time, producing 2, 4, 6."
+  },
+  {
+    topic: "range()",
+    difficulty: "Hard",
+    q: "How many numbers does range(3, 10) actually produce?",
+    opts: [
+      "6 numbers",
+      "7 numbers",
+      "10 numbers",
+      "3 numbers"
+    ],
+    ans: 1,
+    explain: "range(3, 10) produces 3, 4, 5, 6, 7, 8, 9 — seven numbers total. The stop value, 10, is always excluded."
+  },
+  {
+    topic: "range()",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">5</span>, <span class="sql-num">5</span>):\n    <span class="sql-kw">print</span>(i)\n<span class="sql-kw">print</span>(<span class="sql-str">"Done"</span>)`,
+    opts: [
+      "5\nDone",
+      "Done, with nothing printed before it",
+      "It causes an error, since start and stop are equal",
+      "5 5\nDone"
+    ],
+    ans: 1,
+    explain: "When start and stop are the same value, range(5, 5) produces an empty sequence — there are no numbers to loop over at all. The for loop body never runs, so only Done gets printed."
+  },
+  {
+    topic: "break",
+    difficulty: "Easy",
+    q: "What does the break statement do inside a loop?",
+    opts: [
+      "It skips just the current iteration and moves to the next one",
+      "It immediately exits the loop entirely, skipping any remaining iterations",
+      "It pauses the loop until a condition changes",
+      "It restarts the loop from the beginning"
+    ],
+    ans: 1,
+    explain: "break immediately stops the loop it's inside, no matter how many iterations were left, and execution jumps to the code after the loop."
+  },
+  {
+    topic: "break",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">1</span>, <span class="sql-num">6</span>):\n    <span class="sql-kw">if</span> i <span class="sql-kw">==</span> <span class="sql-num">4</span>:\n        <span class="sql-kw">break</span>\n    <span class="sql-kw">print</span>(i)`,
+    opts: [
+      "1 2 3",
+      "1 2 3 4",
+      "1 2 3 4 5",
+      "4 5"
+    ],
+    ans: 0,
+    explain: "The loop prints 1, 2, and 3. When i reaches 4, break runs before print(i), exiting the loop immediately — so 4 and 5 are never printed."
+  },
+  {
+    topic: "break",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">for</span> j <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n        <span class="sql-kw">if</span> j <span class="sql-kw">==</span> <span class="sql-num">1</span>:\n            <span class="sql-kw">break</span>\n        <span class="sql-kw">print</span>(i, j)`,
+    opts: [
+      "Every combination of i and j is printed",
+      "Only three lines: 0 0, 1 0, 2 0",
+      "Nothing is printed at all",
+      "Only one line: 0 0"
+    ],
+    ans: 1,
+    explain: "break only exits the innermost loop (the j loop). For each value of i, j prints 0, then hits break as soon as j reaches 1 — so each outer pass only prints one line, giving 0 0, 1 0, and 2 0."
+  },
+  {
+    topic: "break",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">4</span>, <span class="sql-num">9</span>, <span class="sql-num">15</span>, <span class="sql-num">22</span>, <span class="sql-num">7</span>]\nresult <span class="sql-kw">=</span> <span class="sql-kw">None</span>\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">%</span> <span class="sql-num">3</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n        result <span class="sql-kw">=</span> n\n        <span class="sql-kw">break</span>\n<span class="sql-kw">print</span>(result)`,
+    opts: [
+      "None",
+      "9",
+      "15",
+      "22"
+    ],
+    ans: 1,
+    explain: "The loop checks each number for divisibility by 3. 4 % 3 is 1 (no match), then 9 % 3 is 0 — a match — so result is set to 9 and break exits immediately, never checking 15, 22, or 7."
+  },
+  {
+    topic: "continue",
+    difficulty: "Easy",
+    q: "What does the continue statement do inside a loop?",
+    opts: [
+      "It exits the loop entirely, like break",
+      "It skips the rest of the current iteration and moves on to the next one",
+      "It restarts the entire program",
+      "It pauses the loop indefinitely"
+    ],
+    ans: 1,
+    explain: "continue skips any remaining code in the current pass and jumps straight to the next iteration — the loop itself keeps running, unlike break."
+  },
+  {
+    topic: "continue",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">1</span>, <span class="sql-num">6</span>):\n    <span class="sql-kw">if</span> i <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n        <span class="sql-kw">continue</span>\n    <span class="sql-kw">print</span>(i)`,
+    opts: [
+      "1 2 3 4 5",
+      "1 3 5",
+      "2 4",
+      "Nothing is printed"
+    ],
+    ans: 1,
+    explain: "continue skips print(i) whenever i is even, jumping to the next iteration. So only the odd numbers — 1, 3, 5 — get printed."
+  },
+  {
+    topic: "continue",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `count <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">while</span> count <span class="sql-kw">&lt;</span> <span class="sql-num">5</span>:\n    count <span class="sql-kw">=</span> count <span class="sql-kw">+</span> <span class="sql-num">1</span>\n    <span class="sql-kw">if</span> count <span class="sql-kw">==</span> <span class="sql-num">3</span>:\n        <span class="sql-kw">continue</span>\n    <span class="sql-kw">print</span>(count)`,
+    opts: [
+      "1 2 3 4 5",
+      "1 2 4 5",
+      "1 2 3 4",
+      "It runs forever"
+    ],
+    ans: 1,
+    explain: "count is updated before the continue check, so the loop still progresses correctly. It prints 1, 2, then skips printing when count is 3 (continue jumps back to re-check the condition), and continues printing 4 and 5."
+  },
+  {
+    topic: "continue",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">3</span>, <span class="sql-kw">-</span><span class="sql-num">2</span>, <span class="sql-num">5</span>, <span class="sql-kw">-</span><span class="sql-num">8</span>, <span class="sql-num">6</span>]\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">&lt;</span> <span class="sql-num">0</span>:\n        <span class="sql-kw">continue</span>\n    total <span class="sql-kw">=</span> total <span class="sql-kw">+</span> n\n<span class="sql-kw">print</span>(total)`,
+    opts: [
+      "4",
+      "14",
+      "-6",
+      "20"
+    ],
+    ans: 1,
+    explain: "continue skips adding negative numbers to total, but the loop still checks every item. Only the positive numbers get added: 3 + 5 + 6 = 14."
+  },
+  {
+    topic: "Nested Loops",
+    difficulty: "Easy",
+    q: "What does it mean to \"nest\" a loop in Python?",
+    opts: [
+      "Writing two unrelated loops one after another",
+      "Placing one loop entirely inside the body of another loop",
+      "Using range() inside an if statement",
+      "Copy-pasting the same loop twice"
+    ],
+    ans: 1,
+    explain: "A nested loop is a loop written inside the indented block of another loop, so the inner loop runs fully as part of each single pass of the outer loop."
+  },
+  {
+    topic: "Nested Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">2</span>):\n    <span class="sql-kw">for</span> j <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">2</span>):\n        <span class="sql-kw">print</span>(i, j)`,
+    opts: [
+      "Two lines: 0 0 and 1 1",
+      "Four lines: 0 0, 0 1, 1 0, 1 1",
+      "Two lines: 0 0 and 0 1",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "For each value of i (0, then 1), the inner loop runs completely through j (0, then 1) before moving to the next i, producing 2 × 2 = 4 lines total, in that order."
+  },
+  {
+    topic: "Nested Loops",
+    difficulty: "Hard",
+    q: "If the outer loop runs 3 times and the inner loop runs 4 times on every single pass, how many total times does the innermost line of code run?",
+    opts: [
+      "7 times (3 + 4)",
+      "12 times (3 × 4)",
+      "4 times, since only the last outer pass counts",
+      "3 times, since the inner loop resets each pass"
+    ],
+    ans: 1,
+    explain: "The inner loop runs completely for every pass of the outer loop, so the total execution count is outer × inner: 3 × 4 = 12."
+  },
+  {
+    topic: "Nested Loops",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">for</span> j <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n        <span class="sql-kw">if</span> j <span class="sql-kw">==</span> <span class="sql-num">1</span>:\n            <span class="sql-kw">break</span>\n        <span class="sql-kw">print</span>(i, j)`,
+    opts: [
+      "0 0<br>1 0<br>2 0",
+      "0 0<br>0 1<br>0 2",
+      "Every i, j combination gets printed",
+      "Nothing is printed"
+    ],
+    ans: 0,
+    explain: "The inner loop prints j = 0, then hits break as soon as j reaches 1 — so each of the 3 outer passes only ever prints one line, for j = 0, giving 0 0, then 1 0, then 2 0."
+  },
+  {
+    topic: "Nested Loops",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `total_prints <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">for</span> j <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n        <span class="sql-kw">if</span> j <span class="sql-kw">==</span> <span class="sql-num">1</span>:\n            <span class="sql-kw">continue</span>\n        total_prints <span class="sql-kw">=</span> total_prints <span class="sql-kw">+</span> <span class="sql-num">1</span>\n<span class="sql-kw">print</span>(total_prints)`,
+    opts: [
+      "3",
+      "6",
+      "9",
+      "2"
+    ],
+    ans: 1,
+    explain: "continue only skips the increment when j == 1 — it doesn't stop the inner loop, which still checks j = 0, 1, and 2 on every pass. So each of the 3 outer passes increments total_prints twice (for j = 0 and j = 2), giving 3 × 2 = 6."
+  }
+];
+
+const tips = {
+  "for Loops": "for loops are ideal for iterating over a known sequence — a range, string, or list — visiting each item exactly once.",
+  "while Loops": "while loops keep running as long as their condition stays True — always double-check that something inside the loop actually changes that condition.",
+  "range()": "range(start, stop, step) always excludes the stop value, and produces an empty sequence entirely when start equals stop.",
+  "break": "break exits only the loop it's directly inside — in nested loops, that means just the innermost one — and skips all remaining iterations of that loop.",
+  "continue": "continue skips the rest of the current iteration only; the loop keeps running and still checks every remaining item.",
+  "Nested Loops": "The inner loop runs to completion for every single pass of the outer loop, so total iterations multiply rather than add."
+};
+
+let current = 0;
+let answered = 0;
+let userAnswers = [];
+let timerInterval = null;
+let secondsLeft = 20 * 60;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function startQuiz() {
+  current = 0;
+  answered = 0;
+  userAnswers = new Array(questions.length).fill(null);
+  secondsLeft = 20 * 60;
+  showScreen('quiz');
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  const el = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    el.textContent = formatTime(secondsLeft);
+    el.classList.toggle('warn', secondsLeft < 60);
+    if (secondsLeft <= 0) { clearInterval(timerInterval); showResults(); }
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qNum').textContent = current + 1;
+  document.getElementById('topicPill').textContent = q.topic;
+
+  const diffEl = document.getElementById('diffPill');
+  diffEl.textContent = q.difficulty;
+  diffEl.className = 'difficulty-pill';
+  if (q.difficulty === 'Easy') diffEl.classList.add('diff-easy');
+  else if (q.difficulty === 'Medium') diffEl.classList.add('diff-medium');
+  else if (q.difficulty === 'Hard') diffEl.classList.add('diff-hard');
+  else diffEl.classList.add('diff-challenge');
+
+  document.getElementById('questionText').innerHTML = q.q;
+
+  const sqlEl = document.getElementById('sqlSnippet');
+  if (q.sql) {
+    sqlEl.innerHTML = '<div class="sql-block">' + q.sql + '</div>';
+  } else {
+    sqlEl.innerHTML = '';
+  }
+
+  const pct = (answered / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = answered + ' of ' + questions.length + ' answered';
+
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if (userAnswers[current] === i) card.classList.add('selected');
+    card.innerHTML = `<div class="option-label">${labels[i]}</div><span>${opt}</span>`;
+    card.addEventListener('click', () => selectOption(i));
+    list.appendChild(card);
+  });
+
+  const btnNext = document.getElementById('btnNext');
+  btnNext.disabled = userAnswers[current] === null;
+  btnNext.textContent = current === questions.length - 1 ? 'Finish ✓' : 'Next →';
+}
+
+function selectOption(idx) {
+  if (userAnswers[current] === null) answered++;
+  userAnswers[current] = idx;
+  document.querySelectorAll('.option-card').forEach((card, i) => {
+    card.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function skipQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else showResults();
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else { clearInterval(timerInterval); showResults(); }
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  showScreen('results');
+
+  let correct = 0;
+  userAnswers.forEach((ans, i) => { if (ans === questions[i].ans) correct++; });
+  const wrong = userAnswers.filter((a,i) => a !== null && a !== questions[i].ans).length;
+  const pct = Math.round((correct / questions.length) * 100);
+
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = wrong;
+  document.getElementById('resPct').textContent = pct + '%';
+
+  let grade, sub;
+  if (pct >= 90) { grade = 'Excellent — Ready for Day 2'; sub = 'You have the basics down cold. On to variables and data types!'; }
+  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Solid grasp of the fundamentals. Quick review and you are set.'; }
+  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'You are getting the hang of it. Revisit the basics before moving on.'; }
+  else { grade = 'Needs Work — Back to Basics'; sub = 'Re-read the intro material on Python history and print statements.'; }
+  document.getElementById('gradeLabel').textContent = grade;
+  document.getElementById('gradeSub').textContent = sub;
+
+  setTimeout(() => {
+    document.getElementById('ringFill').style.strokeDashoffset = 390 - (390 * correct / questions.length);
+    document.getElementById('ringPct').textContent = pct + '%';
+  }, 150);
+
+  // Topic breakdown
+  const topicStats = {};
+  questions.forEach((q, i) => {
+    if (!topicStats[q.topic]) topicStats[q.topic] = { total: 0, correct: 0 };
+    topicStats[q.topic].total++;
+    if (userAnswers[i] === q.ans) topicStats[q.topic].correct++;
+  });
+
+  const barsEl = document.getElementById('topicBars');
+  barsEl.innerHTML = '';
+  Object.entries(topicStats).forEach(([topic, stat]) => {
+    const p = Math.round((stat.correct / stat.total) * 100);
+    let statusClass, statusLabel;
+    if (p >= 70) { statusClass = 'status-strong'; statusLabel = 'Strong'; }
+    else if (p >= 40) { statusClass = 'status-moderate'; statusLabel = 'Moderate'; }
+    else { statusClass = 'status-weak'; statusLabel = 'Needs Work'; }
+    const color = p >= 70 ? 'var(--correct)' : p >= 40 ? 'var(--accent3)' : 'var(--wrong)';
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML = `
+      <div class="topic-row-head">
+        <span class="topic-name">${topic} (${stat.correct}/${stat.total})</span>
+        <span class="topic-status ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" data-width="${p}" style="background:${color}"></div></div>
+    `;
+    barsEl.appendChild(row);
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
+    });
+  });
+
+  // Focus tips
+  const focusTipsEl = document.getElementById('focusTips');
+  focusTipsEl.innerHTML = '';
+  const weakTopics = Object.entries(topicStats).filter(([,s]) => (s.correct/s.total) < 0.7);
+  if (weakTopics.length === 0) {
+    document.getElementById('focusBox').style.display = 'none';
+  } else {
+    weakTopics.forEach(([topic]) => {
+      const div = document.createElement('div');
+      div.className = 'focus-item';
+      div.innerHTML = `<span class="focus-bullet">→</span><span><strong>${topic}:</strong> ${tips[topic]}</span>`;
+      focusTipsEl.appendChild(div);
+    });
+  }
+
+  // Review list
+  const reviewEl = document.getElementById('reviewList');
+  reviewEl.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const isCorrect = ua === q.ans;
+    const isSkipped = ua === null;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (isSkipped ? '' : isCorrect ? 'correct-card' : 'wrong-card');
+    let ansHTML = '';
+    if (isSkipped) {
+      ansHTML = `<div class="review-ans ans-skipped">⟶ Skipped &nbsp;|&nbsp; Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>`;
+    } else if (isCorrect) {
+      ansHTML = `<div class="review-ans ans-correct">✓ [${labels[ua]}] ${q.opts[ua]}</div>`;
+    } else {
+      ansHTML = `
+        <div class="review-ans ans-wrong-pick">✗ Your answer: [${labels[ua]}] ${q.opts[ua]}</div>
+        <div class="review-ans ans-correct">✓ Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>
+      `;
+    }
+    const diffClass = q.difficulty === 'Easy' ? 'diff-easy' : q.difficulty === 'Medium' ? 'diff-medium' : q.difficulty === 'Hard' ? 'diff-hard' : 'diff-challenge';
+    card.innerHTML = `
+      <div class="review-qnum">Q${i+1} · ${q.topic} · <span class="difficulty-pill ${diffClass}" style="font-size:.62rem;padding:.1rem .45rem;">${q.difficulty}</span> ${isSkipped ? '· Skipped' : isCorrect ? '· ✓ Correct' : '· ✗ Wrong'}</div>
+      <div class="review-q">${q.q}</div>
+      <div class="review-answers">${ansHTML}</div>
+      <div class="explanation-box"><strong>Explanation →</strong> ${q.explain}</div>
+    `;
+    reviewEl.appendChild(card);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('focusBox').style.display = '';
+  startQuiz();
+}
+</script>
+</body>
+</html>

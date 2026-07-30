@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Mega Quiz — Week 1 Review (Days 1-6)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --card: #1a1a1a;
+  --card-hover: #202020;
+  --gold: #c9942a;
+  --gold-dim: rgba(201,148,42,0.15);
+  --gold-border: rgba(201,148,42,0.3);
+  --accent: #c9942a;
+  --accent2: #e05c3a;
+  --accent3: #4a90d9;
+  --text: #f0ede8;
+  --text-secondary: #c8c0b0;
+  --muted: #7a7060;
+  --correct: #5a9e6f;
+  --wrong: #c0442a;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(201,148,42,0.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(201,148,42,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(74,144,217,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TOP BAR */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0a0a0a;
+  border-bottom: 2px solid var(--gold);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.top-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); }
+.top-bar-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.top-bar-right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  padding: 4px 12px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* SCREEN VISIBILITY */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── WELCOME ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.eyebrow span { color: var(--gold); }
+
+h1.main-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h1.main-title em { color: var(--gold); font-style: italic; }
+
+.welcome-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 540px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.topic-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: 4px 10px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+@media(min-width:520px){ .stat-grid { grid-template-columns: repeat(4,1fr); } }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1.1rem .9rem;
+  text-align: center;
+}
+.stat-card .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: .2rem;
+}
+.stat-card .lbl {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.notice-box {
+  background: var(--card);
+  border-left: 4px solid var(--accent3);
+  padding: 16px 20px;
+  margin-bottom: 2rem;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.notice-box strong { color: var(--text); }
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: .85rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-start:hover { background: #d4a840; transform: translateY(-2px); }
+
+.hint-text {
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .5px;
+}
+.hint-text span { color: var(--accent2); }
+
+/* ── QUIZ HEADER ── */
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.q-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.q-counter strong { color: var(--text); }
+.timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--border-gold);
+  padding: .3rem .75rem;
+  transition: color .3s, background .3s;
+}
+.timer.warn { color: var(--accent2); background: rgba(224,92,58,0.1); border-color: rgba(224,92,58,0.3); }
+
+.progress-wrap { margin-bottom: 1.5rem; }
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: .4rem;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .4s ease;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: .25rem .8rem;
+  margin-bottom: .9rem;
+}
+
+.difficulty-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .22rem .7rem;
+  margin-bottom: .9rem;
+  margin-left: 8px;
+}
+.diff-easy { color: var(--correct); border: 1px solid rgba(90,158,111,0.3); background: rgba(90,158,111,0.08); }
+.diff-medium { color: var(--accent3); border: 1px solid rgba(74,144,217,0.3); background: rgba(74,144,217,0.08); }
+.diff-hard { color: var(--accent2); border: 1px solid rgba(224,92,58,0.3); background: rgba(224,92,58,0.08); }
+.diff-challenge { color: #d9376e; border: 1px solid rgba(217,55,110,0.35); background: rgba(217,55,110,0.1); }
+
+.question-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+.question-text code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(201,148,42,0.1);
+  border: 1px solid var(--border-gold);
+  padding: .15rem .45rem;
+  font-size: .88em;
+  color: var(--gold);
+}
+
+.sql-block {
+  background: #111;
+  border-left: 3px solid var(--gold);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  color: #d4c9a8;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.sql-kw { color: var(--gold); font-weight: 700; }
+.sql-str { color: #8ec07c; }
+.sql-num { color: var(--accent3); }
+.sql-com { color: var(--muted); font-style: italic; }
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1.6rem;
+}
+.option-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: .85rem;
+  transition: border-color .15s, background .15s;
+  font-size: .93rem;
+  color: var(--text-secondary);
+  user-select: none;
+  line-height: 1.55;
+}
+.option-card:hover { border-left-color: var(--gold); background: var(--card-hover); color: var(--text); }
+.option-card.selected { border-left-color: var(--gold); background: rgba(201,148,42,0.07); color: var(--text); border-color: var(--border-gold); }
+.option-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+}
+.option-card.selected .option-label { color: var(--gold); }
+
+.option-card code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(201,148,42,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .35rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+
+.nav-row {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .65rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .12s;
+}
+.btn:disabled { opacity: .3; cursor: not-allowed; transform: none !important; }
+.btn-skip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-skip:hover:not(:disabled) { border-color: rgba(255,255,255,0.2); color: var(--text-secondary); }
+.btn-next {
+  background: var(--gold);
+  color: #0d0d0d;
+}
+.btn-next:hover:not(:disabled) { background: #d4a840; transform: translateY(-1px); }
+
+/* ── RESULTS ── */
+.results-top { text-align: center; margin-bottom: 2.2rem; }
+.ring-wrap { display: flex; justify-content: center; margin-bottom: 1.2rem; }
+.ring-wrap svg { overflow: visible; }
+.ring-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 12; }
+.ring-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: butt;
+  stroke: var(--gold);
+  stroke-dasharray: 390;
+  stroke-dashoffset: 390;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1);
+}
+.ring-pct { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; fill: var(--text); }
+.ring-lbl { font-size: .7rem; fill: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+.grade-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: .3rem;
+}
+.grade-sub { color: var(--text-secondary); font-size: .93rem; }
+
+.res-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+.res-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1rem;
+  text-align: center;
+}
+.res-stat-card .rv {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: .2rem;
+}
+.rv.green { color: var(--correct); }
+.rv.red { color: var(--wrong); }
+.rv.gold { color: var(--gold); }
+.res-stat-card .rl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-family: 'JetBrains Mono', monospace; }
+
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-bottom: .9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-bars { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+.topic-row { display: flex; flex-direction: column; gap: .35rem; }
+.topic-row-head { display: flex; justify-content: space-between; align-items: center; }
+.topic-name { font-size: .85rem; font-weight: 500; color: var(--text-secondary); }
+.topic-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .55rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.status-strong { background: rgba(90,158,111,0.1); color: var(--correct); border: 1px solid rgba(90,158,111,0.25); }
+.status-moderate { background: rgba(74,144,217,0.1); color: var(--accent3); border: 1px solid rgba(74,144,217,0.22); }
+.status-weak { background: rgba(192,68,42,0.1); color: var(--wrong); border: 1px solid rgba(192,68,42,0.22); }
+.bar-track { height: 4px; background: rgba(255,255,255,0.05); }
+.bar-fill { height: 100%; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+.focus-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent2);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.focus-box h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: .85rem;
+}
+.focus-item {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: .7rem;
+  font-size: .87rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.focus-item:last-child { margin-bottom: 0; }
+.focus-bullet { color: var(--gold); flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+
+.review-list { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 2rem; }
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 1rem 1.1rem;
+}
+.review-card.correct-card { border-left-color: var(--correct); }
+.review-card.wrong-card { border-left-color: var(--wrong); }
+.review-qnum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+  letter-spacing: .5px;
+}
+.review-q { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .55rem; line-height: 1.5; }
+.review-q code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(201,148,42,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .3rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+.review-answers { display: flex; flex-direction: column; gap: .3rem; }
+.review-ans {
+  font-size: .8rem;
+  padding: .3rem .65rem;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.5;
+}
+.ans-correct { background: rgba(90,158,111,0.08); color: var(--correct); border: 1px solid rgba(90,158,111,0.2); }
+.ans-wrong-pick { background: rgba(192,68,42,0.08); color: var(--wrong); border: 1px solid rgba(192,68,42,0.2); }
+.ans-skipped { background: rgba(122,122,154,0.08); color: var(--muted); border: 1px solid rgba(122,122,154,0.18); }
+
+.explanation-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(201,148,42,0.06);
+  border-left: 2px solid var(--gold);
+  font-size: .8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+.explanation-box strong { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: .75rem; }
+
+.btn-retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .9rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-retry:hover { background: #d4a840; transform: translateY(-2px); }
+
+.divider { height: 1px; background: var(--border); margin: 1.6rem 0; }
+.footer-note {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-top: 3rem;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-dot"></div>
+    <div class="top-bar-title">Python Fundamentals Quiz</div>
+  </div>
+  <div class="top-bar-right">Week 01 / Mega Quiz</div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="container">
+    <div class="eyebrow">100 Days of Python · Week 1 Review · <span>Days 1–6</span></div>
+    <h1 class="main-title">Week 1<br><em>Mega Quiz</em></h1>
+    <p class="welcome-sub">A full checkpoint pulling together everything from your first week — setup and your first program, variables, data types, input & output, type conversion, and operators. Questions range from easy warm-ups to genuine challenge-level traps.</p>
+
+    <div class="topic-tags">
+      <span class="topic-tag">Setup & First Program</span>
+      <span class="topic-tag">Variables</span>
+      <span class="topic-tag">Data Types</span>
+      <span class="topic-tag">Input & Output</span>
+      <span class="topic-tag">Type Conversion</span>
+      <span class="topic-tag">Operators</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><span class="val">25</span><span class="lbl">Questions</span></div>
+      <div class="stat-card"><span class="val">20</span><span class="lbl">Minutes</span></div>
+      <div class="stat-card"><span class="val">6</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">Mixed</span><span class="lbl">Difficulty</span></div>
+    </div>
+
+    <div class="notice-box">
+      <strong>This is your Week 1 checkpoint.</strong> Difficulty ramps from Easy to Challenge within every topic — some questions are straightforward recall, others are deliberate traps testing whether the details actually stuck. Read each question carefully.
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+    <div class="hint-text">Timer starts immediately. <span>Skip costs you nothing — review is shown at the end.</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 2 — QUIZ
+════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="container">
+    <div class="quiz-header">
+      <div class="q-counter">Question <strong id="qNum">1</strong> of 25</div>
+      <div class="timer" id="timer">20:00</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">0 answered</div>
+    </div>
+    <span class="topic-pill" id="topicPill">Setup & First Program</span>
+    <span class="difficulty-pill" id="diffPill">Easy</span>
+    <div class="question-text" id="questionText"></div>
+    <div id="sqlSnippet"></div>
+    <div class="options-list" id="optionsList"></div>
+    <div class="nav-row">
+      <button class="btn btn-skip" onclick="skipQuestion()">Skip</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 3 — RESULTS
+════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="results-top">
+      <div class="ring-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#c9942a"/>
+              <stop offset="100%" stop-color="#d4a840"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="65" cy="65" r="62"/>
+          <circle class="ring-fill" id="ringFill" cx="65" cy="65" r="62"/>
+          <text class="ring-pct" id="ringPct" x="65" y="62" text-anchor="middle" dominant-baseline="middle">0%</text>
+          <text class="ring-lbl" x="65" y="80" text-anchor="middle">Score</text>
+        </svg>
+      </div>
+      <div class="grade-label" id="gradeLabel"></div>
+      <div class="grade-sub" id="gradeSub"></div>
+    </div>
+
+    <div class="res-stat-grid">
+      <div class="res-stat-card"><span class="rv green" id="resCorrect">0</span><span class="rl">Correct</span></div>
+      <div class="res-stat-card"><span class="rv red" id="resWrong">0</span><span class="rl">Wrong</span></div>
+      <div class="res-stat-card"><span class="rv gold" id="resPct">0%</span><span class="rl">Score</span></div>
+    </div>
+
+    <div class="section-title">Performance by Topic</div>
+    <div class="topic-bars" id="topicBars"></div>
+
+    <div class="focus-box" id="focusBox">
+      <h3>→ Focus Areas</h3>
+      <div id="focusTips"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Full Review</div>
+    <div class="review-list" id="reviewList"></div>
+
+    <button class="btn-retry" onclick="retryQuiz()">↺ Retry Quiz</button>
+    <div class="footer-note" style="margin-top:2rem;">100 Days of Python · Week 1 Mega Quiz · Days 1-6</div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Setup & First Program",
+    difficulty: "Easy",
+    q: "Which command is used to run a Python file named app.py from the terminal?",
+    opts: [
+      "python app.py",
+      "run app.py",
+      "execute app.py",
+      "app.exe"
+    ],
+    ans: 0,
+    explain: "You run a Python script by typing python (or python3) followed by the filename, e.g. python app.py. The Python interpreter reads and executes the file from top to bottom."
+  },
+  {
+    topic: "Setup & First Program",
+    difficulty: "Medium",
+    q: "What file extension do Python source code files use?",
+    opts: [
+      ".pt",
+      ".pyt",
+      ".py",
+      ".python"
+    ],
+    ans: 2,
+    explain: "Python source files always use the .py extension. This is how your operating system and text editors recognize a file as Python code."
+  },
+  {
+    topic: "Setup & First Program",
+    difficulty: "Hard",
+    q: "You run a Python file that has a syntax error (like a missing colon) on line 20, but the file has 50 lines total. What happens?",
+    opts: [
+      "Python runs lines 1-19, skips line 20, then continues from line 21",
+      "Python raises a SyntaxError before executing any code at all, even line 1",
+      "Python comments out the broken line automatically and keeps going",
+      "Python only shows a warning but still runs the entire file"
+    ],
+    ans: 1,
+    explain: "Python parses the entire file for valid syntax before running any of it. A syntax error anywhere in the file prevents execution from starting at all — not even line 1 runs."
+  },
+  {
+    topic: "Setup & First Program",
+    difficulty: "Challenge",
+    q: "Why is print(\"Hello, World!\") traditionally the very first program written when learning a new language like Python?",
+    opts: [
+      "Because it demonstrates how to use lists and loops together",
+      "Because it's the simplest possible way to confirm your interpreter and setup actually work, with visible proof of output",
+      "Because Python requires it to be the first line of every file",
+      "Because it automatically installs any missing packages"
+    ],
+    ans: 1,
+    explain: "print(\"Hello, World!\") requires almost no prior knowledge, yet it proves the interpreter is installed correctly, the file runs, and output appears — the smallest possible feedback loop for a new setup."
+  },
+  {
+    topic: "Variables",
+    difficulty: "Easy",
+    q: "Which line correctly creates a variable named age holding the value 25?",
+    opts: [
+      "int age = 25",
+      "age = 25",
+      "var age == 25",
+      "25 = age"
+    ],
+    ans: 1,
+    explain: "In Python, you create a variable by writing its name, an equals sign, and the value — no type keyword needed: age = 25."
+  },
+  {
+    topic: "Variables",
+    difficulty: "Medium",
+    q: "Which of the following is a valid Python variable name?",
+    opts: [
+      "2nd_place",
+      "user-name",
+      "_score",
+      "class"
+    ],
+    ans: 2,
+    explain: "Variable names can't start with a digit (ruling out 2nd_place) or contain hyphens (ruling out user-name), and class is a reserved keyword. _score is valid since it starts with an underscore."
+  },
+  {
+    topic: "Variables",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-str">"hello"</span>\nx <span class="sql-kw">=</span> <span class="sql-num">5</span>\n<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(x))`,
+    opts: [
+      "<class 'str'>",
+      "<class 'int'>",
+      "It causes an error, since x was already a string",
+      "<class 'NoneType'>"
+    ],
+    ans: 1,
+    explain: "Python is dynamically typed — a variable isn't locked into one type. Reassigning x = 5 after x = \"hello\" simply makes x point to the integer 5 now, with no error."
+  },
+  {
+    topic: "Variables",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> <span class="sql-num">5</span>\nb <span class="sql-kw">=</span> <span class="sql-num">10</span>\na, b <span class="sql-kw">=</span> b, a\n<span class="sql-kw">print</span>(a, b)`,
+    opts: [
+      "5 10",
+      "10 5",
+      "It causes an error",
+      "10 10"
+    ],
+    ans: 1,
+    explain: "Python evaluates the right side (b, a) completely first, giving (10, 5), then assigns both at once to a and b. This swaps their values without needing a temporary variable, printing 10 5."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Easy",
+    q: "What data type does the value 3.14 have in Python?",
+    opts: [
+      "int",
+      "float",
+      "str",
+      "bool"
+    ],
+    ans: 1,
+    explain: "Any number written with a decimal point, like 3.14, is stored as a float in Python."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(<span class="sql-str">"True"</span>))`,
+    opts: [
+      "<class 'bool'>",
+      "<class 'str'>",
+      "True",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "\"True\" here is wrapped in quotes, which makes it a string containing the text True — not the actual Boolean value True. So type() reports <class 'str'>."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">bool</span>(<span class="sql-str">"False"</span>))`,
+    opts: [
+      "False",
+      "True",
+      "0",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "bool() only checks whether a value is empty or not — and \"False\" is a non-empty string. Since any non-empty string is truthy in Python, regardless of its content, bool(\"False\") evaluates to True."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `result <span class="sql-kw">=</span> <span class="sql-num">3</span> <span class="sql-kw">+</span> <span class="sql-num">4.0</span>\n<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(result))`,
+    opts: [
+      "<class 'int'>",
+      "<class 'float'>",
+      "<class 'str'>",
+      "It causes an error, you can't mix int and float"
+    ],
+    ans: 1,
+    explain: "When an int and a float are combined in an operation, Python automatically converts the int to a float so no precision is lost. So 3 + 4.0 becomes 7.0, a float."
+  },
+  {
+    topic: "Input & Output",
+    difficulty: "Easy",
+    q: "What data type does input() always return, no matter what the user types?",
+    opts: [
+      "int",
+      "str",
+      "float",
+      "It matches whatever the user intends to type"
+    ],
+    ans: 1,
+    explain: "input() always returns a string, even if the user types digits. You must manually convert it (e.g. with int()) if you need a number."
+  },
+  {
+    topic: "Input & Output",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-str">"a"</span>, <span class="sql-str">"b"</span>)`,
+    opts: [
+      "ab",
+      "a b",
+      "a, b",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "print() accepts multiple values separated by commas and joins them with a single space by default, so it prints a b."
+  },
+  {
+    topic: "Input & Output",
+    difficulty: "Hard",
+    q: "A user is asked for their age and types 10. What will the following code print?",
+    sql: `age <span class="sql-kw">=</span> <span class="sql-kw">int</span>(<span class="sql-kw">input</span>(<span class="sql-str">"Enter your age: "</span>))\n<span class="sql-kw">print</span>(age <span class="sql-kw">+</span> <span class="sql-num">5</span>)`,
+    opts: [
+      "\"105\"",
+      "15",
+      "It causes an error",
+      "\"10\" + 5"
+    ],
+    ans: 1,
+    explain: "int(input(...)) converts the typed text \"10\" into the integer 10 before storing it in age. Since age is now a real integer, age + 5 performs normal addition, giving 15."
+  },
+  {
+    topic: "Input & Output",
+    difficulty: "Challenge",
+    q: "What happens when the following code runs and the user types abc instead of a number?",
+    sql: `age <span class="sql-kw">=</span> <span class="sql-kw">int</span>(<span class="sql-kw">input</span>(<span class="sql-str">"Enter your age: "</span>))`,
+    opts: [
+      "age becomes the string \"abc\"",
+      "age becomes 0 automatically",
+      "Python raises a ValueError, since \"abc\" isn't a valid numeric string",
+      "Python silently skips the line and moves on"
+    ],
+    ans: 2,
+    explain: "int() can only convert strings that actually look like whole numbers. Since \"abc\" isn't numeric, Python raises a ValueError — a common bug when converting raw input without validating it first."
+  },
+  {
+    topic: "Type Conversion",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">int</span>(<span class="sql-str">"10"</span>))`,
+    opts: [
+      "\"10\"",
+      "10",
+      "10.0",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "int(\"10\") converts the numeric string \"10\" into the actual integer 10."
+  },
+  {
+    topic: "Type Conversion",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">float</span>(<span class="sql-num">5</span>))`,
+    opts: [
+      "5",
+      "5.0",
+      "\"5\"",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "float() converts a value into a decimal number. Converting the integer 5 gives 5.0, keeping the same value but as a float."
+  },
+  {
+    topic: "Type Conversion",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">str</span>(<span class="sql-num">5</span>) <span class="sql-kw">+</span> <span class="sql-str">"5"</span>)`,
+    opts: [
+      "10",
+      "\"55\"",
+      "\"5\" + 5",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "str(5) converts the integer 5 into the string \"5\". Once both sides are strings, + performs concatenation (joining text), not addition, giving \"55\" rather than the number 10."
+  },
+  {
+    topic: "Type Conversion",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">int</span>(<span class="sql-num">3.9</span>))`,
+    opts: [
+      "4",
+      "3",
+      "3.9",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "int() does not round — it truncates, simply chopping off everything after the decimal point. So int(3.9) gives 3, not 4, even though 3.9 is closer to 4."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">7</span> <span class="sql-kw">%</span> <span class="sql-num">2</span>)`,
+    opts: [
+      "3",
+      "3.5",
+      "1",
+      "0"
+    ],
+    ans: 2,
+    explain: "% gives the remainder after division. 7 divided by 2 goes in 3 times (6), leaving a remainder of 1, so 7 % 2 is 1."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">2</span> <span class="sql-kw">**</span> <span class="sql-num">3</span>)`,
+    opts: [
+      "6",
+      "8",
+      "9",
+      "5"
+    ],
+    ans: 1,
+    explain: "** raises a number to a power. 2 ** 3 means 2 × 2 × 2, which equals 8."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">10</span> <span class="sql-kw">-</span> <span class="sql-num">2</span> <span class="sql-kw">*</span> <span class="sql-num">3</span> <span class="sql-kw">+</span> <span class="sql-num">1</span>)`,
+    opts: [
+      "5",
+      "25",
+      "13",
+      "4"
+    ],
+    ans: 0,
+    explain: "Python follows standard order of operations: multiplication happens before addition/subtraction. 2 * 3 is evaluated first (6), then 10 - 6 + 1 is calculated left to right: 10 - 6 = 4, then 4 + 1 = 5."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">5</span> <span class="sql-kw">&gt;</span> <span class="sql-num">3</span> <span class="sql-kw">and</span> <span class="sql-num">2</span> <span class="sql-kw">&lt;</span> <span class="sql-num">1</span>)`,
+    opts: [
+      "True",
+      "False",
+      "5",
+      "It causes an error"
+    ],
+    ans: 1,
+    explain: "and requires both sides to be True. 5 > 3 is True, but 2 < 1 is False, so the whole expression evaluates to False."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Challenge",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>((<span class="sql-num">10</span> <span class="sql-kw">%</span> <span class="sql-num">3</span> <span class="sql-kw">==</span> <span class="sql-num">1</span>) <span class="sql-kw">or</span> (<span class="sql-num">5</span> <span class="sql-kw">//</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">3</span>))`,
+    opts: [
+      "True",
+      "False",
+      "1",
+      "It causes an error"
+    ],
+    ans: 0,
+    explain: "10 % 3 gives a remainder of 1, so 10 % 3 == 1 is True. Since or only needs one side to be True, the overall expression is already True, regardless of what the second comparison (5 // 2 == 3, which is actually False since 5 // 2 is 2) evaluates to."
+  }
+];
+
+const tips = {
+  "Setup & First Program": "Python files use the .py extension and run via `python filename.py` — syntax errors block the entire file from running, not just the broken line.",
+  "Variables": "Variables are created with name = value, no type keyword needed, and Python's dynamic typing lets a variable's type change on reassignment.",
+  "Data Types": "Check a value's type with type() — remember that quoted text like \"True\" is a str, and any non-empty string is truthy, no matter its content.",
+  "Input & Output": "input() always returns a string — wrap it in int() or float() before doing math, and expect a ValueError if the text isn't a valid number.",
+  "Type Conversion": "int(), float(), and str() convert between types explicitly — remember int() truncates decimals rather than rounding them.",
+  "Operators": "Multiplication and division run before addition and subtraction, and logical operators like and/or work with comparison results, not just plain values."
+};
+
+let current = 0;
+let answered = 0;
+let userAnswers = [];
+let timerInterval = null;
+let secondsLeft = 20 * 60;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function startQuiz() {
+  current = 0;
+  answered = 0;
+  userAnswers = new Array(questions.length).fill(null);
+  secondsLeft = 20 * 60;
+  showScreen('quiz');
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  const el = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    el.textContent = formatTime(secondsLeft);
+    el.classList.toggle('warn', secondsLeft < 60);
+    if (secondsLeft <= 0) { clearInterval(timerInterval); showResults(); }
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qNum').textContent = current + 1;
+  document.getElementById('topicPill').textContent = q.topic;
+
+  const diffEl = document.getElementById('diffPill');
+  diffEl.textContent = q.difficulty;
+  diffEl.className = 'difficulty-pill';
+  if (q.difficulty === 'Easy') diffEl.classList.add('diff-easy');
+  else if (q.difficulty === 'Medium') diffEl.classList.add('diff-medium');
+  else if (q.difficulty === 'Hard') diffEl.classList.add('diff-hard');
+  else diffEl.classList.add('diff-challenge');
+
+  document.getElementById('questionText').innerHTML = q.q;
+
+  const sqlEl = document.getElementById('sqlSnippet');
+  if (q.sql) {
+    sqlEl.innerHTML = '<div class="sql-block">' + q.sql + '</div>';
+  } else {
+    sqlEl.innerHTML = '';
+  }
+
+  const pct = (answered / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = answered + ' of ' + questions.length + ' answered';
+
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if (userAnswers[current] === i) card.classList.add('selected');
+    card.innerHTML = `<div class="option-label">${labels[i]}</div><span>${opt}</span>`;
+    card.addEventListener('click', () => selectOption(i));
+    list.appendChild(card);
+  });
+
+  const btnNext = document.getElementById('btnNext');
+  btnNext.disabled = userAnswers[current] === null;
+  btnNext.textContent = current === questions.length - 1 ? 'Finish ✓' : 'Next →';
+}
+
+function selectOption(idx) {
+  if (userAnswers[current] === null) answered++;
+  userAnswers[current] = idx;
+  document.querySelectorAll('.option-card').forEach((card, i) => {
+    card.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function skipQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else showResults();
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else { clearInterval(timerInterval); showResults(); }
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  showScreen('results');
+
+  let correct = 0;
+  userAnswers.forEach((ans, i) => { if (ans === questions[i].ans) correct++; });
+  const wrong = userAnswers.filter((a,i) => a !== null && a !== questions[i].ans).length;
+  const pct = Math.round((correct / questions.length) * 100);
+
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = wrong;
+  document.getElementById('resPct').textContent = pct + '%';
+
+  let grade, sub;
+  if (pct >= 90) { grade = 'Excellent — Ready for Day 2'; sub = 'You have the basics down cold. On to variables and data types!'; }
+  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Solid grasp of the fundamentals. Quick review and you are set.'; }
+  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'You are getting the hang of it. Revisit the basics before moving on.'; }
+  else { grade = 'Needs Work — Back to Basics'; sub = 'Re-read the intro material on Python history and print statements.'; }
+  document.getElementById('gradeLabel').textContent = grade;
+  document.getElementById('gradeSub').textContent = sub;
+
+  setTimeout(() => {
+    document.getElementById('ringFill').style.strokeDashoffset = 390 - (390 * correct / questions.length);
+    document.getElementById('ringPct').textContent = pct + '%';
+  }, 150);
+
+  // Topic breakdown
+  const topicStats = {};
+  questions.forEach((q, i) => {
+    if (!topicStats[q.topic]) topicStats[q.topic] = { total: 0, correct: 0 };
+    topicStats[q.topic].total++;
+    if (userAnswers[i] === q.ans) topicStats[q.topic].correct++;
+  });
+
+  const barsEl = document.getElementById('topicBars');
+  barsEl.innerHTML = '';
+  Object.entries(topicStats).forEach(([topic, stat]) => {
+    const p = Math.round((stat.correct / stat.total) * 100);
+    let statusClass, statusLabel;
+    if (p >= 70) { statusClass = 'status-strong'; statusLabel = 'Strong'; }
+    else if (p >= 40) { statusClass = 'status-moderate'; statusLabel = 'Moderate'; }
+    else { statusClass = 'status-weak'; statusLabel = 'Needs Work'; }
+    const color = p >= 70 ? 'var(--correct)' : p >= 40 ? 'var(--accent3)' : 'var(--wrong)';
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML = `
+      <div class="topic-row-head">
+        <span class="topic-name">${topic} (${stat.correct}/${stat.total})</span>
+        <span class="topic-status ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" data-width="${p}" style="background:${color}"></div></div>
+    `;
+    barsEl.appendChild(row);
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
+    });
+  });
+
+  // Focus tips
+  const focusTipsEl = document.getElementById('focusTips');
+  focusTipsEl.innerHTML = '';
+  const weakTopics = Object.entries(topicStats).filter(([,s]) => (s.correct/s.total) < 0.7);
+  if (weakTopics.length === 0) {
+    document.getElementById('focusBox').style.display = 'none';
+  } else {
+    weakTopics.forEach(([topic]) => {
+      const div = document.createElement('div');
+      div.className = 'focus-item';
+      div.innerHTML = `<span class="focus-bullet">→</span><span><strong>${topic}:</strong> ${tips[topic]}</span>`;
+      focusTipsEl.appendChild(div);
+    });
+  }
+
+  // Review list
+  const reviewEl = document.getElementById('reviewList');
+  reviewEl.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const isCorrect = ua === q.ans;
+    const isSkipped = ua === null;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (isSkipped ? '' : isCorrect ? 'correct-card' : 'wrong-card');
+    let ansHTML = '';
+    if (isSkipped) {
+      ansHTML = `<div class="review-ans ans-skipped">⟶ Skipped &nbsp;|&nbsp; Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>`;
+    } else if (isCorrect) {
+      ansHTML = `<div class="review-ans ans-correct">✓ [${labels[ua]}] ${q.opts[ua]}</div>`;
+    } else {
+      ansHTML = `
+        <div class="review-ans ans-wrong-pick">✗ Your answer: [${labels[ua]}] ${q.opts[ua]}</div>
+        <div class="review-ans ans-correct">✓ Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>
+      `;
+    }
+    const diffClass = q.difficulty === 'Easy' ? 'diff-easy' : q.difficulty === 'Medium' ? 'diff-medium' : q.difficulty === 'Hard' ? 'diff-hard' : 'diff-challenge';
+    card.innerHTML = `
+      <div class="review-qnum">Q${i+1} · ${q.topic} · <span class="difficulty-pill ${diffClass}" style="font-size:.62rem;padding:.1rem .45rem;">${q.difficulty}</span> ${isSkipped ? '· Skipped' : isCorrect ? '· ✓ Correct' : '· ✗ Wrong'}</div>
+      <div class="review-q">${q.q}</div>
+      <div class="review-answers">${ansHTML}</div>
+      <div class="explanation-box"><strong>Explanation →</strong> ${q.explain}</div>
+    `;
+    reviewEl.appendChild(card);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('focusBox').style.display = '';
+  startQuiz();
+}
+</script>
+</body>
+</html>

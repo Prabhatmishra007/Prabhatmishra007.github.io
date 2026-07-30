@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Input and Output in Python · Day 4 · py2ai.in</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS (matched to py2ai.in) ─────── */
+:root {
+  --bg:         #0b0d12;
+  --surface:    #0f1118;
+  --card:       #13161f;
+  --card2:      #181c28;
+  --border:     #1e2236;
+  --border2:    #272d42;
+  --accent:     #f5a623;
+  --purple:     #7c6af7;
+  --green:      #3ecf8e;
+  --teal:       #1a7a5e;
+  --text:       #eef0f8;
+  --text2:      #b8bccc;
+  --muted:      #6b7191;
+  --nav-blur:   rgba(11,13,18,.82);
+}
+[data-theme="light"] {
+  --bg:         #faf9f6;
+  --surface:    #ffffff;
+  --card:       #f5f4f0;
+  --card2:      #eeedea;
+  --border:     #e0ddd8;
+  --border2:    #cccac4;
+  --text:       #0f1117;
+  --text2:      #3d4155;
+  --muted:      #7a7f96;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  transition: background .3s, color .3s;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ── NAV ────────────────────────────── */
+.nav-outer {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 20px 36px;
+  pointer-events: none;
+  background: transparent;
+}
+.nav-brand {
+  pointer-events: all;
+  display: flex; align-items: center;
+  transition: opacity .15s;
+}
+.nav-brand:hover { opacity: .7; }
+.theme-btn {
+  pointer-events: all;
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: border-color .15s, transform .15s;
+}
+.theme-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+.nav-logo {
+  height: 34px; width: auto; display: block;
+  transition: filter .3s;
+}
+[data-theme="dark"] .nav-logo { filter: invert(1) brightness(1.15); }
+.navbar {
+  pointer-events: all;
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(15,17,26,.72);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 100px;
+  padding: 8px 10px;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 4px 32px rgba(0,0,0,.35);
+  list-style: none;
+}
+[data-theme="light"] .navbar {
+  background: rgba(255,255,255,.55);
+  border-color: rgba(0,0,0,.1);
+  box-shadow: 0 4px 28px rgba(0,0,0,.12);
+}
+.navbar li a {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--text2);
+  padding: 8px 18px; border-radius: 100px;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.navbar li a:hover { background: rgba(255,255,255,.08); color: var(--text); }
+[data-theme="light"] .navbar li a:hover { background: rgba(0,0,0,.06); }
+.navbar li a.active { background: rgba(245,166,35,.15); color: var(--accent); }
+.navbar li a .slash {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  background: var(--accent);
+  color: #07090d;
+  font-size: 11px; font-weight: 800;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+/* ── PAGE HEADER ────────────────────── */
+.notes-header {
+  padding: 150px 40px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.notes-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 16px;
+}
+.notes-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 1000;
+  font-size: clamp(34px, 6vw, 58px);
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.notes-title em { color: var(--accent); font-style: normal; }
+.notes-sub {
+  font-size: 17px; line-height: 1.75;
+  color: var(--text2);
+  max-width: 620px;
+  margin: 0 auto;
+}
+.notes-meta {
+  display: flex; gap: 10px; justify-content: center;
+  margin-top: 26px; flex-wrap: wrap;
+}
+.notes-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 600;
+  padding: 7px 16px; border-radius: 100px;
+  background: rgba(245,166,35,.1);
+  color: var(--accent);
+  border: 1px solid rgba(245,166,35,.25);
+}
+.notes-pill.p2 { background: rgba(124,106,247,.1); color: #9d8fff; border-color: rgba(124,106,247,.25); }
+.notes-pill.p3 { background: rgba(62,207,142,.1); color: var(--green); border-color: rgba(62,207,142,.25); }
+
+/* ── NAV BETWEEN DAYS ───────────────── */
+.day-nav {
+  max-width: 900px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  padding: 0 40px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+.day-nav a {
+  color: var(--muted);
+  transition: color .15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.day-nav a:hover { color: var(--accent); }
+@media(max-width:640px){ .day-nav { padding: 0 20px 8px; } }
+
+/* ── SECTION SHARED ─────────────────── */
+.section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 56px 40px;
+}
+.sec-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px;
+}
+.sec-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: clamp(24px, 3.4vw, 32px);
+  letter-spacing: -.02em;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+.sec-body {
+  font-size: 16.5px; line-height: 1.85;
+  color: var(--text2);
+}
+.sec-body b { color: var(--text); font-weight: 700; }
+.sec-body + .sec-body { margin-top: 14px; }
+hr.sep {
+  border: none; border-top: 1px solid var(--border);
+  max-width: 900px; margin: 0 auto;
+}
+
+/* ── FEATURE / RULE GRID ────────────── */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 8px;
+}
+@media(max-width:640px){ .feat-grid { grid-template-columns: 1fr; } }
+.feat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 22px;
+  transition: border-color .2s, transform .18s;
+}
+.feat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.feat-card h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800; font-size: 15.5px;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.feat-card h4 .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+.feat-card.bad h4 .dot { background: #ff6a6a; }
+.feat-card p { font-size: 14px; line-height: 1.68; color: var(--text2); }
+.feat-card code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: rgba(255,255,255,.05);
+  padding: 1px 6px;
+  border-radius: 5px;
+  color: var(--accent);
+}
+
+/* ── DATA TYPE CARDS ────────────────── */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+@media(max-width:760px){ .type-grid { grid-template-columns: repeat(2, 1fr); } }
+.type-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+  transition: border-color .2s, transform .18s;
+}
+.type-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.type-emoji { font-size: 22px; margin-bottom: 8px; }
+.type-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600; font-size: 13px;
+  color: var(--accent); margin-bottom: 6px;
+}
+.type-ex { font-size: 12.5px; color: var(--text2); line-height: 1.5; }
+
+/* ── CODE BLOCK ─────────────────────── */
+.code-wrap {
+  background: #0a0c11;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  margin: 14px 0 22px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+}
+[data-theme="light"] .code-wrap { background: #1b1e29; }
+.code-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,.03);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.code-dot { width: 9px; height: 9px; border-radius: 50%; }
+.code-dot.r { background: #ff5f57; }
+.code-dot.y { background: #febc2e; }
+.code-dot.g { background: #28c840; }
+.code-label {
+  margin-left: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: .05em;
+}
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; line-height: 1.75;
+  color: #eef0f8;
+  padding: 16px 20px;
+  white-space: pre;
+  overflow-x: auto;
+}
+.code-block .kw { color: #f5a623; }
+.code-block .str { color: #3ecf8e; }
+.code-block .num { color: #9d8fff; }
+.code-block .com { color: #6b7191; }
+.code-out {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13.5px;
+  color: var(--text2);
+  padding: 12px 20px;
+  border-top: 1px dashed var(--border2);
+  background: rgba(62,207,142,.04);
+}
+.code-out .arrow { color: var(--green); margin-right: 8px; }
+
+/* ── SUMMARY LIST ───────────────────── */
+.sum-list { margin-top: 6px; }
+.sum-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.sum-item:last-child { border-bottom: none; }
+.sum-check {
+  flex-shrink: 0;
+  width: 22px; height: 22px; border-radius: 7px;
+  background: rgba(62,207,142,.12);
+  color: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
+  margin-top: 2px;
+}
+.sum-item p { font-size: 15px; color: var(--text2); line-height: 1.6; }
+.sum-item p b { color: var(--text); }
+
+/* ── TRY IT BOX ─────────────────────── */
+.try-box {
+  background: linear-gradient(135deg, rgba(245,166,35,.08), rgba(124,106,247,.06));
+  border: 1px solid rgba(245,166,35,.25);
+  border-radius: 18px;
+  padding: 26px 28px;
+  margin-top: 8px;
+}
+.try-box h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900; font-size: 17px;
+  color: var(--text); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.try-box p { font-size: 14.5px; color: var(--text2); line-height: 1.7; }
+
+/* ── FOOTER ─────────────────────────── */
+footer {
+  background: #0a0b0f;
+  padding: 26px 24px 60px;
+  border-top: 1px solid rgba(245,166,35,.15);
+  text-align: center;
+}
+[data-theme="light"] footer { background: #111318; }
+.footer-copy { font-size: 13.5px; color: rgba(255,255,255,.38); line-height: 1.6; margin: 0; }
+.footer-copy a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.footer-copy a:hover { opacity: .8; }
+.footer-copy .sep { margin: 0 10px; opacity: .3; }
+
+@media(max-width:640px){
+  .navbar { display: none; }
+  .notes-header { padding: 110px 20px 44px; }
+  .section { padding: 40px 20px; }
+}
+</style>
+<body>
+
+<!-- ── NAV ───────────────────────────── -->
+<div class="nav-outer">
+  <a href="index.html" class="nav-brand"><img src="assets/logo-black.png" alt="py2ai.in" class="nav-logo"/></a>
+  <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle light mode">
+    <span id="t-icon">☀️</span>
+  </button>
+</div>
+
+<!-- ── HEADER ────────────────────────── -->
+<div class="notes-header">
+  <p class="notes-eyebrow">Day 4 · Notes</p>
+  <h1 class="notes-title">Input and Output<br>in <em>Python.</em></h1>
+  <p class="notes-sub">How to show information to the user with print(), and how to ask the user for information with input().</p>
+  <div class="notes-meta">
+    <span class="notes-pill">Beginner</span>
+    <span class="notes-pill p2">~6 min read</span>
+    <span class="notes-pill p3">Day 4</span>
+  </div>
+</div>
+
+<div class="day-nav">
+  <a href="day-03-notes.html">← Day 3 · Data Types</a>
+  <a href="day-05-notes.html">Day 5 · Type Conversion →</a>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── 1. OVERVIEW ───────────────────── -->
+<div class="section">
+  <p class="sec-num">01 · The Big Picture</p>
+  <h2 class="sec-title">Talking to the user</h2>
+  <p class="sec-body">Every program needs to communicate. <b>Output</b> is how your program shows information to the user — usually with <code style="font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px;color:var(--accent);">print()</code>. <b>Input</b> is how your program asks the user for information — usually with <code style="font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px;color:var(--accent);">input()</code>.</p>
+  <p class="sec-body">Together, these two functions let you build programs that actually feel interactive, instead of just running silently in the background.</p>
+
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">overview.py</span>
+    </div>
+    <div class="code-block">name = <span class="kw">input</span>(<span class="str">"What's your name? "</span>)   <span class="com"># input</span>
+<span class="kw">print</span>(<span class="str">"Hello,"</span>, name)                <span class="com"># output</span></div>
+    <div class="code-out"><span class="arrow">▸</span>What's your name? Alex<br><span class="arrow">▸</span>Hello, Alex</div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── 2. THE PRINT FUNCTION ─────────── -->
+<div class="section">
+  <p class="sec-num">02 · Output</p>
+  <h2 class="sec-title">Showing things with print()</h2>
+  <p class="sec-body">The <code style="font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px;color:var(--accent);">print()</code> function displays whatever you pass it on the screen. You can print text, numbers, variables — or several of them at once, separated by commas.</p>
+
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">print_basics.py</span>
+    </div>
+    <div class="code-block">age = <span class="num">20</span>
+city = <span class="str">"Bangalore"</span>
+
+<span class="kw">print</span>(<span class="str">"Hello, World!"</span>)
+<span class="kw">print</span>(age)
+<span class="kw">print</span>(<span class="str">"Age:"</span>, age, <span class="str">"| City:"</span>, city)</div>
+    <div class="code-out"><span class="arrow">▸</span>Hello, World!<br><span class="arrow">▸</span>20<br><span class="arrow">▸</span>Age: 20 | City: Bangalore</div>
+  </div>
+
+  <p class="sec-body">Notice that when you print multiple things separated by commas, Python automatically adds a <b>space</b> between them.</p>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── 3. FORMATTING OUTPUT ──────────── -->
+<div class="section">
+  <p class="sec-num">03 · Formatting Output</p>
+  <h2 class="sec-title">sep, end, and f-strings</h2>
+  <p class="sec-body">print() has two handy keyword arguments: <b>sep</b> changes what goes between values, and <b>end</b> changes what's printed after the last value (it's a newline by default).</p>
+
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">sep_end.py</span>
+    </div>
+    <div class="code-block"><span class="kw">print</span>(<span class="str">"2026"</span>, <span class="str">"07"</span>, <span class="str">"07"</span>, sep=<span class="str">"-"</span>)
+<span class="kw">print</span>(<span class="str">"Loading"</span>, end=<span class="str">"..."</span>)
+<span class="kw">print</span>(<span class="str">"done"</span>)</div>
+    <div class="code-out"><span class="arrow">▸</span>2026-07-07<br><span class="arrow">▸</span>Loading...done</div>
+  </div>
+
+  <p class="sec-body" style="margin-top:20px;"><b>Example —</b> f-strings make combining text and variables much cleaner</p>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">f_strings.py</span>
+    </div>
+    <div class="code-block">name = <span class="str">"Alex"</span>
+age = <span class="num">20</span>
+
+<span class="kw">print</span>(f<span class="str">"{name} is {age} years old."</span>)</div>
+    <div class="code-out"><span class="arrow">▸</span>Alex is 20 years old.</div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── 4. THE INPUT FUNCTION ─────────── -->
+<div class="section">
+  <p class="sec-num">04 · Input</p>
+  <h2 class="sec-title">Asking the user with input()</h2>
+  <p class="sec-body">The <code style="font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px;color:var(--accent);">input()</code> function pauses your program, shows a prompt, and waits for the user to type something and press Enter. Whatever they type is returned as a value you can store in a variable.</p>
+
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">input_basics.py</span>
+    </div>
+    <div class="code-block">favorite_food = <span class="kw">input</span>(<span class="str">"What's your favorite food? "</span>)
+<span class="kw">print</span>(<span class="str">"Nice, I like"</span>, favorite_food, <span class="str">"too!"</span>)</div>
+    <div class="code-out"><span class="arrow">▸</span>What's your favorite food? pizza<br><span class="arrow">▸</span>Nice, I like pizza too!</div>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat-card">
+      <h4><span class="dot"></span>Always pauses</h4>
+      <p>Your program stops right there and waits until the user presses Enter.</p>
+    </div>
+    <div class="feat-card">
+      <h4><span class="dot"></span>Prompt is optional</h4>
+      <p><code>input("Enter name: ")</code> shows a message; plain <code>input()</code> shows nothing.</p>
+    </div>
+    <div class="feat-card">
+      <h4><span class="dot"></span>Always returns text</h4>
+      <p>Whatever the user types comes back as a <b>string</b> — even if they type numbers.</p>
+    </div>
+    <div class="feat-card">
+      <h4><span class="dot"></span>Store it right away</h4>
+      <p>Save the result in a variable so you can use it later in your program.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── 5. INPUT WITH NUMBERS ──────────── -->
+<div class="section">
+  <p class="sec-num">05 · A Quick Note</p>
+  <h2 class="sec-title">input() and numbers</h2>
+  <p class="sec-body">Since <code style="font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px;color:var(--accent);">input()</code> always gives you back a string, doing math on it directly won't work the way you'd expect.</p>
+
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">not_a_number.py</span>
+    </div>
+    <div class="code-block">age = <span class="kw">input</span>(<span class="str">"How old are you? "</span>)
+<span class="kw">print</span>(age + <span class="num">1</span>)</div>
+    <div class="code-out"><span class="arrow">▸</span>How old are you? 20<br><span class="arrow">▸</span>TypeError: can only concatenate str (not "int") to str</div>
+  </div>
+
+  <p class="sec-body">For now, just know that wrapping the input in <b>int()</b> tells Python to treat it as a whole number instead of text — we'll cover type conversion properly in a later lesson.</p>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+      <span class="code-label">a_number.py</span>
+    </div>
+    <div class="code-block">age = <span class="kw">int</span>(<span class="kw">input</span>(<span class="str">"How old are you? "</span>))
+<span class="kw">print</span>(age + <span class="num">1</span>)</div>
+    <div class="code-out"><span class="arrow">▸</span>How old are you? 20<br><span class="arrow">▸</span>21</div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── 6. SUMMARY ─────────────────────── -->
+<div class="section">
+  <p class="sec-num">06 · Quick Summary</p>
+  <h2 class="sec-title">Before you move on</h2>
+  <div class="sum-list">
+    <div class="sum-item">
+      <span class="sum-check">✓</span>
+      <p><b>print()</b> is how your program shows output to the user.</p>
+    </div>
+    <div class="sum-item">
+      <span class="sum-check">✓</span>
+      <p>Use <b>sep</b> and <b>end</b> to control how print() formats multiple values.</p>
+    </div>
+    <div class="sum-item">
+      <span class="sum-check">✓</span>
+      <p><b>f-strings</b> — like <code>f"{name}"</code> — are a clean way to mix text and variables.</p>
+    </div>
+    <div class="sum-item">
+      <span class="sum-check">✓</span>
+      <p><b>input()</b> pauses your program and asks the user for information.</p>
+    </div>
+    <div class="sum-item">
+      <span class="sum-check">✓</span>
+      <p><b>input()</b> always returns a string — wrap it in <b>int()</b> if you need a number, for now.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-nav" style="padding-top:0; padding-bottom:56px;">
+  <a href="day-03-notes.html">← Day 3 · Data Types</a>
+  <a href="day-05-notes.html">Day 5 · Type Conversion →</a>
+</div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const dark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', dark ? 'light' : 'dark');
+  document.getElementById('t-icon').textContent = dark ? '🌙' : '☀️';
+}
+</script>
+</body>
+</html>

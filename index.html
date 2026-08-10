@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<script>
+/* Theme boot — runs before first paint so switching pages never flashes.
+   Must stay inline and stay in <head>. */
+(function(){try{var t=localStorage.getItem('py2ai-theme');
+if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="icon" type="image/png" href="data:image/png;base64,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"/>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<title>100 Days of Python · Py2AI</title>
+<meta name="description" content="A free 100-day Python challenge from Py2AI: daily quizzes, practice PDFs, and weekly notes. No sign-up, no tracking, always free."/>
+<meta property="og:title" content="100 Days of Python · Py2AI"/>
+<meta property="og:description" content="Show up. Code daily. Level up. A free 100-day Python challenge — 5 quiz questions and 2 practice problems every day, new notes every week."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://py2ai.in/"/>
+<meta name="theme-color" content="#f5a623"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ─────────────────────────────────── */
+:root {
+  /* dark defaults */
+  --bg:         #0b0d12;
+  --surface:    #0f1118;
+  --card:       #13161f;
+  --card2:      #181c28;
+  --border:     #1e2236;
+  --border2:    #272d42;
+  --accent:     #f5a623;
+  --purple:     #7c6af7;
+  --green:      #3ecf8e;
+  --teal:       #1a7a5e;
+  --text:       #eef0f8;
+  --text2:      #b8bccc;
+  --muted:      #6b7191;
+  --hero-bg1:   #0b0d12;
+  --hero-bg2:   #0b0d12;
+  --hero-h1:    #f5a623;
+  --hero-sub:   #b8bccc;
+  --sparkle:    rgba(245,166,35,.7);
+  --nav-blur:   rgba(11,13,18,.82);
+}
+[data-theme="light"] {
+  --bg:         #faf9f6;
+  --surface:    #ffffff;
+  --card:       #f5f4f0;
+  --card2:      #eeedea;
+  --border:     #e0ddd8;
+  --border2:    #cccac4;
+  --text:       #0f1117;
+  --text2:      #3d4155;
+  --muted:      #7a7f96;
+  --hero-bg1:   rgba(245,166,35,.18);
+  --hero-bg2:   rgba(124,106,247,.14);
+  --hero-h1:    #f5a623;
+  --hero-sub:   #3d4155;
+  --sparkle:    rgba(245,166,35,.9);
+  --nav-blur:   rgba(250,249,246,.88);
+}
+
+/* ── RESET ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  transition: background .3s, color .3s;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ── HERO ENTRANCE ANIMATION ─────────────────── */
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(26px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+}
+@keyframes navReveal {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: heroReveal .9s cubic-bezier(.16,1,.3,1) both;
+}
+.reveal-nav {
+  opacity: 0;
+  animation: navReveal .7s cubic-bezier(.16,1,.3,1) both;
+}
+.d1 { animation-delay: .05s; }
+.d2 { animation-delay: .16s; }
+.d3 { animation-delay: .30s; }
+.d4 { animation-delay: .46s; }
+.d5 { animation-delay: .62s; }
+.d6 { animation-delay: .8s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── NAV ────────────────────────────────────── */
+.nav-outer {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 16px 36px;
+  pointer-events: none;
+  background: transparent;
+}
+.nav-brand {
+  pointer-events: all;
+  display: flex; align-items: center;
+  background: transparent;
+  border: none;
+  padding: 6px 0;
+  transition: opacity .15s;
+}
+.nav-brand:hover { opacity: .7; }
+/* SVG logo — white dark / black light */
+.nav-logo-dark { display: block; height: 38px; width: auto; }
+.nav-logo-light { display: none;  height: 38px; width: auto; }
+[data-theme="light"] .nav-logo-dark  { display: none; }
+[data-theme="light"] .nav-logo-light { display: block; }
+
+/* centre pill */
+.navbar {
+  pointer-events: all;
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(15,17,26,.72);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 100px;
+  padding: 8px 10px;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 4px 32px rgba(0,0,0,.35);
+  list-style: none;
+}
+[data-theme="light"] .navbar {
+  background: rgba(255,255,255,.55);
+  border-color: rgba(0,0,0,.1);
+  box-shadow: 0 4px 28px rgba(0,0,0,.12);
+}
+.navbar li a {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--text2);
+  padding: 8px 18px; border-radius: 100px;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.navbar li a:hover { background: rgba(255,255,255,.08); color: var(--text); }
+[data-theme="light"] .navbar li a:hover { background: rgba(0,0,0,.06); }
+.navbar li a.active { background: rgba(245,166,35,.15); color: var(--accent); }
+.navbar li a .slash {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  background: var(--accent);
+  color: #07090d;
+  font-size: 11px; font-weight: 800;
+  border-radius: 6px;
+  line-height: 1;
+}
+/* right — theme toggle */
+.theme-btn {
+  pointer-events: all;
+  display: flex; align-items: center; gap: 7px;
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 4px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--text2);
+  transition: color .15s;
+}
+.theme-btn:hover { color: var(--accent); }
+.theme-icon { display: flex; align-items: center; justify-content: center; }
+
+/* ── MOBILE NAV TOGGLE ───────────────────────── */
+.nav-toggle {
+  display: none;
+  pointer-events: all;
+  background: rgba(15,17,26,.72);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 100px;
+  width: 42px; height: 42px;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+[data-theme="light"] .nav-toggle {
+  background: rgba(255,255,255,.55);
+  border-color: rgba(0,0,0,.1);
+}
+.nav-toggle span {
+  display: block;
+  width: 18px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .2s, opacity .2s;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+
+/* ── HERO ────────────────────────────────────── */
+.hero {
+  min-height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+/* animated mesh gradient orbs */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: .3;
+}
+.hero-orb.o1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(245,166,35,.5) 0%, transparent 70%);
+  top: -10%; left: -8%;
+  animation: orbMove1 10s ease-in-out infinite alternate;
+}
+.hero-orb.o2 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(124,106,247,.45) 0%, transparent 70%);
+  bottom: -8%; right: -6%;
+  animation: orbMove2 12s ease-in-out infinite alternate;
+}
+.hero-orb.o3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(62,207,142,.3) 0%, transparent 70%);
+  top: 40%; left: 58%;
+  animation: orbMove3 8s ease-in-out infinite alternate;
+}
+@keyframes orbMove1 {
+  0%  { transform: translate(0,0) scale(1); }
+  50% { transform: translate(60px,50px) scale(1.08); }
+  100%{ transform: translate(20px,80px) scale(.94); }
+}
+@keyframes orbMove2 {
+  0%  { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-50px,-60px) scale(1.12); }
+  100%{ transform: translate(-20px,-30px) scale(.9); }
+}
+@keyframes orbMove3 {
+  0%  { transform: translate(0,0) scale(1); }
+  100%{ transform: translate(-40px,35px) scale(1.18); }
+}
+[data-theme="light"] .hero-orb { opacity: .28; }
+
+/* ── ORBIT HOLLOW CIRCLES ────────────────────── */
+.orbit-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.orbit-ring.r1 { width: 480px; height: 480px; animation: orbit-cw 16s linear infinite; }
+.orbit-ring.r2 { width: 340px; height: 340px; animation: orbit-ccw 11s linear infinite; }
+.orbit-ring.r3 { width: 620px; height: 620px; animation: orbit-cw 22s linear infinite; }
+@keyframes orbit-cw  { from{transform:translate(-50%,-50%) rotate(0deg)}   to{transform:translate(-50%,-50%) rotate(360deg)} }
+@keyframes orbit-ccw { from{transform:translate(-50%,-50%) rotate(0deg)}   to{transform:translate(-50%,-50%) rotate(-360deg)} }
+
+/* hollow circle dots */
+.orbit-dot {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 8px rgba(245,166,35,.5), inset 0 0 4px rgba(245,166,35,.15);
+  background: transparent;
+  transform: translateX(-50%) translateY(-50%);
+}
+.orbit-dot.sm { width: 12px; height: 12px; border-width: 1.5px; }
+.orbit-dot.md { width: 18px; height: 18px; }
+.orbit-dot.lg { width: 26px; height: 26px; border-width: 2.5px; }
+
+/* HEADING */
+.hero-h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(42px, 8vw, 88px);
+  line-height: 1.0;
+  letter-spacing: -.03em;
+  color: var(--hero-h1);
+  margin-bottom: 20px;
+  transition: color .3s;
+  position: relative; z-index: 1;
+  overflow: hidden;
+}
+.hero-h1::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 45%; height: 100%;
+  background: linear-gradient(75deg, transparent, rgba(255,255,255,.55), transparent);
+  mix-blend-mode: overlay;
+  animation: shimmerSweep 1.6s cubic-bezier(.25,.7,.35,1) 1.15s 1 both;
+  pointer-events: none;
+}
+[data-theme="light"] .hero-h1::after { background: linear-gradient(75deg, transparent, rgba(255,255,255,.75), transparent); }
+@keyframes shimmerSweep {
+  0%   { left: -60%; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: 130%; opacity: 0; }
+}
+.hero-h1 .line2 {
+  display: block;
+  color: var(--text);
+}
+[data-theme="light"] .hero-h1 .line2 { color: var(--text); }
+
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(16px, 2.2vw, 20px);
+  font-weight: 400;
+  color: var(--hero-sub);
+  max-width: 540px;
+  line-height: 1.7;
+  margin-bottom: 52px;
+  transition: color .3s;
+}
+.hero-sub strong { font-weight: 700; color: var(--accent); }
+
+/* stat strip */
+.stat-strip {
+  display: flex; align-items: stretch;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 44px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.25);
+}
+.stat-item {
+  flex: 1; padding: 20px 28px; text-align: center;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+  transition: background .2s;
+}
+.stat-item:hover { background: rgba(245,166,35,.05); }
+.stat-item:last-child { border-right: none; }
+.stat-val {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 38px;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.stat-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* CTA */
+.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--accent); color: #07090d;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; font-weight: 700;
+  padding: 15px 34px; border-radius: 14px;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 28px rgba(245,166,35,.3);
+  transition: transform .15s, box-shadow .15s;
+  animation: ctaGlow 3.2s ease-in-out 2s infinite;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(245,166,35,.42); animation-play-state: paused; }
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 4px 28px rgba(245,166,35,.3); }
+  50%      { box-shadow: 0 4px 38px rgba(245,166,35,.5); }
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: transparent; color: var(--text2);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; font-weight: 600;
+  padding: 15px 34px; border-radius: 14px;
+  border: 1px solid var(--border2); cursor: pointer;
+  transition: border-color .15s, color .15s, transform .15s;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+
+/* scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--muted);
+  animation: bounce 2.4s ease-in-out infinite;
+}
+.scroll-hint svg { width: 18px; opacity: .5; }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
+
+/* ── SECTION SHARED ─────────────────────────── */
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 100px 40px;
+}
+.section-head { margin-bottom: 60px; }
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 16px;
+}
+.s-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: -.025em;
+  line-height: 1.06;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+.s-title em { color: var(--accent); font-style: normal; }
+.s-body {
+  font-size: 17px; line-height: 1.78;
+  color: var(--text2);
+  max-width: 560px;
+}
+hr.sep {
+  border: none; border-top: 1px solid var(--border);
+  max-width: 1180px; margin: 0 auto;
+}
+
+/* ── CHALLENGE CARDS ────────────────────────── */
+.ch-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+@media(max-width:780px){ .ch-grid{ grid-template-columns:1fr; } }
+
+.ch-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 34px 30px 30px;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.ch-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.16); }
+
+.ch-icon-wrap {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--border2);
+  background: var(--card2);
+  margin-bottom: 22px;
+}
+.ch-icon-wrap svg { width: 20px; height: 20px; display: block; }
+.c1 .ch-icon-wrap svg { color: var(--accent); }
+.c2 .ch-icon-wrap svg { color: #9d8fff; }
+.c3 .ch-icon-wrap svg { color: var(--green); }
+
+.ch-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.ch-card h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: 19px;
+  letter-spacing: -.01em; color: var(--text);
+  margin-bottom: 10px;
+}
+.ch-card p { font-size: 14.5px; line-height: 1.72; color: var(--text2); flex: 1; }
+.ch-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  align-self: flex-start;
+  margin-top: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; letter-spacing: .08em;
+  text-transform: uppercase; font-weight: 600;
+  padding: 6px 13px 6px 11px; border-radius: 7px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: var(--card2);
+}
+.ch-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.c1 .ch-tag::before { background: var(--accent); }
+.c2 .ch-tag::before { background: #9d8fff; }
+.c3 .ch-tag::before { background: var(--green); }
+
+/* ── CURRICULUM ─────────────────────────────── */
+.curr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(235px,1fr));
+  gap: 14px;
+}
+.curr-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  transition: border-color .2s, transform .18s;
+}
+.curr-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.curr-week {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: .14em; color: var(--accent);
+  margin-bottom: 10px;
+}
+.curr-card h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: 17px;
+  letter-spacing: -.01em; color: var(--text);
+  margin-bottom: 8px;
+}
+.curr-card p { font-size: 13.5px; line-height: 1.68; color: var(--text2); }
+
+.sched-bar {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  margin-top: 42px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent);
+  border-radius: 18px; overflow: hidden;
+}
+@media(max-width:640px){ .sched-bar{ grid-template-columns:1fr; } }
+.sched-cell {
+  padding: 28px 30px;
+  border-right: 1px solid var(--border);
+}
+.sched-cell:last-child { border-right: none; }
+.sched-when {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 7px;
+}
+.sched-what {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: 18px;
+  color: var(--text); margin-bottom: 5px;
+}
+.sched-desc { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+
+/* ── COMMITMENT ─────────────────────────────── */
+.commit-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media(max-width:600px){ .commit-grid{ grid-template-columns:1fr; } }
+.commit-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 30px;
+  transition: border-color .2s, transform .18s;
+}
+.commit-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.commit-icon-wrap {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--border2);
+  background: var(--card2);
+  margin-bottom: 20px;
+}
+.commit-icon-wrap svg { width: 20px; height: 20px; display: block; color: var(--accent); }
+.commit-card h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: 18px;
+  letter-spacing: -.01em; color: var(--text);
+  margin-bottom: 10px;
+}
+.commit-card p { font-size: 15px; line-height: 1.78; color: var(--text2); }
+
+/* ── YOUTUBE ─────────────────────────────────── */
+.yt-wrap {
+  max-width: 820px; margin: 0 auto;
+  border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--border2);
+  box-shadow: 0 32px 90px rgba(0,0,0,.4);
+}
+.yt-frame { position: relative; padding-bottom: 56.25%; background: #000; }
+.yt-frame iframe {
+  position: absolute; top:0; left:0;
+  width:100%; height:100%; border:none;
+}
+.yt-bar {
+  background: var(--card2);
+  padding: 20px 26px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+.yt-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: 15px;
+  color: var(--text); margin-bottom: 4px;
+}
+.yt-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+}
+.yt-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(245,166,35,.08);
+  border: 1px solid rgba(245,166,35,.28);
+  color: var(--accent);
+  font-size: 13px; font-weight: 700;
+  padding: 9px 20px; border-radius: 10px;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.yt-link:hover { background: rgba(245,166,35,.16); }
+
+/* ── BOTTOM CTA ──────────────────────────────── */
+.cta-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 110px 40px;
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 110%, rgba(124,106,247,.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(38px, 7vw, 72px);
+  letter-spacing: -.03em; line-height: 1.02;
+  color: var(--text);
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+.cta-h2 em { color: var(--accent); font-style: normal; }
+.cta-sub {
+  font-size: 18px; line-height: 1.7;
+  color: var(--text2);
+  max-width: 460px; margin: 0 auto 48px;
+  position: relative; z-index: 1;
+}
+.cta-btns {
+  display: flex; justify-content: center;
+  gap: 14px; flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+
+/* ── FOOTER ──────────────────────────────────── */
+footer {
+  background: #0a0b0f;
+  padding: 22px 24px;
+  border-top: 1px solid rgba(245,166,35,.15);
+  text-align: center;
+}
+[data-theme="light"] footer { background: #111318; }
+.footer-copy { font-size: 13.5px; color: rgba(255,255,255,.38); line-height: 1.6; margin: 0; }
+.footer-copy a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.footer-copy a:hover { opacity: .8; }
+.footer-copy .sep { margin: 0 10px; opacity: .3; }
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media(max-width:640px){
+  .nav-toggle { display: flex; }
+  .navbar {
+    position: fixed;
+    top: 78px; left: 20px; right: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 10px;
+    border-radius: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity .2s, transform .2s, visibility .2s;
+    z-index: 299;
+  }
+  .navbar.open { opacity: 1; visibility: visible; transform: translateY(0); }
+  .navbar li a { justify-content: flex-start; padding: 12px 18px; }
+  .navbar { padding: 0 20px; }
+  .hero { padding: 90px 20px 72px; }
+  .section { padding: 72px 20px; }
+  .stat-strip { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: none; }
+  footer { padding: 18px 20px; }
+}
+
+/* ── SHARED POLISH (added) ───────────────────────────────────
+   Uses only existing tokens — no new fonts, no new colours. */
+
+/* Scroll reveal */
+.rv { opacity: 0; transform: translateY(18px); }
+.rv-in {
+  opacity: 1; transform: none;
+  transition: opacity .6s cubic-bezier(.16,1,.3,1),
+              transform .6s cubic-bezier(.16,1,.3,1);
+  transition-delay: calc(var(--rv-i, 0) * 55ms);
+}
+
+/* Nav gains a soft backdrop once you scroll */
+.nav-outer::after {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: var(--nav-blur);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  opacity: 0; transition: opacity .3s ease, border-color .3s ease;
+  pointer-events: none;
+}
+.nav-outer.scrolled::after { opacity: 1; border-bottom-color: var(--border); }
+
+/* Nicer focus rings for keyboard users */
+a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Selection */
+::selection { background: rgba(245,166,35,.28); color: var(--text); }
+
+/* Slimmer scrollbar */
+* { scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 20px; border: 3px solid var(--bg); }
+*::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+@media(prefers-reduced-motion: reduce){
+  .rv { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────── -->
+<div class="nav-outer">
+  <a href="index.html" class="nav-brand reveal-nav d1">
+    <img src="assets/logo-white.png" alt="py2ai.in" class="nav-logo-dark"/>
+    <img src="assets/logo-black.png" alt="py2ai.in" class="nav-logo-light"/>
+  </a>
+  <ul class="navbar reveal-nav d2">
+    <li><a href="index.html" class="active">Home <span class="slash">/</span></a></li>
+    <li><a href="roadmap.html">Roadmap</a></li>
+    <li><a href="project.html">Project</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <button class="theme-btn reveal-nav d3" onclick="toggleTheme()">
+    <span id="t-icon" class="theme-icon" data-svg="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+    </span>
+    <span id="t-lbl">Light</span>
+  </button>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu" id="nav-toggle-btn">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<!-- ── HERO ──────────────────────────── -->
+<section class="hero">
+  <!-- animated gradient orbs -->
+  <div class="hero-orb o1"></div>
+  <div class="hero-orb o2"></div>
+  <div class="hero-orb o3"></div>
+  <!-- orbit hollow circles -->
+  <div class="orbit-ring r1">
+    <div class="orbit-dot lg" style="top:0%;left:50%"></div>
+    <div class="orbit-dot sm" style="top:100%;left:50%"></div>
+  </div>
+  <div class="orbit-ring r2">
+    <div class="orbit-dot md" style="top:50%;left:0%"></div>
+    <div class="orbit-dot sm" style="top:50%;left:100%"></div>
+  </div>
+  <div class="orbit-ring r3">
+    <div class="orbit-dot sm" style="top:25%;left:95%"></div>
+    <div class="orbit-dot md" style="top:75%;left:5%"></div>
+  </div>
+
+  <h1 class="hero-h1 reveal d3">
+    <span class="line1">100 Days</span><span class="line2">of Python.</span>
+  </h1>
+
+  <p class="hero-sub reveal d4">
+    Show up. Code daily. Level up.<br>
+    <strong>One question at a time.</strong>
+  </p>
+
+  <div class="stat-strip reveal d5">
+    <div class="stat-item">
+      <div class="stat-val" data-target="5">0</div>
+      <div class="stat-lbl">Quiz / Day</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" data-target="2">0</div>
+      <div class="stat-lbl">Practice / Day</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" data-target="1">0</div>
+      <div class="stat-lbl">Notes / Week</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" data-target="100">0</div>
+      <div class="stat-lbl">Days Total</div>
+    </div>
+  </div>
+
+  <div class="hero-cta reveal d6">
+    <a href="roadmap.html" class="btn-primary">Go to Roadmap →</a>
+  </div>
+
+  <div class="scroll-hint reveal d6">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+    scroll
+  </div>
+</section>
+
+<!-- ── ARE YOU READY ──────────────────── -->
+<div class="section">
+  <div class="section-head">
+    <p class="eyebrow">Are you ready?</p>
+    <h2 class="s-title">Ready to take the<br><em>100-day challenge?</em></h2>
+    <p class="s-body">No sign up. No tracking. No excuses. Open the site, do today's content, come back tomorrow. Here's everything you get — and everything you need.</p>
+  </div>
+
+  <div class="ch-grid">
+    <div class="ch-card c1">
+      <div class="ch-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="2" width="8" height="4" rx="1"/>
+          <path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/>
+          <path d="m9 14 2 2 4-4"/>
+        </svg>
+      </div>
+      <div class="ch-num">01 · Every Day</div>
+      <h3>5 Quiz Questions</h3>
+      <p>Five multiple-choice questions on today's Python topic. Instant feedback after every answer. No timer, no pressure — just think it through.</p>
+      <span class="ch-tag">Interactive · MCQ</span>
+    </div>
+    <div class="ch-card c2">
+      <div class="ch-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <div class="ch-num">02 · Every Day</div>
+      <h3>2 Practice Problems</h3>
+      <p>Two hands-on coding problems built to test your understanding. Download as PDF, open your editor, write real code from scratch.</p>
+      <span class="ch-tag">PDF Download</span>
+    </div>
+    <div class="ch-card c3">
+      <div class="ch-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      </div>
+      <div class="ch-num">03 · Every Week</div>
+      <h3>Topic Notes</h3>
+      <p>One clean, readable HTML notes pack every Monday. Concepts explained clearly, code examples included — everything in one scrollable page.</p>
+      <span class="ch-tag">HTML · Free</span>
+    </div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── CURRICULUM ────────────────────── -->
+<div class="section">
+  <div class="section-head">
+    <p class="eyebrow">Curriculum</p>
+    <h2 class="s-title">From zero to <em>Python-ready</em></h2>
+    <p class="s-body">100 days. 14 focused weeks. Every concept layered on the last — no gaps, no skipping ahead.</p>
+  </div>
+
+  <div class="curr-grid">
+    <div class="curr-card">
+      <div class="curr-week">Week 1–2 · Days 1–14</div>
+      <h4>Python Basics</h4>
+      <p>Variables, Data Types, Input/Output, Operators, Type Casting</p>
+    </div>
+    <div class="curr-card">
+      <div class="curr-week">Week 3–4 · Days 15–28</div>
+      <h4>Control Flow</h4>
+      <p>If/Else, Nested conditions, While loops, For loops, Break & Continue</p>
+    </div>
+    <div class="curr-card">
+      <div class="curr-week">Week 5–6 · Days 29–42</div>
+      <h4>Functions & Scope</h4>
+      <p>Defining functions, Arguments, Return values, Lambda, Scope rules</p>
+    </div>
+    <div class="curr-card">
+      <div class="curr-week">Week 7–8 · Days 43–56</div>
+      <h4>Data Structures</h4>
+      <p>Lists, Tuples, Dictionaries, Sets, Comprehensions, Nested structures</p>
+    </div>
+    <div class="curr-card">
+      <div class="curr-week">Week 9–10 · Days 57–70</div>
+      <h4>OOP</h4>
+      <p>Classes, Objects, __init__, Methods, Inheritance, Encapsulation, Polymorphism</p>
+    </div>
+    <div class="curr-card">
+      <div class="curr-week">Week 11–12 · Days 71–84</div>
+      <h4>File & Error Handling</h4>
+      <p>Reading/writing files, Try/Except, Custom exceptions, Context managers</p>
+    </div>
+    <div class="curr-card">
+      <div class="curr-week">Week 13–14 · Days 85–100</div>
+      <h4>Libraries & Projects</h4>
+      <p>NumPy, Pandas basics, 3 mini projects to apply everything learned</p>
+    </div>
+  </div>
+
+  <div class="sched-bar">
+    <div class="sched-cell">
+      <div class="sched-when">Every Day</div>
+      <div class="sched-what">Quiz</div>
+      <div class="sched-desc">5 MCQ · ~5 min · instant score</div>
+    </div>
+    <div class="sched-cell">
+      <div class="sched-when">Every Day</div>
+      <div class="sched-what">Practice</div>
+      <div class="sched-desc">2 problems · PDF download · solve offline</div>
+    </div>
+    <div class="sched-cell">
+      <div class="sched-when">Every Monday</div>
+      <div class="sched-what">New Notes</div>
+      <div class="sched-desc">Full week topic · HTML · completely free</div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── COMMITMENT ────────────────────── -->
+<div class="section">
+  <div class="section-head">
+    <p class="eyebrow">Before you start</p>
+    <h2 class="s-title">What this challenge<br><em>actually is</em></h2>
+    <p class="s-body">Honest expectations. No hype. Just the truth about what you're committing to.</p>
+  </div>
+
+  <div class="commit-grid">
+    <div class="commit-card">
+      <div class="commit-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 3"/>
+        </svg>
+      </div>
+      <h4>20–30 minutes a day</h4>
+      <p>Quiz + practice together take under 30 minutes. No live sessions, no fixed schedule — your pace, your time, every day.</p>
+    </div>
+    <div class="commit-card">
+      <div class="commit-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <path d="M3 9h18"/>
+          <path d="M8 2v4M16 2v4"/>
+        </svg>
+      </div>
+      <h4>No sign up required</h4>
+      <p>No account, no email, no tracking. Open the page and start. Your progress is your own responsibility — and your own achievement.</p>
+    </div>
+    <div class="commit-card">
+      <div class="commit-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v13"/>
+          <path d="m7 11 5 5 5-5"/>
+          <path d="M4 19h16"/>
+        </svg>
+      </div>
+      <h4>Practice is fully offline</h4>
+      <p>Download the PDF, write code in VS Code or any editor, run it yourself. Learning by doing — not learning by watching.</p>
+    </div>
+    <div class="commit-card">
+      <div class="commit-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="10" width="16" height="10" rx="2"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0"/>
+        </svg>
+      </div>
+      <h4>100% free. Always.</h4>
+      <p>Every quiz, every practice PDF, every weekly notes pack — completely free. No premium tier. No upsell. Ever.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ── YOUTUBE ────────────────────────── -->
+<div class="section" style="padding-bottom:88px; text-align:center;">
+  <div class="section-head" style="text-align:center;">
+    <p class="eyebrow">Watch First</p>
+    <h2 class="s-title">Start with the <em>Day 1 video</em></h2>
+    <p class="s-body" style="margin:0 auto;">New here? Watch the intro before you begin. Understand the structure, the pace, and what to expect from the next 100 days.</p>
+  </div>
+
+  <div class="yt-wrap">
+    <div class="yt-frame">
+      <iframe
+        src="https://www.youtube.com/embed/YPWWq8Rgau8"
+        title="100 Days of Python — Day 1 Introduction"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="yt-bar">
+      <div>
+        <div class="yt-title">Day 1 — Variables &amp; Data Types</div>
+        <div class="yt-meta">Py2AI · 100 Days of Python</div>
+      </div>
+      <a href="https://youtube.com/playlist?list=PLbiem8Vwzu8I&si=0dG78O-2-Qm79wAb" target="_blank" class="yt-link">▶ Full Playlist →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── BOTTOM CTA ─────────────────────── -->
+<section class="cta-section">
+  <h2 class="cta-h2">Day 1 starts <em>today.</em></h2>
+  <p class="cta-sub">Don't wait for the perfect time. Five questions. Ten minutes. That's all it takes to begin.</p>
+  <div class="cta-btns">
+    <a href="https://youtube.com/playlist?list=PLbiem8Vwzu8I&si=0dG78O-2-Qm79wAb" target="_blank" class="btn-primary">▶ Go to Playlist →</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────── -->
+<footer>
+  <p class="footer-copy">
+    © 2026 Py2AI
+  </p>
+</footer>
+<script>
+const sunIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+const moonIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>';
+window.__py2aiIcons = { sun: sunIcon, moon: moonIcon };
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const dark = html.getAttribute('data-theme') === 'dark';
+  const next = dark ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  if (window.py2aiSaveTheme) window.py2aiSaveTheme(next);
+  document.getElementById('t-icon').innerHTML = dark ? moonIcon : sunIcon;
+  document.getElementById('t-lbl').textContent  = dark ? 'Dark' : 'Light';
+}
+function toggleNav() {
+  document.querySelector('.navbar').classList.toggle('open');
+  document.getElementById('nav-toggle-btn').classList.toggle('open');
+}
+
+// ── Hero stat count-up ──────────────────────
+function animateCount(el, target, duration) {
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+    el.textContent = Math.round(eased * target);
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(tick);
+}
+function startHeroCounters() {
+  document.querySelectorAll('.stat-val[data-target]').forEach(function (el) {
+    animateCount(el, parseInt(el.getAttribute('data-target'), 10), 1200);
+  });
+}
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.stat-val[data-target]').forEach(function (el) {
+    el.textContent = el.getAttribute('data-target');
+  });
+} else {
+  window.setTimeout(startHeroCounters, 600);
+}
+
+</script>
+<script src="site.js"></script>
+</body>
+</html>

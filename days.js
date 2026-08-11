@@ -82,11 +82,9 @@ const UNLOCKED_DAYS = {
     notes: "day-08-notes.html"
   },
 
-  /* ⚠️ DAYS 9 & 10 use a capital "D" — every other day is lowercase.
-     GitHub Pages is case-sensitive, so ONE of these is wrong:
-       - if your repo files are day-09-quiz.html  -> lowercase these
-       - if your repo files are Day-09-quiz.html  -> rename the files
-     Left exactly as you had them so nothing breaks until you check. */
+  /* ✅ VERIFIED against the repo: Days 9 & 10 really are saved with a
+     capital "D" (Day-09-quiz.html). Correct as-is — do not lowercase
+     these unless you also rename the files. */
   9: {
     kind: "lesson",
     yt: "gL4xI0dgaIQ",
@@ -158,9 +156,8 @@ const UNLOCKED_DAYS = {
     notes: "day-18-notes.html"
   },
 
-  /* ✅ FIXED: day 19 was pointing at day-17-practice.pdf and
-     day-17-notes.html (copy-paste slip). Now points at day 19.
-     Confirm those two files exist in your repo. */
+  /* ✅ FIXED: day 19 pointed at day-17-practice.pdf and day-17-notes.html
+     (copy-paste slip). Now points at day 19 — verified those files exist. */
   19: {
     kind: "lesson",
     yt: "kFpWuA4rn9Q",
@@ -232,18 +229,53 @@ const UNLOCKED_DAYS = {
     yt: "nmj0EfOzNDE",
     code: "project-04.py",
     week: 4
+  },
+
+  /* ── MONTH 1 MAJOR PROJECT · Days 29-30 ──────────────────
+     These use the `actions` array instead of the standard
+     project buttons, so each day can have its own links. */
+  29: {
+    kind: "project",
+    yt: "REPLACE_WITH_DAY29_VIDEO_ID",
+    actions: [
+      { label: "Read the Project Brief",  href: "project-05-brief.html",  style: "primary" },
+      { label: "Get the Code",            href: "project-05.py",          style: "outline" },
+      { label: "Month 1 Mega Quiz",       href: "month-01-megaquiz.html", style: "outline" }
+    ]
+  },
+  30: {
+    kind: "project",
+    yt: "REPLACE_WITH_DAY30_VIDEO_ID",
+    actions: [
+      { label: "Read the Project Brief", href: "project-05-brief.html",  style: "outline" },
+      { label: "Take the Day 30 Quiz",   href: "day-30-quiz.html",       style: "primary" },
+      { label: "Month 1 Mega Quiz",      href: "month-01-megaquiz.html", style: "outline" }
+    ]
+  },
+
+  /* ── MONTH 2 BEGINS · Week 5 ─────────────────────────── */
+  31: {
+    kind: "lesson",
+    yt: "REPLACE_WITH_DAY31_VIDEO_ID",
+    quiz: "day-31-quiz.html",
+    practice: "day-31-practice.pdf",
+    notes: "day-31-notes.html"
   }
 
   /* ── NEXT DAY GOES HERE ──────────────────────────────────
-     Copy this template, uncomment, fill it in, save, push:
+     Lesson day:
+       , 32: { kind: "lesson", yt: "ID", quiz: "day-32-quiz.html",
+               practice: "day-32-practice.pdf", notes: "day-32-notes.html" }
 
-  , 29: {
-    kind: "project",
-    yt: "VIDEO_ID",
-    code: "project-05.py",
-    week: 4
-  }
-  ───────────────────────────────────────────────────────── */
+     Project day with the standard two buttons:
+       , 37: { kind: "project", yt: "ID", code: "project-06.py", week: 5 }
+
+     Project day with custom buttons (any number, any links):
+       , 37: { kind: "project", yt: "ID", actions: [
+                 { label: "Get the Code", href: "project-06.py", style: "outline" },
+                 { label: "Take the Quiz", href: "day-37-quiz.html", style: "primary" }
+               ] }
+     ───────────────────────────────────────────────────────── */
 };
 
 /* ============================================================

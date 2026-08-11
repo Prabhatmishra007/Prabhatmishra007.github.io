@@ -237,7 +237,7 @@ const UNLOCKED_DAYS = {
      project buttons, so each day can have its own links. */
   29: {
     kind: "project",
-    yt: "REPLACE_WITH_DAY29_VIDEO_ID",
+    yt: "pPTh9YIDaAo",
     actions: [
       { label: "Read the Project Brief", href: "project-05-brief.html",  style: "outline" },
       { label: "Take the Day 29 Quiz",   href: "day-29-quiz.html",       style: "primary" },
@@ -246,7 +246,7 @@ const UNLOCKED_DAYS = {
   },
   30: {
     kind: "project",
-    yt: "REPLACE_WITH_DAY30_VIDEO_ID",
+    yt: "S8yabRRuj9s",
     actions: [
       { label: "Get the Code",           href: "project-05.py",          style: "primary" },
       { label: "Read the Project Brief", href: "project-05-brief.html",  style: "outline" },
@@ -257,7 +257,7 @@ const UNLOCKED_DAYS = {
   /* ── MONTH 2 BEGINS · Week 5 ─────────────────────────── */
   31: {
     kind: "lesson",
-    yt: "REPLACE_WITH_DAY31_VIDEO_ID",
+    yt: "q4C2DsJzc_0",
     quiz: "day-31-quiz.html",
     practice: "day-31-practice.pdf",
     notes: "day-31-notes.html"

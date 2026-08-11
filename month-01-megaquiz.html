@@ -13,19 +13,19 @@
   --surface: #141414;
   --card: #1a1a1a;
   --card-hover: #202020;
-  --gold: #c9942a;
-  --gold-dim: rgba(201,148,42,0.15);
-  --gold-border: rgba(201,148,42,0.3);
-  --accent: #c9942a;
+  --gold: #2f7fd4;
+  --gold-dim: rgba(47,127,212,0.15);
+  --gold-border: rgba(47,127,212,0.3);
+  --accent: #2f7fd4;
   --accent2: #e05c3a;
-  --accent3: #4a90d9;
+  --accent3: #7c6af7;
   --text: #f0ede8;
   --text-secondary: #c8c0b0;
   --muted: #7a7060;
   --correct: #5a9e6f;
   --wrong: #c0442a;
   --border: rgba(255,255,255,0.07);
-  --border-gold: rgba(201,148,42,0.25);
+  --border-gold: rgba(47,127,212,0.25);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -41,8 +41,8 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 15%, rgba(201,148,42,0.05) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 85%, rgba(74,144,217,0.04) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 15%, rgba(47,127,212,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(124,106,247,0.04) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -194,7 +194,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   cursor: pointer;
   transition: background .2s, transform .15s;
 }
-.btn-start:hover { background: #d4a840; transform: translateY(-2px); }
+.btn-start:hover { background: #4a97e4; transform: translateY(-2px); }
 
 .hint-text {
   margin-top: 1rem;
@@ -277,7 +277,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   margin-left: 8px;
 }
 .diff-easy { color: var(--correct); border: 1px solid rgba(90,158,111,0.3); background: rgba(90,158,111,0.08); }
-.diff-medium { color: var(--accent3); border: 1px solid rgba(74,144,217,0.3); background: rgba(74,144,217,0.08); }
+.diff-medium { color: var(--accent3); border: 1px solid rgba(124,106,247,0.3); background: rgba(124,106,247,0.08); }
 .diff-hard { color: var(--accent2); border: 1px solid rgba(224,92,58,0.3); background: rgba(224,92,58,0.08); }
 .diff-challenge { color: #d9376e; border: 1px solid rgba(217,55,110,0.35); background: rgba(217,55,110,0.1); }
 
@@ -291,7 +291,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 }
 .question-text code {
   font-family: 'JetBrains Mono', monospace;
-  background: rgba(201,148,42,0.1);
+  background: rgba(47,127,212,0.1);
   border: 1px solid var(--border-gold);
   padding: .15rem .45rem;
   font-size: .88em;
@@ -307,7 +307,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   margin-bottom: 1.2rem;
   font-family: 'JetBrains Mono', monospace;
   font-size: .82rem;
-  color: #d4c9a8;
+  color: #c3d4e8;
   line-height: 1.8;
   white-space: pre;
   overflow-x: auto;
@@ -339,7 +339,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   line-height: 1.55;
 }
 .option-card:hover { border-left-color: var(--gold); background: var(--card-hover); color: var(--text); }
-.option-card.selected { border-left-color: var(--gold); background: rgba(201,148,42,0.07); color: var(--text); border-color: var(--border-gold); }
+.option-card.selected { border-left-color: var(--gold); background: rgba(47,127,212,0.07); color: var(--text); border-color: var(--border-gold); }
 .option-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: .72rem;
@@ -353,7 +353,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 
 .option-card code {
   font-family: 'JetBrains Mono', monospace;
-  background: rgba(201,148,42,0.08);
+  background: rgba(47,127,212,0.08);
   border: 1px solid var(--border-gold);
   padding: .1rem .35rem;
   font-size: .85em;
@@ -387,7 +387,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   background: var(--gold);
   color: #0d0d0d;
 }
-.btn-next:hover:not(:disabled) { background: #d4a840; transform: translateY(-1px); }
+.btn-next:hover:not(:disabled) { background: #4a97e4; transform: translateY(-1px); }
 
 /* ── RESULTS ── */
 .results-top { text-align: center; margin-bottom: 2.2rem; }
@@ -466,7 +466,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   letter-spacing: .05em;
 }
 .status-strong { background: rgba(90,158,111,0.1); color: var(--correct); border: 1px solid rgba(90,158,111,0.25); }
-.status-moderate { background: rgba(74,144,217,0.1); color: var(--accent3); border: 1px solid rgba(74,144,217,0.22); }
+.status-moderate { background: rgba(124,106,247,0.1); color: var(--accent3); border: 1px solid rgba(124,106,247,0.22); }
 .status-weak { background: rgba(192,68,42,0.1); color: var(--wrong); border: 1px solid rgba(192,68,42,0.22); }
 .bar-track { height: 4px; background: rgba(255,255,255,0.05); }
 .bar-fill { height: 100%; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
@@ -517,7 +517,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 .review-q { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .55rem; line-height: 1.5; }
 .review-q code {
   font-family: 'JetBrains Mono', monospace;
-  background: rgba(201,148,42,0.08);
+  background: rgba(47,127,212,0.08);
   border: 1px solid var(--border-gold);
   padding: .1rem .3rem;
   font-size: .85em;
@@ -537,7 +537,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 .explanation-box {
   margin-top: 8px;
   padding: 10px 14px;
-  background: rgba(201,148,42,0.06);
+  background: rgba(47,127,212,0.06);
   border-left: 2px solid var(--gold);
   font-size: .8rem;
   color: var(--text-secondary);
@@ -564,7 +564,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   cursor: pointer;
   transition: background .2s, transform .15s;
 }
-.btn-retry:hover { background: #d4a840; transform: translateY(-2px); }
+.btn-retry:hover { background: #4a97e4; transform: translateY(-2px); }
 
 .divider { height: 1px; background: var(--border); margin: 1.6rem 0; }
 .footer-note {
@@ -596,25 +596,28 @@ h1.main-title em { color: var(--gold); font-style: italic; }
   <div class="container">
     <div class="eyebrow">100 Days of Python &middot; Month 1 &middot; <span>Mega Quiz</span></div>
     <h1 class="main-title">Month 1 &mdash;<br><em>Mastery Check</em></h1>
-    <p class="welcome-sub">The Month 1 checkpoint, pulling together everything from Days 1 to 30 — data types and conversion, arithmetic and logical operators, string indexing and slicing, if/elif branching, and every kind of loop. Expect plenty of code-tracing questions, so read each snippet carefully before picking an answer. Medium to hard difficulty.</p>
+    <p class="welcome-sub">The full Month 1 checkpoint — fifty questions covering every topic from Days 1 to 30. Variables and data types, input and conversion, operators, comparison and logic, conditionals, every kind of loop, and strings through to f-strings. Expect plenty of code-tracing, so read each snippet carefully. Medium to hard difficulty.</p>
 
     <div class="topic-tags">
-      <span class="topic-tag">Types &amp; Conversion</span>
+      <span class="topic-tag">Variables &amp; Setup</span>
+      <span class="topic-tag">Data Types</span>
+      <span class="topic-tag">Input &amp; Conversion</span>
       <span class="topic-tag">Operators</span>
-      <span class="topic-tag">Strings</span>
+      <span class="topic-tag">Comparison &amp; Logical</span>
       <span class="topic-tag">Conditionals</span>
       <span class="topic-tag">Loops</span>
+      <span class="topic-tag">Strings &amp; f-Strings</span>
     </div>
 
     <div class="stat-grid">
-      <div class="stat-card"><span class="val">12</span><span class="lbl">Questions</span></div>
-      <div class="stat-card"><span class="val">15</span><span class="lbl">Minutes</span></div>
-      <div class="stat-card"><span class="val">5</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">50</span><span class="lbl">Questions</span></div>
+      <div class="stat-card"><span class="val">45</span><span class="lbl">Minutes</span></div>
+      <div class="stat-card"><span class="val">8</span><span class="lbl">Topics</span></div>
       <div class="stat-card"><span class="val">Med&ndash;Hard</span><span class="lbl">Difficulty</span></div>
     </div>
 
     <div class="notice-box">
-      <strong>The Month 1 checkpoint.</strong> Harder than the daily quizzes and deliberately so — if you can clear this comfortably, you are ready for lists, functions and everything Month 2 throws at you.
+      <strong>The Month 1 checkpoint.</strong> Fifty questions across all eight topic groups — far longer than a daily quiz, and deliberately so. Clear this comfortably and you are ready for lists, functions and everything Month 2 throws at you.
     </div>
 
     <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
@@ -628,8 +631,8 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 <div id="screen-quiz" class="screen">
   <div class="container">
     <div class="quiz-header">
-      <div class="q-counter">Question <strong id="qNum">1</strong> of 12</div>
-      <div class="timer" id="timer">15:00</div>
+      <div class="q-counter">Question <strong id="qNum">1</strong> of 50</div>
+      <div class="timer" id="timer">45:00</div>
     </div>
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -657,8 +660,8 @@ h1.main-title em { color: var(--gold); font-style: italic; }
         <svg width="130" height="130" viewBox="0 0 130 130">
           <defs>
             <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#c9942a"/>
-              <stop offset="100%" stop-color="#d4a840"/>
+              <stop offset="0%" stop-color="#2f7fd4"/>
+              <stop offset="100%" stop-color="#4a97e4"/>
             </linearGradient>
           </defs>
           <circle class="ring-track" cx="65" cy="65" r="62"/>
@@ -697,8 +700,144 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 <script>
 const questions = [
   {
-    topic: "Types & Conversion",
+    topic: "Variables & Setup",
     difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">5</span>\nx <span class="sql-kw">=</span> x <span class="sql-kw">+</span> <span class="sql-num">3</span>\n<span class="sql-kw">print</span>(x)`,
+    opts: [
+      "5",
+      "3",
+      "8",
+      "It throws an error"
+    ],
+    ans: 2,
+    explain: "A variable holds one value at a time. The second line takes the current value of x, adds 3, and stores the result back into x — so x becomes 8. The old value of 5 is gone."
+  },
+  {
+    topic: "Variables & Setup",
+    difficulty: "Easy",
+    q: "Which of these is a valid Python variable name?",
+    opts: [
+      "2nd_place",
+      "my-score",
+      "total_marks",
+      "class"
+    ],
+    ans: 2,
+    explain: "Variable names may contain letters, digits and underscores, but cannot start with a digit, cannot contain hyphens, and cannot be a reserved keyword like class. total_marks is the only valid one — and snake_case is the Python convention."
+  },
+  {
+    topic: "Variables & Setup",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> <span class="sql-num">1</span>\nb <span class="sql-kw">=</span> <span class="sql-num">2</span>\na, b <span class="sql-kw">=</span> b, a\n<span class="sql-kw">print</span>(a, b)`,
+    opts: [
+      "1 2",
+      "2 1",
+      "2 2",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "Python evaluates the whole right-hand side first, then assigns. So a gets the old b and b gets the old a, printing 2 1. This is the neatest way to swap two variables and needs no temporary variable."
+  },
+  {
+    topic: "Variables & Setup",
+    difficulty: "Easy",
+    q: "What does the # symbol do in Python?",
+    opts: [
+      "Starts a comment that Python ignores",
+      "Divides two numbers",
+      "Marks the end of a line",
+      "Creates a heading"
+    ],
+    ans: 0,
+    explain: "Anything after a # on a line is a comment — Python skips it completely. Comments are for humans reading your code, and writing them is a habit worth building from Day 1."
+  },
+  {
+    topic: "Variables & Setup",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `n <span class="sql-kw">=</span> <span class="sql-num">10</span>\nn <span class="sql-kw">+=</span> <span class="sql-num">5</span>\n<span class="sql-kw">print</span>(n)`,
+    opts: [
+      "10",
+      "5",
+      "15",
+      "105"
+    ],
+    ans: 2,
+    explain: "The += operator is shorthand for n = n + 5, so n becomes 15. The same shorthand exists for -=, *= and /= too, and you will see it constantly in loops that build a running total."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(<span class="sql-num">5.0</span>))`,
+    opts: [
+      "&lt;class 'int'&gt;",
+      "&lt;class 'float'&gt;",
+      "&lt;class 'str'&gt;",
+      "&lt;class 'number'&gt;"
+    ],
+    ans: 1,
+    explain: "Any number written with a decimal point is a float, even when the decimal part is zero. type() is the quickest way to check what you are actually holding when something behaves unexpectedly."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Easy",
+    q: "Which of these is a string?",
+    opts: [
+      "42",
+      "42.0",
+      "\"42\"",
+      "True"
+    ],
+    ans: 2,
+    explain: "Quotation marks are what make something a string — single or double, it does not matter. Without them 42 is an integer, and the difference matters the moment you try to do arithmetic with it."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(<span class="sql-num">1</span> <span class="sql-kw">+</span> <span class="sql-num">1.0</span>))`,
+    opts: [
+      "&lt;class 'int'&gt;",
+      "&lt;class 'float'&gt;",
+      "&lt;class 'str'&gt;",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "When you mix an int and a float, Python promotes the result to a float so no precision is lost. That is why 1 + 1.0 gives 2.0 rather than 2."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">True</span> <span class="sql-kw">+</span> <span class="sql-kw">True</span>)`,
+    opts: [
+      "True",
+      "TrueTrue",
+      "2",
+      "It throws an error"
+    ],
+    ans: 2,
+    explain: "Booleans are a special kind of integer in Python — True counts as 1 and False as 0. So True + True gives 2. This quirk is genuinely useful for counting how many conditions were met."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Easy",
+    q: "How many main data types have you used so far in Month 1?",
+    opts: [
+      "int, float, str and bool",
+      "Only int and str",
+      "Only numbers",
+      "int, float and list"
+    ],
+    ans: 0,
+    explain: "Month 1 uses four core types: int for whole numbers, float for decimals, str for text, and bool for True/False. Lists arrive on Day 31, at the start of Month 2."
+  },
+  {
+    topic: "Data Types",
+    difficulty: "Hard",
     q: "What will the following code print?",
     sql: `<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(<span class="sql-num">10</span> <span class="sql-kw">/</span> <span class="sql-num">2</span>))`,
     opts: [
@@ -708,38 +847,204 @@ const questions = [
       "It depends on the numbers"
     ],
     ans: 1,
-    explain: "A single / always produces a float, even when the division comes out exact. 10 / 2 gives 5.0, not 5. Use // instead if you want whole-number division."
+    explain: "A single / always produces a float, even when the division comes out exact — 10 / 2 gives 5.0, not 5. Use // if you want a whole number back."
   },
   {
-    topic: "Types & Conversion",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `x <span class="sql-kw">=</span> <span class="sql-str">"5"</span>\n<span class="sql-kw">print</span>(x <span class="sql-kw">*</span> <span class="sql-num">2</span>)`,
+    topic: "Input & Conversion",
+    difficulty: "Easy",
+    q: "What data type does input() always return?",
     opts: [
-      "10",
-      "55",
-      "25",
-      "A TypeError, since you cannot multiply a string"
+      "int",
+      "float",
+      "str",
+      "It matches whatever you type"
+    ],
+    ans: 2,
+    explain: "input() always hands back a string, no matter what the user types. Forgetting this and comparing it to a number is the single most common crash in Month 1."
+  },
+  {
+    topic: "Input & Conversion",
+    difficulty: "Medium",
+    q: "What is wrong with this code?",
+    sql: `age <span class="sql-kw">=</span> <span class="sql-kw">input</span>(<span class="sql-str">"Your age: "</span>)\n<span class="sql-kw">if</span> age <span class="sql-kw">&gt;</span> <span class="sql-num">18</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Adult"</span>)`,
+    opts: [
+      "Nothing, it works fine",
+      "age is a string, so comparing it to 18 raises TypeError",
+      "It should use >= instead of >",
+      "input() needs int() around the prompt text"
     ],
     ans: 1,
-    explain: "x holds a string, not a number, and multiplying a string repeats it — giving '55'. To get 10 you needed int(x) * 2. Forgetting that input() always hands back a string causes this exact bug constantly."
+    explain: "input() returns a string and you cannot compare a string to an integer. The fix is age = int(input(&quot;Your age: &quot;)). Wrap the input() call, not the prompt text."
+  },
+  {
+    topic: "Input & Conversion",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">int</span>(<span class="sql-str">"7"</span>) <span class="sql-kw">+</span> <span class="sql-num">3</span>)`,
+    opts: [
+      "73",
+      "10",
+      "\"73\"",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "int() converts the string &quot;7&quot; into the number 7, so the addition is genuine arithmetic and gives 10. Without int() you would be trying to add a string to an integer, which crashes."
+  },
+  {
+    topic: "Input & Conversion",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">int</span>(<span class="sql-num">9.99</span>))`,
+    opts: [
+      "10",
+      "9",
+      "9.99",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "int() truncates towards zero — it chops the decimal part off rather than rounding. So 9.99 becomes 9. If you wanted 10 you needed round() instead."
+  },
+  {
+    topic: "Input & Conversion",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">str</span>(<span class="sql-num">12</span>) <span class="sql-kw">+</span> <span class="sql-str">"3"</span>)`,
+    opts: [
+      "15",
+      "123",
+      "\"123\"",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "str() turns the number 12 into the text &quot;12&quot;, and + on two strings joins them rather than adding — giving &quot;123&quot;. Converting deliberately in both directions is a Day 5 skill worth being precise about."
+  },
+  {
+    topic: "Input & Conversion",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">float</span>(<span class="sql-str">"2.5"</span>) <span class="sql-kw">*</span> <span class="sql-num">2</span>)`,
+    opts: [
+      "5",
+      "5.0",
+      "2.52.5",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "float() converts the string to 2.5, and multiplying a float by an int gives a float — so you get 5.0 rather than 5. Any arithmetic that touches a float produces a float."
   },
   {
     topic: "Operators",
     difficulty: "Easy",
     q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>(<span class="sql-num">10</span> <span class="sql-kw">//</span> <span class="sql-num">3</span>)\n<span class="sql-kw">print</span>(<span class="sql-num">7</span> <span class="sql-kw">%</span> <span class="sql-num">2</span>)`,
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">7</span> <span class="sql-kw">//</span> <span class="sql-num">2</span>)`,
     opts: [
-      "3 then 1",
-      "3.33 then 1",
-      "4 then 0",
-      "3 then 3"
+      "3.5",
+      "3",
+      "4",
+      "1"
     ],
-    ans: 0,
-    explain: "The // operator divides and throws away the remainder, giving 3. The % operator keeps only the remainder, giving 1. Modulo is how you test whether a number is even, odd, or divisible by anything at all."
+    ans: 1,
+    explain: "The // operator is floor division — it divides and throws away the remainder, giving 3. Regular / would have given 3.5."
   },
   {
     topic: "Operators",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">7</span> <span class="sql-kw">%</span> <span class="sql-num">2</span>)`,
+    opts: [
+      "3",
+      "3.5",
+      "1",
+      "0"
+    ],
+    ans: 2,
+    explain: "The % operator gives you the remainder after division. 7 divided by 2 is 3 with 1 left over, so it prints 1. Testing whether n % 2 == 0 is the standard way to check for an even number."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">2</span> <span class="sql-kw">**</span> <span class="sql-num">5</span>)`,
+    opts: [
+      "10",
+      "25",
+      "32",
+      "7"
+    ],
+    ans: 2,
+    explain: "** is the exponent operator, so 2 ** 5 means 2 multiplied by itself 5 times, which is 32. Do not confuse it with * for ordinary multiplication."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">2</span> <span class="sql-kw">+</span> <span class="sql-num">3</span> <span class="sql-kw">*</span> <span class="sql-num">4</span>)`,
+    opts: [
+      "20",
+      "14",
+      "24",
+      "9"
+    ],
+    ans: 1,
+    explain: "Multiplication binds tighter than addition, so 3 * 4 runs first and then 2 is added, giving 14. Add brackets when you want a different order — (2 + 3) * 4 would give 20."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-str">"ab"</span> <span class="sql-kw">*</span> <span class="sql-num">3</span>)`,
+    opts: [
+      "ababab",
+      "abababab",
+      "ab3",
+      "It throws an error"
+    ],
+    ans: 0,
+    explain: "Multiplying a string by an integer repeats it that many times, giving &quot;ababab&quot;. It is a handy trick for printing separator lines, like &quot;-&quot; * 40."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">7.0</span> <span class="sql-kw">//</span> <span class="sql-num">2</span>)`,
+    opts: [
+      "3",
+      "3.0",
+      "3.5",
+      "4.0"
+    ],
+    ans: 1,
+    explain: "Floor division still floors the result, but because one operand is a float the answer stays a float — giving 3.0 rather than 3. The type follows the inputs even when the value is whole."
+  },
+  {
+    topic: "Operators",
+    difficulty: "Medium",
+    q: "Which operator would you use to test whether a number is even?",
+    opts: [
+      "//",
+      "%",
+      "**",
+      "/"
+    ],
+    ans: 1,
+    explain: "A number is even when dividing it by 2 leaves no remainder, so you check n % 2 == 0. The % operator is the tool for any divisibility test, not just even and odd."
+  },
+  {
+    topic: "Comparison & Logical",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">5</span> <span class="sql-kw">==</span> <span class="sql-num">5.0</span>)`,
+    opts: [
+      "True",
+      "False",
+      "It throws an error",
+      "5.0"
+    ],
+    ans: 0,
+    explain: "The == operator compares values, not types, and 5 and 5.0 are numerically equal — so it prints True. Note that == compares while a single = assigns; mixing them up is a classic slip."
+  },
+  {
+    topic: "Comparison & Logical",
     difficulty: "Medium",
     q: "What will the following code print?",
     sql: `a <span class="sql-kw">=</span> <span class="sql-num">5</span>\nb <span class="sql-kw">=</span> <span class="sql-num">3</span>\n<span class="sql-kw">print</span>(a <span class="sql-kw">&gt;</span> b <span class="sql-kw">and</span> b <span class="sql-kw">&gt;</span> <span class="sql-num">10</span>)`,
@@ -747,56 +1052,69 @@ const questions = [
       "True",
       "False",
       "5",
-      "An error"
+      "It throws an error"
     ],
     ans: 1,
-    explain: "The and operator needs both sides to be true. The first test passes since 5 is greater than 3, but the second fails since 3 is not greater than 10 — so the whole expression is False. With or instead it would have been True."
+    explain: "and requires both sides to be true. The first test passes since 5 is greater than 3, but the second fails since 3 is not greater than 10 — so the whole expression is False. With or it would have been True."
   },
   {
-    topic: "Strings",
+    topic: "Comparison & Logical",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `s <span class="sql-kw">=</span> <span class="sql-str">"Python"</span>\n<span class="sql-kw">print</span>(s[<span class="sql-num">1</span>:<span class="sql-num">4</span>])`,
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">not</span> (<span class="sql-num">5</span> <span class="sql-kw">&gt;</span> <span class="sql-num">3</span>))`,
     opts: [
-      "Pyt",
-      "yth",
-      "ytho",
-      "tho"
+      "True",
+      "False",
+      "5",
+      "It throws an error"
     ],
     ans: 1,
-    explain: "Slicing includes the start position but excludes the stop. Positions 1, 2 and 3 hold y, t and h, so you get 'yth'. Position 4 (the letter o) is left out."
+    explain: "The inner comparison 5 > 3 is True, and not flips it to False. not is useful for reading conditions aloud — &quot;if not found&quot; is clearer than a double negative."
   },
   {
-    topic: "Strings",
-    difficulty: "Medium",
-    q: "What is the cleanest way to reverse a string?",
-    sql: `s <span class="sql-kw">=</span> <span class="sql-str">"Python"</span>`,
+    topic: "Comparison & Logical",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-num">1</span> <span class="sql-kw">&lt;</span> <span class="sql-num">2</span> <span class="sql-kw">&lt;</span> <span class="sql-num">3</span>)`,
     opts: [
-      "s.reverse()",
-      "s[::-1]",
-      "reversed(s)",
-      "s * -1"
+      "True",
+      "False",
+      "It throws an error",
+      "1"
     ],
-    ans: 1,
-    explain: "s[::-1] is a slice with a step of -1, which walks the string backwards and returns 'nohtyP'. Strings have no .reverse() method at all, and reversed() hands back an iterator rather than a finished string."
+    ans: 0,
+    explain: "Python allows chained comparisons, so 1 < 2 < 3 reads exactly like the maths and evaluates to True. Most languages cannot do this — it is a genuinely nice Python feature."
   },
   {
-    topic: "Strings",
+    topic: "Comparison & Logical",
     difficulty: "Medium",
-    q: "Which line correctly prints: Total is 250",
-    sql: `amount <span class="sql-kw">=</span> <span class="sql-num">250</span>`,
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-str">"apple"</span> <span class="sql-kw">&lt;</span> <span class="sql-str">"banana"</span>)`,
     opts: [
-      "print(&quot;Total is &quot; + amount)",
-      "print(f&quot;Total is {amount}&quot;)",
-      "print(&quot;Total is {amount}&quot;)",
-      "print(&quot;Total is&quot;, + amount)"
+      "True",
+      "False",
+      "It throws an error",
+      "apple"
+    ],
+    ans: 0,
+    explain: "Strings compare alphabetically, character by character. Since &quot;a&quot; comes before &quot;b&quot;, the whole comparison is True. Be careful though — uppercase letters sort before all lowercase ones."
+  },
+  {
+    topic: "Comparison & Logical",
+    difficulty: "Easy",
+    q: "Which operator checks that at least one condition is true?",
+    opts: [
+      "and",
+      "or",
+      "not",
+      "=="
     ],
     ans: 1,
-    explain: "An f-string needs the f prefix — without it the braces print literally. The first option crashes because you cannot add a string to an integer. f-strings are the modern way to build output and you will reach for them constantly."
+    explain: "or is true when either side is true, and only false when both sides fail. and is the stricter one, needing both sides to be true."
   },
   {
     topic: "Conditionals",
-    difficulty: "Easy",
+    difficulty: "Medium",
     q: "What will the following code print?",
     sql: `n <span class="sql-kw">=</span> <span class="sql-num">4</span>\n<span class="sql-kw">if</span> n <span class="sql-kw">&gt;</span> <span class="sql-num">10</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">'big'</span>)\n<span class="sql-kw">elif</span> n <span class="sql-kw">&gt;</span> <span class="sql-num">2</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">'medium'</span>)\n<span class="sql-kw">elif</span> n <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">'small'</span>)`,
     opts: [
@@ -806,49 +1124,89 @@ const questions = [
       "Nothing at all"
     ],
     ans: 0,
-    explain: "Once one branch of an if/elif chain matches, Python skips every remaining branch. Since n &gt; 2 is true it prints 'medium' and never even tests n &gt; 0. That short-circuit is exactly why elif exists instead of stacking separate ifs."
+    explain: "Once a branch of an if/elif chain matches, Python skips every remaining branch. n > 2 is true so it prints medium and never even tests n > 0. That short-circuit is exactly why elif exists."
+  },
+  {
+    topic: "Conditionals",
+    difficulty: "Easy",
+    q: "What decides which lines belong inside an if statement?",
+    opts: [
+      "Curly braces",
+      "Indentation",
+      "A semicolon",
+      "The end keyword"
+    ],
+    ans: 1,
+    explain: "Python uses indentation to define blocks. Everything indented under the if belongs to it, and the block ends when the indentation goes back out. Consistent indentation is not style in Python — it is syntax."
+  },
+  {
+    topic: "Conditionals",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">10</span>\n<span class="sql-kw">if</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">5</span>:\n    <span class="sql-kw">if</span> x <span class="sql-kw">&gt;</span> <span class="sql-num">8</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"both"</span>)\n    <span class="sql-kw">else</span>:\n        <span class="sql-kw">print</span>(<span class="sql-str">"outer only"</span>)`,
+    opts: [
+      "both",
+      "outer only",
+      "Nothing at all",
+      "It throws an error"
+    ],
+    ans: 0,
+    explain: "This is a nested if. The outer test passes, then the inner test also passes since 10 is greater than 8, so it prints both. The else belongs to the inner if because of its indentation level."
   },
   {
     topic: "Conditionals",
     difficulty: "Hard",
     q: "What is wrong with this code?",
-    sql: `age <span class="sql-kw">=</span> <span class="sql-kw">input</span>(<span class="sql-str">"Your age: "</span>)\n<span class="sql-kw">if</span> age <span class="sql-kw">&gt;</span> <span class="sql-num">18</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Adult"</span>)`,
+    sql: `<span class="sql-kw">if</span> mark <span class="sql-kw">&gt;</span> <span class="sql-num">33</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Pass"</span>)\n<span class="sql-kw">if</span> mark <span class="sql-kw">&lt;=</span> <span class="sql-num">33</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Fail"</span>)`,
     opts: [
-      "Nothing, it works fine",
-      "age is a string, so comparing it to 18 crashes",
-      "It should be >= 18 instead",
-      "input() needs int() around the prompt text"
+      "Nothing, it works correctly",
+      "The second if should be an elif",
+      "The operators are the wrong way round",
+      "It prints both lines every time"
     ],
     ans: 1,
-    explain: "input() always returns a string, and comparing a string to an integer raises a TypeError. The fix is age = int(input(\"Your age: \")). This single mistake accounts for more beginner crashes than anything else in Month 1."
+    explain: "The output is right, but it tests the condition twice when once would do. elif tells Python to skip the second check entirely when the first is true — clearer to read and the correct habit for either/or decisions."
   },
   {
-    topic: "Loops",
+    topic: "Conditionals",
     difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">if</span> i <span class="sql-kw">==</span> <span class="sql-num">1</span>:\n        <span class="sql-kw">continue</span>\n    <span class="sql-kw">print</span>(i, end=<span class="sql-str">' '</span>)`,
+    q: "How many else blocks can a single if statement have?",
     opts: [
-      "0 1 2",
-      "0 2",
-      "1 2",
-      "0"
+      "As many as you like",
+      "Exactly one",
+      "One per elif",
+      "None, else is optional and separate"
     ],
     ans: 1,
-    explain: "continue abandons the current pass and jumps straight to the next one, so 1 never gets printed — but the loop keeps running afterwards. Compare that with break, which would stop the loop entirely and print only 0."
+    explain: "An if can have any number of elif branches but at most one else, which must come last and acts as the catch-all when nothing above matched. The else is optional."
+  },
+  {
+    topic: "Conditionals",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `age <span class="sql-kw">=</span> <span class="sql-num">18</span>\n<span class="sql-kw">if</span> age <span class="sql-kw">&gt;=</span> <span class="sql-num">18</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Can vote"</span>)\n<span class="sql-kw">else</span>:\n    <span class="sql-kw">print</span>(<span class="sql-str">"Cannot vote"</span>)`,
+    opts: [
+      "Can vote",
+      "Cannot vote",
+      "Both lines",
+      "Nothing at all"
+    ],
+    ans: 0,
+    explain: "The >= operator includes the boundary value, so an age of exactly 18 passes the test. Boundary values like this are always worth testing deliberately — off-by-one errors hide there."
   },
   {
     topic: "Loops",
-    difficulty: "Hard",
-    q: "How many times does the inner line run?",
-    sql: `count <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">for</span> j <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">2</span>):\n        count <span class="sql-kw">+=</span> <span class="sql-num">1</span>\n<span class="sql-kw">print</span>(count)`,
+    difficulty: "Easy",
+    q: "What will the following code produce?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">list</span>(<span class="sql-kw">range</span>(<span class="sql-num">3</span>)))`,
     opts: [
-      "3",
-      "2",
-      "5",
-      "6"
+      "[1, 2, 3]",
+      "[0, 1, 2]",
+      "[0, 1, 2, 3]",
+      "[3]"
     ],
-    ans: 3,
-    explain: "The inner loop runs completely for every single pass of the outer loop, so it is 3 multiplied by 2, giving 6. Nested loops multiply rather than add — which is why nesting loops over large ranges gets slow so quickly."
+    ans: 1,
+    explain: "range(3) starts at 0 by default and stops before 3, giving 0, 1 and 2. The stop value is always excluded, which is the single most important thing to remember about range()."
   },
   {
     topic: "Loops",
@@ -862,23 +1220,193 @@ const questions = [
       "[3, 6, 9]"
     ],
     ans: 0,
-    explain: "range(start, stop, step) begins at 2 and adds 3 each time: 2, then 5, then 8. The next value would be 11, which is past the stop of 10, so it halts there. As always, the stop value itself is excluded."
+    explain: "range(start, stop, step) begins at 2 and adds 3 each time: 2, then 5, then 8. The next would be 11, which is past the stop of 10, so it halts there."
+  },
+  {
+    topic: "Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">5</span>):\n    <span class="sql-kw">if</span> i <span class="sql-kw">==</span> <span class="sql-num">2</span>:\n        <span class="sql-kw">continue</span>\n    <span class="sql-kw">print</span>(i, end=<span class="sql-str">' '</span>)`,
+    opts: [
+      "0 1 2 3 4",
+      "0 1 3 4",
+      "0 1",
+      "2"
+    ],
+    ans: 1,
+    explain: "continue abandons the current pass and jumps straight to the next one, so 2 is never printed — but the loop carries on afterwards, printing 3 and 4."
+  },
+  {
+    topic: "Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">5</span>):\n    <span class="sql-kw">if</span> i <span class="sql-kw">==</span> <span class="sql-num">2</span>:\n        <span class="sql-kw">break</span>\n    <span class="sql-kw">print</span>(i, end=<span class="sql-str">' '</span>)`,
+    opts: [
+      "0 1 2 3 4",
+      "0 1 3 4",
+      "0 1",
+      "0 1 2"
+    ],
+    ans: 2,
+    explain: "break exits the loop entirely the moment it runs, so printing stops before 2 is reached. Compare that with continue, which only skips one pass and keeps going."
+  },
+  {
+    topic: "Loops",
+    difficulty: "Hard",
+    q: "How many times does the innermost line run?",
+    sql: `count <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">3</span>):\n    <span class="sql-kw">for</span> j <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">4</span>):\n        count <span class="sql-kw">+=</span> <span class="sql-num">1</span>\n<span class="sql-kw">print</span>(count)`,
+    opts: [
+      "3",
+      "4",
+      "7",
+      "12"
+    ],
+    ans: 3,
+    explain: "The inner loop runs completely for every single pass of the outer loop, so it is 3 multiplied by 4, giving 12. Nested loops multiply rather than add, which is why nesting over large ranges gets slow fast."
+  },
+  {
+    topic: "Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `total <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> i <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">1</span>, <span class="sql-num">6</span>):\n    total <span class="sql-kw">+=</span> i\n<span class="sql-kw">print</span>(total)`,
+    opts: [
+      "10",
+      "15",
+      "21",
+      "6"
+    ],
+    ans: 1,
+    explain: "range(1, 6) gives 1, 2, 3, 4 and 5 — the stop is excluded — and those add up to 15. This running-total pattern is the backbone of the Days 29–30 project."
+  },
+  {
+    topic: "Loops",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `i <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">while</span> i <span class="sql-kw">&lt;</span> <span class="sql-num">3</span>:\n    <span class="sql-kw">print</span>(i, end=<span class="sql-str">' '</span>)\n    i <span class="sql-kw">+=</span> <span class="sql-num">1</span>`,
+    opts: [
+      "0 1 2",
+      "0 1 2 3",
+      "1 2 3",
+      "It loops forever"
+    ],
+    ans: 0,
+    explain: "The loop runs while i is less than 3, printing 0, 1 and 2. Forgetting the i += 1 line is what turns a while loop into an infinite one — always check that something inside changes the condition."
+  },
+  {
+    topic: "Loops",
+    difficulty: "Easy",
+    q: "When should you choose a while loop over a for loop?",
+    opts: [
+      "When you know exactly how many times to repeat",
+      "When you do not know how many repeats you need in advance",
+      "While loops are always faster",
+      "They are completely interchangeable"
+    ],
+    ans: 1,
+    explain: "Use for when the number of repeats is known up front, such as looping over a range. Use while when you are waiting for a condition to change, like repeating until the user types a valid answer."
+  },
+  {
+    topic: "Strings & f-Strings",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `s <span class="sql-kw">=</span> <span class="sql-str">"Python"</span>\n<span class="sql-kw">print</span>(s[<span class="sql-num">1</span>:<span class="sql-num">4</span>])`,
+    opts: [
+      "Pyt",
+      "yth",
+      "ytho",
+      "tho"
+    ],
+    ans: 1,
+    explain: "Slicing includes the start position but excludes the stop. Positions 1, 2 and 3 hold y, t and h, so you get &quot;yth&quot;. The letter at position 4 is left out."
+  },
+  {
+    topic: "Strings & f-Strings",
+    difficulty: "Medium",
+    q: "What is the cleanest way to reverse a string?",
+    sql: `s <span class="sql-kw">=</span> <span class="sql-str">"Python"</span>`,
+    opts: [
+      "s.reverse()",
+      "s[::-1]",
+      "reversed(s)",
+      "s * -1"
+    ],
+    ans: 1,
+    explain: "s[::-1] is a slice with a step of -1, which walks the string backwards and returns &quot;nohtyP&quot;. Strings have no .reverse() method at all, and reversed() hands back an iterator rather than a string."
+  },
+  {
+    topic: "Strings & f-Strings",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-str">"banana"</span>.count(<span class="sql-str">"a"</span>))`,
+    opts: [
+      "1",
+      "2",
+      "3",
+      "6"
+    ],
+    ans: 2,
+    explain: "count() returns how many times the substring appears — banana contains three letter a characters. It is case sensitive, so counting &quot;A&quot; instead would give 0."
+  },
+  {
+    topic: "Strings & f-Strings",
+    difficulty: "Medium",
+    q: "Which line correctly prints: Total is 250",
+    sql: `amount <span class="sql-kw">=</span> <span class="sql-num">250</span>`,
+    opts: [
+      "print(&quot;Total is &quot; + amount)",
+      "print(f&quot;Total is {amount}&quot;)",
+      "print(&quot;Total is {amount}&quot;)",
+      "print(&quot;Total is&quot;, + amount)"
+    ],
+    ans: 1,
+    explain: "An f-string needs the f prefix — without it the braces print literally. The first option crashes because you cannot add a string to an integer. f-strings are the modern way to build output."
+  },
+  {
+    topic: "Strings & f-Strings",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `price <span class="sql-kw">=</span> <span class="sql-num">19.6</span>\n<span class="sql-kw">print</span>(f<span class="sql-str">"{price:.2f}"</span>)`,
+    opts: [
+      "19.6",
+      "19.60",
+      "19.600000",
+      "It throws an error"
+    ],
+    ans: 1,
+    explain: "The format spec :.2f rounds to exactly two decimal places and pads with a trailing zero if needed, giving 19.60. It is what you want for any money value."
+  },
+  {
+    topic: "Strings & f-Strings",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `s <span class="sql-kw">=</span> <span class="sql-str">"hello"</span>\ns[<span class="sql-num">0</span>] <span class="sql-kw">=</span> <span class="sql-str">"H"</span>\n<span class="sql-kw">print</span>(s)`,
+    opts: [
+      "Hello",
+      "hello",
+      "H",
+      "A TypeError"
+    ],
+    ans: 3,
+    explain: "Strings are immutable — you cannot change a character in place. Methods like upper() and replace() return a brand new string rather than modifying the original. Lists, arriving on Day 31, are the mutable alternative."
   }
 ]
 
 const tips = {
-  "Types & Conversion": "input() always returns a string, and / always returns a float \u2014 convert with int() or float() before doing maths.",
-  "Operators": "// keeps the whole part of a division, % keeps the remainder, and and needs both sides to be true.",
-  "Strings": "Slices exclude the stop position, s[::-1] reverses a string, and f-strings need the f prefix to work.",
-  "Conditionals": "In an if/elif chain only the first matching branch runs; every branch after it is skipped entirely.",
-  "Loops": "range(start, stop) excludes the stop, continue skips one pass, break exits, and nested loops multiply."
+  "Variables & Setup": "A variable holds one value at a time; += is shorthand for adding to what is already there.",
+  "Data Types": "int, float, str and bool are the four Month 1 types — type() tells you which one you are holding.",
+  "Input & Conversion": "input() always returns a string, so wrap it in int() or float() before doing any maths.",
+  "Operators": "// keeps the whole part, % keeps the remainder, ** raises to a power, and * binds tighter than +.",
+  "Comparison & Logical": "== compares values while = assigns; and needs both sides true, or needs just one.",
+  "Conditionals": "Indentation defines the block, and only the first matching branch of an if/elif chain ever runs.",
+  "Loops": "range(start, stop) excludes the stop; continue skips one pass, break exits, and nested loops multiply.",
+  "Strings & f-Strings": "Slices exclude the stop, s[::-1] reverses, strings are immutable, and f-strings need the f prefix."
 }
 
 let current = 0;
 let answered = 0;
 let userAnswers = [];
 let timerInterval = null;
-let secondsLeft = 15 * 60;
+let secondsLeft = 45 * 60;
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -895,7 +1423,7 @@ function startQuiz() {
   current = 0;
   answered = 0;
   userAnswers = new Array(questions.length).fill(null);
-  secondsLeft = 15 * 60;
+  secondsLeft = 45 * 60;
   showScreen('quiz');
   renderQuestion();
   startTimer();
@@ -989,7 +1517,7 @@ function showResults() {
 
   let grade, sub;
   if (pct >= 90) { grade = 'Excellent — Ready for Month 2'; sub = 'Month 1 is genuinely solid. On to lists and functions!'; }
-  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Strong grasp overall. Review the weak topics below and move on.'; }
+  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Strong grasp overall. Review the weak topics below, then move on.'; }
   else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'The foundations need another pass before Month 2 builds on them.'; }
   else { grade = 'Needs Work — Back to Basics'; sub = 'Rewatch the weak-topic days before starting Month 2.'; }
   document.getElementById('gradeLabel').textContent = grade;

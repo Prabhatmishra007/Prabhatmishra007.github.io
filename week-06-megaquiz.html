@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Quiz &mdash; Week 6 Mega Quiz: Lists (Days 36&ndash;42)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --card: #1a1a1a;
+  --card-hover: #202020;
+  --gold: #f5a623;
+  --gold-dim: rgba(245,166,35,0.15);
+  --gold-border: rgba(245,166,35,0.3);
+  --accent: #f5a623;
+  --accent2: #e05c3a;
+  --accent3: #7c6af7;
+  --text: #f0ede8;
+  --text-secondary: #c8c0b0;
+  --muted: #7a7060;
+  --correct: #5a9e6f;
+  --wrong: #c0442a;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(245,166,35,0.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(245,166,35,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(124,106,247,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TOP BAR */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0a0a0a;
+  border-bottom: 2px solid var(--gold);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.top-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); }
+.top-bar-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.top-bar-right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  padding: 4px 12px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* SCREEN VISIBILITY */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── WELCOME ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.eyebrow span { color: var(--gold); }
+
+h1.main-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h1.main-title em { color: var(--gold); font-style: italic; }
+
+.welcome-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 540px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.topic-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: 4px 10px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+@media(min-width:520px){ .stat-grid { grid-template-columns: repeat(4,1fr); } }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1.1rem .9rem;
+  text-align: center;
+}
+.stat-card .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: .2rem;
+}
+.stat-card .lbl {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.notice-box {
+  background: var(--card);
+  border-left: 4px solid var(--accent3);
+  padding: 16px 20px;
+  margin-bottom: 2rem;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.notice-box strong { color: var(--text); }
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: .85rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-start:hover { background: #ffbb4d; transform: translateY(-2px); }
+
+.hint-text {
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .5px;
+}
+.hint-text span { color: var(--accent2); }
+
+/* ── QUIZ HEADER ── */
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.q-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.q-counter strong { color: var(--text); }
+.timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--border-gold);
+  padding: .3rem .75rem;
+  transition: color .3s, background .3s;
+}
+.timer.warn { color: var(--accent2); background: rgba(224,92,58,0.1); border-color: rgba(224,92,58,0.3); }
+
+.progress-wrap { margin-bottom: 1.5rem; }
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: .4rem;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .4s ease;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: .25rem .8rem;
+  margin-bottom: .9rem;
+}
+
+.difficulty-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .22rem .7rem;
+  margin-bottom: .9rem;
+  margin-left: 8px;
+}
+.diff-easy { color: var(--correct); border: 1px solid rgba(90,158,111,0.3); background: rgba(90,158,111,0.08); }
+.diff-medium { color: var(--accent3); border: 1px solid rgba(124,106,247,0.3); background: rgba(124,106,247,0.08); }
+.diff-hard { color: var(--accent2); border: 1px solid rgba(224,92,58,0.3); background: rgba(224,92,58,0.08); }
+.diff-challenge { color: #d9376e; border: 1px solid rgba(217,55,110,0.35); background: rgba(217,55,110,0.1); }
+
+.question-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+.question-text code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(245,166,35,0.1);
+  border: 1px solid var(--border-gold);
+  padding: .15rem .45rem;
+  font-size: .88em;
+  color: var(--gold);
+}
+
+.sql-block {
+  background: #111;
+  border-left: 3px solid var(--gold);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  color: #c3d4e8;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.sql-kw { color: var(--gold); font-weight: 700; }
+.sql-str { color: #8ec07c; }
+.sql-num { color: var(--accent3); }
+.sql-com { color: var(--muted); font-style: italic; }
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1.6rem;
+}
+.option-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: .85rem;
+  transition: border-color .15s, background .15s;
+  font-size: .93rem;
+  color: var(--text-secondary);
+  user-select: none;
+  line-height: 1.55;
+}
+.option-card:hover { border-left-color: var(--gold); background: var(--card-hover); color: var(--text); }
+.option-card.selected { border-left-color: var(--gold); background: rgba(245,166,35,0.07); color: var(--text); border-color: var(--border-gold); }
+.option-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+}
+.option-card.selected .option-label { color: var(--gold); }
+
+.option-card code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(245,166,35,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .35rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+
+.nav-row {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .65rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .12s;
+}
+.btn:disabled { opacity: .3; cursor: not-allowed; transform: none !important; }
+.btn-skip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-skip:hover:not(:disabled) { border-color: rgba(255,255,255,0.2); color: var(--text-secondary); }
+.btn-next {
+  background: var(--gold);
+  color: #0d0d0d;
+}
+.btn-next:hover:not(:disabled) { background: #ffbb4d; transform: translateY(-1px); }
+
+/* ── RESULTS ── */
+.results-top { text-align: center; margin-bottom: 2.2rem; }
+.ring-wrap { display: flex; justify-content: center; margin-bottom: 1.2rem; }
+.ring-wrap svg { overflow: visible; }
+.ring-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 12; }
+.ring-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: butt;
+  stroke: var(--gold);
+  stroke-dasharray: 390;
+  stroke-dashoffset: 390;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1);
+}
+.ring-pct { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; fill: var(--text); }
+.ring-lbl { font-size: .7rem; fill: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+.grade-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: .3rem;
+}
+.grade-sub { color: var(--text-secondary); font-size: .93rem; }
+
+.res-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+.res-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1rem;
+  text-align: center;
+}
+.res-stat-card .rv {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: .2rem;
+}
+.rv.green { color: var(--correct); }
+.rv.red { color: var(--wrong); }
+.rv.gold { color: var(--gold); }
+.res-stat-card .rl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-family: 'JetBrains Mono', monospace; }
+
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-bottom: .9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-bars { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+.topic-row { display: flex; flex-direction: column; gap: .35rem; }
+.topic-row-head { display: flex; justify-content: space-between; align-items: center; }
+.topic-name { font-size: .85rem; font-weight: 500; color: var(--text-secondary); }
+.topic-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .55rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.status-strong { background: rgba(90,158,111,0.1); color: var(--correct); border: 1px solid rgba(90,158,111,0.25); }
+.status-moderate { background: rgba(124,106,247,0.1); color: var(--accent3); border: 1px solid rgba(124,106,247,0.22); }
+.status-weak { background: rgba(192,68,42,0.1); color: var(--wrong); border: 1px solid rgba(192,68,42,0.22); }
+.bar-track { height: 4px; background: rgba(255,255,255,0.05); }
+.bar-fill { height: 100%; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+.focus-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent2);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.focus-box h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: .85rem;
+}
+.focus-item {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: .7rem;
+  font-size: .87rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.focus-item:last-child { margin-bottom: 0; }
+.focus-bullet { color: var(--gold); flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+
+.review-list { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 2rem; }
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 1rem 1.1rem;
+}
+.review-card.correct-card { border-left-color: var(--correct); }
+.review-card.wrong-card { border-left-color: var(--wrong); }
+.review-qnum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+  letter-spacing: .5px;
+}
+.review-q { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .55rem; line-height: 1.5; }
+.review-q code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(245,166,35,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .3rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+.review-answers { display: flex; flex-direction: column; gap: .3rem; }
+.review-ans {
+  font-size: .8rem;
+  padding: .3rem .65rem;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.5;
+}
+.ans-correct { background: rgba(90,158,111,0.08); color: var(--correct); border: 1px solid rgba(90,158,111,0.2); }
+.ans-wrong-pick { background: rgba(192,68,42,0.08); color: var(--wrong); border: 1px solid rgba(192,68,42,0.2); }
+.ans-skipped { background: rgba(122,122,154,0.08); color: var(--muted); border: 1px solid rgba(122,122,154,0.18); }
+
+.explanation-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(245,166,35,0.06);
+  border-left: 2px solid var(--gold);
+  font-size: .8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+.explanation-box strong { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: .75rem; }
+
+.btn-retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .9rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-retry:hover { background: #ffbb4d; transform: translateY(-2px); }
+
+.divider { height: 1px; background: var(--border); margin: 1.6rem 0; }
+.footer-note {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-top: 3rem;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-dot"></div>
+    <div class="top-bar-title">Python Week 6 Mega Quiz &mdash; Lists</div>
+  </div>
+  <div class="top-bar-right">Days 36-42 / 100</div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="container">
+    <div class="eyebrow">100 Days of Python &middot; Week 6 &middot; <span>Mega Quiz</span></div>
+    <h1 class="main-title">Week 6 &mdash;<br><em>Lists Mastery</em></h1>
+    <p class="welcome-sub">The Week 6 checkpoint — fifty questions on Python lists, Days 36 to 42. Creating and indexing, slicing, every method worth knowing, mutation and copying, looping over lists, comprehensions, and nested lists. Heavy on code-tracing, so read each snippet line by line. Medium to hard difficulty.</p>
+
+    <div class="topic-tags">
+      <span class="topic-tag">Creating &amp; Indexing</span>
+      <span class="topic-tag">Slicing</span>
+      <span class="topic-tag">List Methods</span>
+      <span class="topic-tag">Mutation &amp; Copying</span>
+      <span class="topic-tag">Loops with Lists</span>
+      <span class="topic-tag">List Comprehensions</span>
+      <span class="topic-tag">Nested Lists</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><span class="val">50</span><span class="lbl">Questions</span></div>
+      <div class="stat-card"><span class="val">45</span><span class="lbl">Minutes</span></div>
+      <div class="stat-card"><span class="val">7</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">Med&ndash;Hard</span><span class="lbl">Difficulty</span></div>
+    </div>
+
+    <div class="notice-box">
+      <strong>The Week 6 checkpoint.</strong> Fifty questions across all seven list topics — longer than a daily quiz, and deliberately so. Lists are the container everything else in Python builds on, so clear this comfortably before moving on to tuples and dictionaries.
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+    <div class="hint-text">Timer starts immediately. <span>Skip costs you nothing — review is shown at the end.</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 2 — QUIZ
+════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="container">
+    <div class="quiz-header">
+      <div class="q-counter">Question <strong id="qNum">1</strong> of 50</div>
+      <div class="timer" id="timer">45:00</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">0 answered</div>
+    </div>
+    <span class="topic-pill" id="topicPill">List Methods</span>
+    <span class="difficulty-pill" id="diffPill">Easy</span>
+    <div class="question-text" id="questionText"></div>
+    <div id="sqlSnippet"></div>
+    <div class="options-list" id="optionsList"></div>
+    <div class="nav-row">
+      <button class="btn btn-skip" onclick="skipQuestion()">Skip</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 3 — RESULTS
+════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="results-top">
+      <div class="ring-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f5a623"/>
+              <stop offset="100%" stop-color="#ffbb4d"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="65" cy="65" r="62"/>
+          <circle class="ring-fill" id="ringFill" cx="65" cy="65" r="62"/>
+          <text class="ring-pct" id="ringPct" x="65" y="62" text-anchor="middle" dominant-baseline="middle">0%</text>
+          <text class="ring-lbl" x="65" y="80" text-anchor="middle">Score</text>
+        </svg>
+      </div>
+      <div class="grade-label" id="gradeLabel"></div>
+      <div class="grade-sub" id="gradeSub"></div>
+    </div>
+
+    <div class="res-stat-grid">
+      <div class="res-stat-card"><span class="rv green" id="resCorrect">0</span><span class="rl">Correct</span></div>
+      <div class="res-stat-card"><span class="rv red" id="resWrong">0</span><span class="rl">Wrong</span></div>
+      <div class="res-stat-card"><span class="rv gold" id="resPct">0%</span><span class="rl">Score</span></div>
+    </div>
+
+    <div class="section-title">Performance by Topic</div>
+    <div class="topic-bars" id="topicBars"></div>
+
+    <div class="focus-box" id="focusBox">
+      <h3>→ Focus Areas</h3>
+      <div id="focusTips"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Full Review</div>
+    <div class="review-list" id="reviewList"></div>
+
+    <button class="btn-retry" onclick="retryQuiz()">↺ Retry Quiz</button>
+    <div class="footer-note" style="margin-top:2rem;">100 Days of Python &middot; Days 36&ndash;42 &middot; Week 6 Lists Challenge</div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">10</span>, <span class="sql-num">20</span>, <span class="sql-num">30</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">1</span>])`,
+    opts: ["10", "20", "30", "It throws an error"],
+    ans: 1,
+    explain: "List indexing starts at 0, so nums[0] is 10 and nums[1] is 20. Counting from zero is the single most common source of off-by-one bugs, so it is worth saying the positions out loud while you learn."
+  },
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Easy",
+    q: "Which of these creates an empty list?",
+    opts: ["{}", "[]", "()", "empty()"],
+    ans: 1,
+    explain: "Square brackets with nothing inside make an empty list. Curly braces give you an empty dictionary, and round brackets give an empty tuple — both are different containers you will meet soon."
+  },
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `items <span class="sql-kw">=</span> [<span class="sql-str">"a"</span>, <span class="sql-str">"b"</span>, <span class="sql-str">"c"</span>]\n<span class="sql-kw">print</span>(items[<span class="sql-kw">-</span><span class="sql-num">1</span>])`,
+    opts: ["c", "a", "b", "It throws an error"],
+    ans: 0,
+    explain: "Negative indexes count backwards from the end, so -1 is the last item, -2 the second-last. It is safer than items[len(items)-1] and much easier to read."
+  },
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `data <span class="sql-kw">=</span> [<span class="sql-num">1</span>, [<span class="sql-num">2</span>, <span class="sql-num">3</span>], <span class="sql-num">4</span>]\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(data))`,
+    opts: ["4", "3", "5", "2"],
+    ans: 1,
+    explain: "len() counts top-level items only. The inner list [2, 3] counts as one item no matter how many things are inside it, so the length is 3."
+  },
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">5</span>])`,
+    opts: ["None", "An empty list", "IndexError", "3"],
+    ans: 2,
+    explain: "Indexing past the end raises IndexError. Slicing is the forgiving one — nums[0:5] would quietly return what exists — but direct indexing always complains."
+  },
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">list</span>(<span class="sql-str">"py2ai"</span>))`,
+    opts: ["['py2ai']", "['p','y','2','a','i']", "'py2ai'", "It throws an error"],
+    ans: 1,
+    explain: "list() on a string splits it into individual characters, because a string is itself a sequence. list(range(3)) works the same way and gives [0, 1, 2]."
+  },
+  {
+    topic: "Creating & Indexing",
+    difficulty: "Easy",
+    q: "Which statement about Python lists is true?",
+    opts: [
+      "All items must be the same type",
+      "A list cannot contain another list",
+      "A list can mix ints, strings and other lists",
+      "Lists are fixed in size once created"
+    ],
+    ans: 2,
+    explain: "A list is just an ordered box of references, so anything can go in it — numbers, strings, even other lists. It can also grow and shrink at any time, which is what makes it mutable."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">1</span>:<span class="sql-num">4</span>])`,
+    opts: ["[2, 3, 4]", "[1, 2, 3]", "[2, 3, 4, 5]", "[1, 2, 3, 4]"],
+    ans: 0,
+    explain: "A slice starts at the first index and stops just before the second, so [1:4] gives positions 1, 2 and 3. The stop is always excluded — the same rule as range()."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>]\n<span class="sql-kw">print</span>(nums[::<span class="sql-num">2</span>])`,
+    opts: ["[2, 4]", "[1, 2]", "[1, 3, 5]", "[5, 3, 1]"],
+    ans: 2,
+    explain: "The third number in a slice is the step. A step of 2 takes every second item starting from the beginning, giving 1, 3 and 5."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Medium",
+    q: "What does nums[::-1] give you?",
+    opts: [
+      "The list sorted in reverse",
+      "A reversed copy of the list",
+      "The last item only",
+      "The list reversed in place"
+    ],
+    ans: 1,
+    explain: "A step of -1 walks the list backwards and builds a new list. The original is untouched — that is the key difference from nums.reverse(), which flips the list in place and returns None."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">1</span>:<span class="sql-num">99</span>])`,
+    opts: ["IndexError", "[]", "[2, 3]", "[1, 2, 3]"],
+    ans: 2,
+    explain: "Slices clip themselves to the ends of the list instead of raising an error. Asking for more than exists simply gives you everything that is there — here, [2, 3]."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\nnums[<span class="sql-num">1</span>:<span class="sql-num">3</span>] <span class="sql-kw">=</span> [<span class="sql-num">9</span>]\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[1, 9, 4]", "[1, 9, 3, 4]", "[9, 4]", "[1, 2, 9, 4]"],
+    ans: 0,
+    explain: "Assigning to a slice replaces that whole section. Positions 1 and 2 (the 2 and the 3) are removed and the single value 9 is dropped in their place, leaving [1, 9, 4]."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-kw">-</span><span class="sql-num">2</span>:])`,
+    opts: ["[1, 2]", "[3, 4]", "[2, 3, 4]", "[4]"],
+    ans: 1,
+    explain: "Starting at -2 with no stop means from the second-last item to the end, so you get [3, 4]. This is the standard way to grab the last n items of a list."
+  },
+  {
+    topic: "Slicing",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums[<span class="sql-num">1</span>:] <span class="sql-kw">=</span> []\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[]", "[1]", "[2, 3]", "[1, 2, 3]"],
+    ans: 1,
+    explain: "Assigning an empty list to a slice deletes that section. Everything from position 1 onward disappears, so only the first item survives."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nnums.append([<span class="sql-num">3</span>, <span class="sql-num">4</span>])\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(nums))`,
+    opts: ["4", "3", "2", "It throws an error"],
+    ans: 1,
+    explain: "append() always adds exactly one item. Handing it a list adds that whole list as a single nested item, so the length goes from 2 to 3, not to 4."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nnums.extend([<span class="sql-num">3</span>, <span class="sql-num">4</span>])\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[1, 2, [3, 4]]", "[3, 4, 1, 2]", "[1, 2, 3, 4]", "It throws an error"],
+    ans: 2,
+    explain: "extend() unpacks the iterable and adds each item separately, which is the exact opposite of append(). Remember the pair together — one adds an object, the other adds contents."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">3</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>]\n<span class="sql-kw">print</span>(nums.sort())`,
+    opts: ["[1, 2, 3]", "None", "[3, 2, 1]", "It throws an error"],
+    ans: 1,
+    explain: "sort() rearranges the list in place and returns None, so printing its result prints None. Use sorted(nums) when you want a sorted list handed back to you."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">3</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>]\ncopy <span class="sql-kw">=</span> <span class="sql-kw">sorted</span>(nums)\n<span class="sql-kw">print</span>(nums, copy)`,
+    opts: ["[1, 2, 3] [1, 2, 3]", "[3, 1, 2] [1, 2, 3]", "[3, 1, 2] None", "[1, 2, 3] None"],
+    ans: 1,
+    explain: "sorted() leaves the original alone and returns a new sorted list. That is why nums still prints in its original order while copy is sorted."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">10</span>, <span class="sql-num">20</span>, <span class="sql-num">30</span>]\n<span class="sql-kw">print</span>(nums.pop(<span class="sql-num">0</span>))`,
+    opts: ["30", "None", "10", "20"],
+    ans: 2,
+    explain: "pop() removes an item and hands it back to you. With an index it removes that position; with no argument it removes and returns the last item."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums.remove(<span class="sql-num">2</span>)\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[1, 3]", "[1, 2, 3]", "[2, 2, 3]", "[1, 2, 2]"],
+    ans: 1,
+    explain: "remove() deletes the first matching value only, not every copy of it. To clear all duplicates you need a loop or a comprehension that filters them out."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Medium",
+    q: "Calling remove() with a value that is not in the list raises which error?",
+    opts: ["KeyError", "IndexError", "TypeError", "ValueError"],
+    ans: 3,
+    explain: "ValueError means the value itself is wrong, not the position. Compare it with IndexError, which is what you get when a position does not exist."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">2</span>]\n<span class="sql-kw">print</span>(nums.count(<span class="sql-num">2</span>), nums.index(<span class="sql-num">3</span>))`,
+    opts: ["3 3", "2 3", "3 2", "2 2"],
+    ans: 0,
+    explain: "count() reports how many times a value appears — three 2s here. index() reports the position of the first match, and 3 sits at position 3."
+  },
+  {
+    topic: "List Methods",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums.insert(<span class="sql-num">1</span>, <span class="sql-num">9</span>)\nnums.reverse()\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[3, 2, 9, 1]", "[1, 9, 2, 3]", "[3, 9, 2, 1]", "[9, 3, 2, 1]"],
+    ans: 0,
+    explain: "insert(1, 9) puts 9 at position 1, giving [1, 9, 2, 3]. reverse() then flips that in place, so the list reads [3, 2, 9, 1]."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nb <span class="sql-kw">=</span> a\nb.append(<span class="sql-num">3</span>)\n<span class="sql-kw">print</span>(a)`,
+    opts: ["[1, 2]", "[1, 2, 3]", "[3]", "It throws an error"],
+    ans: 1,
+    explain: "b = a does not copy anything — both names point at the same list, so a change through one shows up through the other. This is aliasing, and it catches almost everyone once."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nb <span class="sql-kw">=</span> a.copy()\nb.append(<span class="sql-num">3</span>)\n<span class="sql-kw">print</span>(a)`,
+    opts: ["[1, 2]", "[1, 2, 3]", "None", "[3]"],
+    ans: 0,
+    explain: "copy() builds a genuinely separate list, so appending to b leaves a alone. a[:] and list(a) do exactly the same job if you prefer those spellings."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums[<span class="sql-num">0</span>] <span class="sql-kw">=</span> <span class="sql-num">99</span>\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[1, 2, 3]", "[99, 1, 2, 3]", "[99, 2, 3]", "It throws an error"],
+    ans: 2,
+    explain: "Lists are mutable, so assigning to an index replaces that item in place. Strings do not allow this — s[0] = 'x' raises a TypeError."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">del</span> nums[<span class="sql-num">0</span>]\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[2, 3]", "[1, 2]", "[1, 3]", "[]"],
+    ans: 0,
+    explain: "del removes by position and shifts everything after it down one place. Use remove() when you know the value but not where it sits."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums.clear()\n<span class="sql-kw">print</span>(nums, <span class="sql-kw">len</span>(nums))`,
+    opts: ["None 0", "[] 0", "[0] 1", "It throws an error"],
+    ans: 1,
+    explain: "clear() empties the list but keeps the list object itself, so you are left with [] and a length of 0. Every other name pointing at that same list sees it emptied too."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nb <span class="sql-kw">=</span> a\na <span class="sql-kw">=</span> a <span class="sql-kw">+</span> [<span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(b)`,
+    opts: ["[1, 2, 3]", "[1, 2]", "[3]", "None"],
+    ans: 1,
+    explain: "a + [3] builds a brand new list and rebinds the name a to it. b still points at the original, so b is unchanged — unlike a.append(3), which would have mutated the shared list."
+  },
+  {
+    topic: "Mutation & Copying",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-str">"two"</span>, <span class="sql-num">3</span>]\nnums.sort()`,
+    opts: [
+      "[1, 3, 'two']",
+      "['two', 1, 3]",
+      "TypeError",
+      "It sorts silently"
+    ],
+    ans: 2,
+    explain: "Sorting needs to compare items with <, and Python refuses to compare an int with a str. Mixed-type lists are fine to store, but not to sort without a key function."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    total <span class="sql-kw">+=</span> n\n<span class="sql-kw">print</span>(total)`,
+    opts: ["3", "123", "6", "0"],
+    ans: 2,
+    explain: "The loop variable takes each value in turn and adds it to the running total, giving 6. Built-in sum(nums) does the same in one step once you trust it."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Easy",
+    q: "In `for i, v in enumerate(items):`, what does i hold?",
+    opts: ["The value", "The index", "The length", "A copy of the list"],
+    ans: 1,
+    explain: "enumerate() pairs each item with its position, index first and value second. It saves you from the clumsy range(len(items)) pattern."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">==</span> <span class="sql-num">3</span>:\n        <span class="sql-kw">break</span>\n    <span class="sql-kw">print</span>(n, end<span class="sql-kw">=</span><span class="sql-str">" "</span>)`,
+    opts: ["1 2", "1 2 3", "1 2 4", "1 2 3 4"],
+    ans: 0,
+    explain: "break leaves the loop immediately, before the print on that pass ever runs. Swap it for continue and you would see 1 2 4 instead."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nout <span class="sql-kw">=</span> []\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    out.append(n <span class="sql-kw">*</span> <span class="sql-num">2</span>)\n<span class="sql-kw">print</span>(out)`,
+    opts: ["[1, 2, 3]", "[2, 4, 6]", "[1, 2, 3, 1, 2, 3]", "[6]"],
+    ans: 1,
+    explain: "This is the build-a-new-list pattern: start empty, append one result per pass. A comprehension writes the same thing as [n * 2 for n in nums]."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">max</span>([<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>]), <span class="sql-kw">min</span>([<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>]), <span class="sql-kw">sum</span>([<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>]))`,
+    opts: ["7 2 12", "7 3 12", "3 2 12", "7 2 372"],
+    ans: 0,
+    explain: "max, min and sum each walk the list for you. Reaching for them instead of hand-written loops keeps code short and much harder to get wrong."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(<span class="sql-num">2</span> <span class="sql-kw">in</span> nums, <span class="sql-num">5</span> <span class="sql-kw">in</span> nums)`,
+    opts: ["True True", "True False", "False True", "1 0"],
+    ans: 1,
+    explain: "The in operator checks membership and gives back a bool. It is the readable alternative to writing a loop that searches for a value."
+  },
+  {
+    topic: "Loops with Lists",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums[:]:\n    <span class="sql-kw">if</span> n <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n        nums.remove(n)\n<span class="sql-kw">print</span>(nums)`,
+    opts: ["[1, 3]", "[2, 4]", "[1, 2, 3]", "[]"],
+    ans: 0,
+    explain: "Looping over nums[:] iterates a copy, so removing from the original is safe and both even numbers go. Drop the [:] and the loop skips items, because the list shifts underneath it."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>([x <span class="sql-kw">*</span> x <span class="sql-kw">for</span> x <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">4</span>)])`,
+    opts: ["[1, 4, 9, 16]", "[0, 1, 4, 9]", "[0, 1, 2, 3]", "[0, 2, 4, 6]"],
+    ans: 1,
+    explain: "range(4) gives 0, 1, 2, 3 and each is squared, producing [0, 1, 4, 9]. Remember that range stops before the number you give it."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>([x <span class="sql-kw">for</span> x <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">6</span>) <span class="sql-kw">if</span> x <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>])`,
+    opts: ["[1, 3, 5]", "[2, 4, 6]", "[0, 2, 4]", "[0, 1, 2]"],
+    ans: 2,
+    explain: "The trailing if filters items out before they reach the list. Only the even numbers below 6 survive: 0, 2 and 4."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `words <span class="sql-kw">=</span> [<span class="sql-str">"cat"</span>, <span class="sql-str">"dog"</span>]\n<span class="sql-kw">print</span>([w.upper() <span class="sql-kw">for</span> w <span class="sql-kw">in</span> words])`,
+    opts: ["['CAT', 'DOG']", "['cat', 'dog']", "'CATDOG'", "It throws an error"],
+    ans: 0,
+    explain: "The expression on the left runs once per item, so each word comes back uppercased in a new list. The original words list is untouched."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Medium",
+    q: "Which comprehension is equivalent to this loop?",
+    sql: `out <span class="sql-kw">=</span> []\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">></span> <span class="sql-num">0</span>:\n        out.append(n)`,
+    opts: [
+      "[n for n in nums]",
+      "[if n > 0 for n in nums]",
+      "[n > 0 for n in nums]",
+      "[n for n in nums if n > 0]"
+    ],
+    ans: 3,
+    explain: "The order is always value first, then for, then the filter. [n > 0 for n in nums] would give a list of True and False values instead of the numbers."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">len</span>([c <span class="sql-kw">for</span> c <span class="sql-kw">in</span> <span class="sql-str">"py2ai"</span>]))`,
+    opts: ["3", "4", "6", "5"],
+    ans: 3,
+    explain: "Iterating a string yields one character at a time, so the comprehension builds a five-item list. Digits and letters both count as characters."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">print</span>([x <span class="sql-kw">if</span> x <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span> <span class="sql-kw">else</span> <span class="sql-num">0</span> <span class="sql-kw">for</span> x <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">4</span>)])`,
+    opts: ["[0, 0, 2, 0]", "[0, 2]", "[0, 1, 2, 3]", "It throws an error"],
+    ans: 0,
+    explain: "When if...else sits before the for it is a choice, not a filter — every item is kept but odd ones are replaced by 0. A filter-only if goes after the for instead."
+  },
+  {
+    topic: "List Comprehensions",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `pairs <span class="sql-kw">=</span> [(a, b) <span class="sql-kw">for</span> a <span class="sql-kw">in</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>] <span class="sql-kw">for</span> b <span class="sql-kw">in</span> [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(pairs))`,
+    opts: ["2", "3", "4", "8"],
+    ans: 2,
+    explain: "Two fors nest just like nested loops, so every a is paired with every b — two by two is four pairs. The leftmost for is the outer loop."
+  },
+  {
+    topic: "Nested Lists",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\n<span class="sql-kw">print</span>(m[<span class="sql-num">1</span>][<span class="sql-num">0</span>])`,
+    opts: ["2", "1", "4", "3"],
+    ans: 3,
+    explain: "Read the indexes left to right: m[1] picks the second inner list, then [0] picks its first item. Row first, then column."
+  },
+  {
+    topic: "Nested Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>], [<span class="sql-num">4</span>, <span class="sql-num">5</span>]]\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(m), <span class="sql-kw">len</span>(m[<span class="sql-num">0</span>]))`,
+    opts: ["2 3", "5 3", "2 2", "3 2"],
+    ans: 0,
+    explain: "len(m) counts the rows and len(m[0]) counts the items in the first row. Rows do not have to be the same length in Python."
+  },
+  {
+    topic: "Nested Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> row <span class="sql-kw">in</span> m:\n    <span class="sql-kw">for</span> v <span class="sql-kw">in</span> row:\n        total <span class="sql-kw">+=</span> v\n<span class="sql-kw">print</span>(total)`,
+    opts: ["4", "10", "6", "7"],
+    ans: 1,
+    explain: "The outer loop walks the rows and the inner loop walks the values inside each row, so all four numbers are added: 1 + 2 + 3 + 4 = 10."
+  },
+  {
+    topic: "Nested Lists",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `row <span class="sql-kw">=</span> [<span class="sql-num">0</span>, <span class="sql-num">0</span>]\ngrid <span class="sql-kw">=</span> [row, row]\ngrid[<span class="sql-num">0</span>][<span class="sql-num">0</span>] <span class="sql-kw">=</span> <span class="sql-num">9</span>\n<span class="sql-kw">print</span>(grid)`,
+    opts: ["[[9, 0], [0, 0]]", "[[0, 0], [0, 0]]", "[[9, 0], [9, 0]]", "It throws an error"],
+    ans: 2,
+    explain: "Both rows are the same list object, so editing one edits both. Build grids with a comprehension like [[0, 0] for _ in range(2)] to get independent rows."
+  },
+  {
+    topic: "Nested Lists",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\nflat <span class="sql-kw">=</span> [v <span class="sql-kw">for</span> row <span class="sql-kw">in</span> m <span class="sql-kw">for</span> v <span class="sql-kw">in</span> row]\n<span class="sql-kw">print</span>(flat)`,
+    opts: ["[[1, 2], [3, 4]]", "[1, 3]", "[1, 2, 3, 4]", "It throws an error"],
+    ans: 2,
+    explain: "This is the standard flattening comprehension — outer loop over rows, inner loop over values. The result is one flat list of all four items."
+  },
+  {
+    topic: "Nested Lists",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\nm[<span class="sql-num">0</span>].append(<span class="sql-num">5</span>)\n<span class="sql-kw">print</span>(m)`,
+    opts: ["[[1, 2, 5], [3, 4]]", "[[1, 2], [3, 4], 5]", "[[1, 2], [3, 4, 5]]", "[[1, 2], [3, 4]]"],
+    ans: 0,
+    explain: "m[0] is itself a list, so calling append() on it grows that inner list only. Appending to m instead would have added 5 as a third top-level item."
+  }
+]
+
+const tips = {
+  "Creating & Indexing": "Indexes start at 0 and -1 is the last item; len() counts top-level items only, and going past the end raises IndexError.",
+  "Slicing": "A slice excludes its stop, clips instead of erroring, and always returns a new list — [::-1] reverses without touching the original.",
+  "List Methods": "append adds one object while extend adds contents; sort() and reverse() change the list in place and return None.",
+  "Mutation & Copying": "b = a shares one list, b = a.copy() makes a second one — and rebinding with + is not the same as mutating with append.",
+  "Loops with Lists": "Use enumerate() when you need positions, in for membership, and loop over a copy if you plan to remove items.",
+  "List Comprehensions": "Value first, then for, then the filter; an if before the for is a choice, an if after it is a filter.",
+  "Nested Lists": "Read m[row][col] left to right, and never build a grid by repeating one row object — every copy would be the same list."
+}
+
+let current = 0;
+let answered = 0;
+let userAnswers = [];
+let timerInterval = null;
+let secondsLeft = 45 * 60;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function startQuiz() {
+  current = 0;
+  answered = 0;
+  userAnswers = new Array(questions.length).fill(null);
+  secondsLeft = 45 * 60;
+  showScreen('quiz');
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  const el = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    el.textContent = formatTime(secondsLeft);
+    el.classList.toggle('warn', secondsLeft < 60);
+    if (secondsLeft <= 0) { clearInterval(timerInterval); showResults(); }
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qNum').textContent = current + 1;
+  document.getElementById('topicPill').textContent = q.topic;
+
+  const diffEl = document.getElementById('diffPill');
+  diffEl.textContent = q.difficulty;
+  diffEl.className = 'difficulty-pill';
+  if (q.difficulty === 'Easy') diffEl.classList.add('diff-easy');
+  else if (q.difficulty === 'Medium') diffEl.classList.add('diff-medium');
+  else if (q.difficulty === 'Hard') diffEl.classList.add('diff-hard');
+  else diffEl.classList.add('diff-challenge');
+
+  document.getElementById('questionText').innerHTML = q.q;
+
+  const sqlEl = document.getElementById('sqlSnippet');
+  if (q.sql) {
+    sqlEl.innerHTML = '<div class="sql-block">' + q.sql + '</div>';
+  } else {
+    sqlEl.innerHTML = '';
+  }
+
+  const pct = (answered / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = answered + ' of ' + questions.length + ' answered';
+
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if (userAnswers[current] === i) card.classList.add('selected');
+    card.innerHTML = `<div class="option-label">${labels[i]}</div><span>${opt}</span>`;
+    card.addEventListener('click', () => selectOption(i));
+    list.appendChild(card);
+  });
+
+  const btnNext = document.getElementById('btnNext');
+  btnNext.disabled = userAnswers[current] === null;
+  btnNext.textContent = current === questions.length - 1 ? 'Finish ✓' : 'Next →';
+}
+
+function selectOption(idx) {
+  if (userAnswers[current] === null) answered++;
+  userAnswers[current] = idx;
+  document.querySelectorAll('.option-card').forEach((card, i) => {
+    card.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function skipQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else showResults();
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else { clearInterval(timerInterval); showResults(); }
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  showScreen('results');
+
+  let correct = 0;
+  userAnswers.forEach((ans, i) => { if (ans === questions[i].ans) correct++; });
+  const wrong = userAnswers.filter((a,i) => a !== null && a !== questions[i].ans).length;
+  const pct = Math.round((correct / questions.length) * 100);
+
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = wrong;
+  document.getElementById('resPct').textContent = pct + '%';
+
+  let grade, sub;
+  if (pct >= 90) { grade = 'Excellent — Lists Mastered'; sub = 'Lists are genuinely solid. On to tuples and dictionaries!'; }
+  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Strong grasp overall. Review the weak topics below, then move on.'; }
+  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'Lists need another pass before Week 7 builds on them.'; }
+  else { grade = 'Needs Work — Revisit Week 6'; sub = 'Rewatch Days 36 to 42 before moving ahead.'; }
+  document.getElementById('gradeLabel').textContent = grade;
+  document.getElementById('gradeSub').textContent = sub;
+
+  setTimeout(() => {
+    document.getElementById('ringFill').style.strokeDashoffset = 390 - (390 * correct / questions.length);
+    document.getElementById('ringPct').textContent = pct + '%';
+  }, 150);
+
+  // Topic breakdown
+  const topicStats = {};
+  questions.forEach((q, i) => {
+    if (!topicStats[q.topic]) topicStats[q.topic] = { total: 0, correct: 0 };
+    topicStats[q.topic].total++;
+    if (userAnswers[i] === q.ans) topicStats[q.topic].correct++;
+  });
+
+  const barsEl = document.getElementById('topicBars');
+  barsEl.innerHTML = '';
+  Object.entries(topicStats).forEach(([topic, stat]) => {
+    const p = Math.round((stat.correct / stat.total) * 100);
+    let statusClass, statusLabel;
+    if (p >= 70) { statusClass = 'status-strong'; statusLabel = 'Strong'; }
+    else if (p >= 40) { statusClass = 'status-moderate'; statusLabel = 'Moderate'; }
+    else { statusClass = 'status-weak'; statusLabel = 'Needs Work'; }
+    const color = p >= 70 ? 'var(--correct)' : p >= 40 ? 'var(--accent3)' : 'var(--wrong)';
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML = `
+      <div class="topic-row-head">
+        <span class="topic-name">${topic} (${stat.correct}/${stat.total})</span>
+        <span class="topic-status ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" data-width="${p}" style="background:${color}"></div></div>
+    `;
+    barsEl.appendChild(row);
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
+    });
+  });
+
+  // Focus tips
+  const focusTipsEl = document.getElementById('focusTips');
+  focusTipsEl.innerHTML = '';
+  const weakTopics = Object.entries(topicStats).filter(([,s]) => (s.correct/s.total) < 0.7);
+  if (weakTopics.length === 0) {
+    document.getElementById('focusBox').style.display = 'none';
+  } else {
+    weakTopics.forEach(([topic]) => {
+      const div = document.createElement('div');
+      div.className = 'focus-item';
+      div.innerHTML = `<span class="focus-bullet">→</span><span><strong>${topic}:</strong> ${tips[topic]}</span>`;
+      focusTipsEl.appendChild(div);
+    });
+  }
+
+  // Review list
+  const reviewEl = document.getElementById('reviewList');
+  reviewEl.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const isCorrect = ua === q.ans;
+    const isSkipped = ua === null;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (isSkipped ? '' : isCorrect ? 'correct-card' : 'wrong-card');
+    let ansHTML = '';
+    if (isSkipped) {
+      ansHTML = `<div class="review-ans ans-skipped">⟶ Skipped &nbsp;|&nbsp; Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>`;
+    } else if (isCorrect) {
+      ansHTML = `<div class="review-ans ans-correct">✓ [${labels[ua]}] ${q.opts[ua]}</div>`;
+    } else {
+      ansHTML = `
+        <div class="review-ans ans-wrong-pick">✗ Your answer: [${labels[ua]}] ${q.opts[ua]}</div>
+        <div class="review-ans ans-correct">✓ Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>
+      `;
+    }
+    const diffClass = q.difficulty === 'Easy' ? 'diff-easy' : q.difficulty === 'Medium' ? 'diff-medium' : q.difficulty === 'Hard' ? 'diff-hard' : 'diff-challenge';
+    card.innerHTML = `
+      <div class="review-qnum">Q${i+1} · ${q.topic} · <span class="difficulty-pill ${diffClass}" style="font-size:.62rem;padding:.1rem .45rem;">${q.difficulty}</span> ${isSkipped ? '· Skipped' : isCorrect ? '· ✓ Correct' : '· ✗ Wrong'}</div>
+      <div class="review-q">${q.q}</div>
+      <div class="review-answers">${ansHTML}</div>
+      <div class="explanation-box"><strong>Explanation →</strong> ${q.explain}</div>
+    `;
+    reviewEl.appendChild(card);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('focusBox').style.display = '';
+  startQuiz();
+}
+</script>
+</body>
+</html>

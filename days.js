@@ -308,7 +308,7 @@ const UNLOCKED_DAYS = {
     quiz: "day-38-quiz.html",
     practice: "day-38-practice.pdf",
     notes: "day-38-notes.html"
-  },,
+  },
    39: {
     kind: "lesson",
     yt: "Kl3eUic4-HE",

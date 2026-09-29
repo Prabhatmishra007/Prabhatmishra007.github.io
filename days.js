@@ -343,6 +343,20 @@ const UNLOCKED_DAYS = {
     quiz: "day-43-quiz.html",
     practice: "day-43-practice.pdf",
     notes: "day-43-notes.html"
+  },
+   45: {
+    kind: "lesson",
+    yt: "-cIGPeVVuKc",
+    quiz: "day-45-quiz.html",
+    practice: "day-45-practice.pdf",
+    notes: "day-45-notes.html"
+  },
+   46: {
+    kind: "lesson",
+    yt: "",
+    quiz: "day-46-quiz.html",
+    practice: "day-46-practice.pdf",
+    notes: "day-46-notes.html"
   }
 
   /* ── NEXT DAY GOES HERE ──────────────────────────────────

@@ -344,6 +344,12 @@ const UNLOCKED_DAYS = {
     practice: "day-43-practice.pdf",
     notes: "day-43-notes.html"
   },
+   44: {
+    kind: "project",
+    yt: "cZudfZ6Wlws",
+    code: "dict.py",
+    week: 6
+  },
    45: {
     kind: "lesson",
     yt: "-cIGPeVVuKc",

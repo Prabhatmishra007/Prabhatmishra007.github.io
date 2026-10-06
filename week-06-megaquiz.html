@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Python Quiz &mdash; Week 6 Mega Quiz: Lists (Days 36&ndash;42)</title>
+<title>Python Quiz &mdash; Week 6 Mega Quiz: Tuples, Sets &amp; Dictionaries (Days 38&ndash;43)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -584,9 +584,9 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 <div class="top-bar">
   <div class="top-bar-left">
     <div class="top-dot"></div>
-    <div class="top-bar-title">Python Week 6 Mega Quiz &mdash; Lists</div>
+    <div class="top-bar-title">Python Week 6 Mega Quiz</div>
   </div>
-  <div class="top-bar-right">Days 36-42 / 100</div>
+  <div class="top-bar-right">Days 38-43 / 100</div>
 </div>
 
 <!-- ════════════════════════════════
@@ -595,28 +595,27 @@ h1.main-title em { color: var(--gold); font-style: italic; }
 <div id="screen-welcome" class="screen active">
   <div class="container">
     <div class="eyebrow">100 Days of Python &middot; Week 6 &middot; <span>Mega Quiz</span></div>
-    <h1 class="main-title">Week 6 &mdash;<br><em>Lists Mastery</em></h1>
-    <p class="welcome-sub">The Week 6 checkpoint — fifty questions on Python lists, Days 36 to 42. Creating and indexing, slicing, every method worth knowing, mutation and copying, looping over lists, comprehensions, and nested lists. Heavy on code-tracing, so read each snippet line by line. Medium to hard difficulty.</p>
+    <h1 class="main-title">Week 6 &mdash;<br><em>Tuples, Sets &amp; Dictionaries</em></h1>
+    <p class="welcome-sub">The Week 6 checkpoint — fifty questions across every container you met this week, Days 38 to 43. Tuples and immutability, sets and their operators, and dictionaries from basic lookups through to nested records. Heavy on code-tracing, so read each snippet line by line. Medium to hard difficulty.</p>
 
     <div class="topic-tags">
-      <span class="topic-tag">Creating &amp; Indexing</span>
-      <span class="topic-tag">Slicing</span>
-      <span class="topic-tag">List Methods</span>
-      <span class="topic-tag">Mutation &amp; Copying</span>
-      <span class="topic-tag">Loops with Lists</span>
-      <span class="topic-tag">List Comprehensions</span>
-      <span class="topic-tag">Nested Lists</span>
+      <span class="topic-tag">Tuples</span>
+      <span class="topic-tag">Sets</span>
+      <span class="topic-tag">Set Operations</span>
+      <span class="topic-tag">Dictionaries</span>
+      <span class="topic-tag">Dictionary Methods</span>
+      <span class="topic-tag">Nested Dictionaries</span>
     </div>
 
     <div class="stat-grid">
       <div class="stat-card"><span class="val">50</span><span class="lbl">Questions</span></div>
       <div class="stat-card"><span class="val">45</span><span class="lbl">Minutes</span></div>
-      <div class="stat-card"><span class="val">7</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">6</span><span class="lbl">Topics</span></div>
       <div class="stat-card"><span class="val">Med&ndash;Hard</span><span class="lbl">Difficulty</span></div>
     </div>
 
     <div class="notice-box">
-      <strong>The Week 6 checkpoint.</strong> Fifty questions across all seven list topics — longer than a daily quiz, and deliberately so. Lists are the container everything else in Python builds on, so clear this comfortably before moving on to tuples and dictionaries.
+      <strong>The Week 6 checkpoint.</strong> Fifty questions across all six topics — longer than a daily quiz, and deliberately so. These three containers show up everywhere once you start building anything real, so clear this comfortably before moving into Week 7's functions.
     </div>
 
     <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
@@ -637,7 +636,7 @@ h1.main-title em { color: var(--gold); font-style: italic; }
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
       <div class="progress-label" id="progressLabel">0 answered</div>
     </div>
-    <span class="topic-pill" id="topicPill">List Methods</span>
+    <span class="topic-pill" id="topicPill">Tuples</span>
     <span class="difficulty-pill" id="diffPill">Easy</span>
     <div class="question-text" id="questionText"></div>
     <div id="sqlSnippet"></div>
@@ -692,487 +691,471 @@ h1.main-title em { color: var(--gold); font-style: italic; }
     <div class="review-list" id="reviewList"></div>
 
     <button class="btn-retry" onclick="retryQuiz()">↺ Retry Quiz</button>
-    <div class="footer-note" style="margin-top:2rem;">100 Days of Python &middot; Days 36&ndash;42 &middot; Week 6 Lists Challenge</div>
+    <div class="footer-note" style="margin-top:2rem;">100 Days of Python &middot; Days 38&ndash;43 &middot; Week 6 Mega Quiz</div>
   </div>
 </div>
 
 <script>
 const questions = [
   {
-    topic: "Creating & Indexing",
+    topic: "Tuples",
     difficulty: "Easy",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">10</span>, <span class="sql-num">20</span>, <span class="sql-num">30</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">1</span>])`,
-    opts: ["10", "20", "30", "It throws an error"],
+    sql: `t <span class="sql-kw">=</span> (<span class="sql-num">5</span>)\n<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(t))`,
+    opts: ["A SyntaxError", "&lt;class 'int'&gt;", "&lt;class 'list'&gt;", "&lt;class 'tuple'&gt;"],
     ans: 1,
-    explain: "List indexing starts at 0, so nums[0] is 10 and nums[1] is 20. Counting from zero is the single most common source of off-by-one bugs, so it is worth saying the positions out loud while you learn."
+    explain: "Brackets alone do not make a tuple \u2014 the comma does. (5) is just the number 5 in ordinary brackets, so type() reports int. Write (5,) when you want a genuine one-item tuple."
   },
   {
-    topic: "Creating & Indexing",
-    difficulty: "Easy",
-    q: "Which of these creates an empty list?",
-    opts: ["{}", "[]", "()", "empty()"],
-    ans: 1,
-    explain: "Square brackets with nothing inside make an empty list. Curly braces give you an empty dictionary, and round brackets give an empty tuple — both are different containers you will meet soon."
-  },
-  {
-    topic: "Creating & Indexing",
+    topic: "Tuples",
     difficulty: "Easy",
     q: "What will the following code print?",
-    sql: `items <span class="sql-kw">=</span> [<span class="sql-str">"a"</span>, <span class="sql-str">"b"</span>, <span class="sql-str">"c"</span>]\n<span class="sql-kw">print</span>(items[<span class="sql-kw">-</span><span class="sql-num">1</span>])`,
-    opts: ["c", "a", "b", "It throws an error"],
+    sql: `langs <span class="sql-kw">=</span> (<span class="sql-str">"Python"</span>, <span class="sql-str">"SQL"</span>, <span class="sql-str">"Java"</span>)\n<span class="sql-kw">print</span>(langs[<span class="sql-num">1</span>:])`,
+    opts: ["('SQL', 'Java')", "('Java',)", "An error, since tuples cannot be sliced", "['SQL', 'Java']"],
     ans: 0,
-    explain: "Negative indexes count backwards from the end, so -1 is the last item, -2 the second-last. It is safer than items[len(items)-1] and much easier to read."
+    explain: "Slicing works on tuples exactly as it does on lists, and it hands back a tuple rather than a list. [1:] with no stop means everything from position 1 onward."
   },
   {
-    topic: "Creating & Indexing",
+    topic: "Tuples",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `data <span class="sql-kw">=</span> [<span class="sql-num">1</span>, [<span class="sql-num">2</span>, <span class="sql-num">3</span>], <span class="sql-num">4</span>]\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(data))`,
-    opts: ["4", "3", "5", "2"],
-    ans: 1,
-    explain: "len() counts top-level items only. The inner list [2, 3] counts as one item no matter how many things are inside it, so the length is 3."
-  },
-  {
-    topic: "Creating & Indexing",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">5</span>])`,
-    opts: ["None", "An empty list", "IndexError", "3"],
+    sql: `t <span class="sql-kw">=</span> (<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>)\nt[<span class="sql-num">0</span>] <span class="sql-kw">=</span> <span class="sql-num">99</span>`,
+    opts: ["(99, 2, 3)", "[99, 2, 3]", "A TypeError", "(1, 2, 3)"],
     ans: 2,
-    explain: "Indexing past the end raises IndexError. Slicing is the forgiving one — nums[0:5] would quietly return what exists — but direct indexing always complains."
+    explain: "Tuples are immutable, so assigning to a position raises TypeError: tuple object does not support item assignment. A changed version must be built fresh, e.g. (99,) + t[1:]."
   },
   {
-    topic: "Creating & Indexing",
+    topic: "Tuples",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">list</span>(<span class="sql-str">"py2ai"</span>))`,
-    opts: ["['py2ai']", "['p','y','2','a','i']", "'py2ai'", "It throws an error"],
-    ans: 1,
-    explain: "list() on a string splits it into individual characters, because a string is itself a sequence. list(range(3)) works the same way and gives [0, 1, 2]."
-  },
-  {
-    topic: "Creating & Indexing",
-    difficulty: "Easy",
-    q: "Which statement about Python lists is true?",
-    opts: [
-      "All items must be the same type",
-      "A list cannot contain another list",
-      "A list can mix ints, strings and other lists",
-      "Lists are fixed in size once created"
-    ],
-    ans: 2,
-    explain: "A list is just an ordered box of references, so anything can go in it — numbers, strings, even other lists. It can also grow and shrink at any time, which is what makes it mutable."
-  },
-  {
-    topic: "Slicing",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">1</span>:<span class="sql-num">4</span>])`,
-    opts: ["[2, 3, 4]", "[1, 2, 3]", "[2, 3, 4, 5]", "[1, 2, 3, 4]"],
+    sql: `point <span class="sql-kw">=</span> <span class="sql-num">7</span>, <span class="sql-num">3</span>\nx, y <span class="sql-kw">=</span> point\n<span class="sql-kw">print</span>(x, y)`,
+    opts: ["7 3", "3 7", "An error, since point has no brackets", "(7, 3) (7, 3)"],
     ans: 0,
-    explain: "A slice starts at the first index and stops just before the second, so [1:4] gives positions 1, 2 and 3. The stop is always excluded — the same rule as range()."
+    explain: "Comma-separated values pack into a tuple even without brackets, so point is (7, 3). Unpacking then assigns in order: x gets 7, y gets 3."
   },
   {
-    topic: "Slicing",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>]\n<span class="sql-kw">print</span>(nums[::<span class="sql-num">2</span>])`,
-    opts: ["[2, 4]", "[1, 2]", "[1, 3, 5]", "[5, 3, 1]"],
-    ans: 2,
-    explain: "The third number in a slice is the step. A step of 2 takes every second item starting from the beginning, giving 1, 3 and 5."
-  },
-  {
-    topic: "Slicing",
-    difficulty: "Medium",
-    q: "What does nums[::-1] give you?",
-    opts: [
-      "The list sorted in reverse",
-      "A reversed copy of the list",
-      "The last item only",
-      "The list reversed in place"
-    ],
-    ans: 1,
-    explain: "A step of -1 walks the list backwards and builds a new list. The original is untouched — that is the key difference from nums.reverse(), which flips the list in place and returns None."
-  },
-  {
-    topic: "Slicing",
+    topic: "Tuples",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-num">1</span>:<span class="sql-num">99</span>])`,
-    opts: ["IndexError", "[]", "[2, 3]", "[1, 2, 3]"],
-    ans: 2,
-    explain: "Slices clip themselves to the ends of the list instead of raising an error. Asking for more than exists simply gives you everything that is there — here, [2, 3]."
+    sql: `marks <span class="sql-kw">=</span> (<span class="sql-num">45</span>, <span class="sql-num">67</span>, <span class="sql-num">89</span>, <span class="sql-num">67</span>)\n<span class="sql-kw">print</span>(marks.count(<span class="sql-num">67</span>), marks.index(<span class="sql-num">89</span>))`,
+    opts: ["2 2", "An error, since tuples have no methods", "1 3", "2 3"],
+    ans: 0,
+    explain: "A tuple has exactly two methods, both read-only. count(67) finds two matches, and index(89) reports the first position holding 89, which is 2."
   },
   {
-    topic: "Slicing",
+    topic: "Tuples",
     difficulty: "Hard",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\nnums[<span class="sql-num">1</span>:<span class="sql-num">3</span>] <span class="sql-kw">=</span> [<span class="sql-num">9</span>]\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[1, 9, 4]", "[1, 9, 3, 4]", "[9, 4]", "[1, 2, 9, 4]"],
+    sql: `t <span class="sql-kw">=</span> (<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>)\nt2 <span class="sql-kw">=</span> t <span class="sql-kw">+</span> (<span class="sql-num">4</span>,)\n<span class="sql-kw">print</span>(t, t2)`,
+    opts: ["(1,2,3) (1,2,3,4)", "A TypeError", "(1,2,3,4) (1,2,3,4)", "(1,2,3) (1,2,3)"],
     ans: 0,
-    explain: "Assigning to a slice replaces that whole section. Positions 1 and 2 (the 2 and the 3) are removed and the single value 9 is dropped in their place, leaving [1, 9, 4]."
+    explain: "+ on tuples builds a brand new tuple rather than modifying either original. t stays (1, 2, 3), and t2 is a separate tuple holding the combined values."
   },
   {
-    topic: "Slicing",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\n<span class="sql-kw">print</span>(nums[<span class="sql-kw">-</span><span class="sql-num">2</span>:])`,
-    opts: ["[1, 2]", "[3, 4]", "[2, 3, 4]", "[4]"],
-    ans: 1,
-    explain: "Starting at -2 with no stop means from the second-last item to the end, so you get [3, 4]. This is the standard way to grab the last n items of a list."
-  },
-  {
-    topic: "Slicing",
-    difficulty: "Hard",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums[<span class="sql-num">1</span>:] <span class="sql-kw">=</span> []\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[]", "[1]", "[2, 3]", "[1, 2, 3]"],
-    ans: 1,
-    explain: "Assigning an empty list to a slice deletes that section. Everything from position 1 onward disappears, so only the first item survives."
-  },
-  {
-    topic: "List Methods",
+    topic: "Tuples",
     difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nnums.append([<span class="sql-num">3</span>, <span class="sql-num">4</span>])\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(nums))`,
-    opts: ["4", "3", "2", "It throws an error"],
-    ans: 1,
-    explain: "append() always adds exactly one item. Handing it a list adds that whole list as a single nested item, so the length goes from 2 to 3, not to 4."
-  },
-  {
-    topic: "List Methods",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nnums.extend([<span class="sql-num">3</span>, <span class="sql-num">4</span>])\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[1, 2, [3, 4]]", "[3, 4, 1, 2]", "[1, 2, 3, 4]", "It throws an error"],
-    ans: 2,
-    explain: "extend() unpacks the iterable and adds each item separately, which is the exact opposite of append(). Remember the pair together — one adds an object, the other adds contents."
-  },
-  {
-    topic: "List Methods",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">3</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>]\n<span class="sql-kw">print</span>(nums.sort())`,
-    opts: ["[1, 2, 3]", "None", "[3, 2, 1]", "It throws an error"],
-    ans: 1,
-    explain: "sort() rearranges the list in place and returns None, so printing its result prints None. Use sorted(nums) when you want a sorted list handed back to you."
-  },
-  {
-    topic: "List Methods",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">3</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>]\ncopy <span class="sql-kw">=</span> <span class="sql-kw">sorted</span>(nums)\n<span class="sql-kw">print</span>(nums, copy)`,
-    opts: ["[1, 2, 3] [1, 2, 3]", "[3, 1, 2] [1, 2, 3]", "[3, 1, 2] None", "[1, 2, 3] None"],
-    ans: 1,
-    explain: "sorted() leaves the original alone and returns a new sorted list. That is why nums still prints in its original order while copy is sorted."
-  },
-  {
-    topic: "List Methods",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">10</span>, <span class="sql-num">20</span>, <span class="sql-num">30</span>]\n<span class="sql-kw">print</span>(nums.pop(<span class="sql-num">0</span>))`,
-    opts: ["30", "None", "10", "20"],
-    ans: 2,
-    explain: "pop() removes an item and hands it back to you. With an index it removes that position; with no argument it removes and returns the last item."
-  },
-  {
-    topic: "List Methods",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums.remove(<span class="sql-num">2</span>)\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[1, 3]", "[1, 2, 3]", "[2, 2, 3]", "[1, 2, 2]"],
-    ans: 1,
-    explain: "remove() deletes the first matching value only, not every copy of it. To clear all duplicates you need a loop or a comprehension that filters them out."
-  },
-  {
-    topic: "List Methods",
-    difficulty: "Medium",
-    q: "Calling remove() with a value that is not in the list raises which error?",
-    opts: ["KeyError", "IndexError", "TypeError", "ValueError"],
+    q: "Which built-in converts a list into a tuple?",
+    opts: ["dict()", "list()", "set()", "tuple()"],
     ans: 3,
-    explain: "ValueError means the value itself is wrong, not the position. Compare it with IndexError, which is what you get when a position does not exist."
+    explain: "tuple([1, 2, 3]) produces (1, 2, 3). list() does the reverse conversion, turning a tuple back into a list."
   },
   {
-    topic: "List Methods",
+    topic: "Tuples",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">2</span>]\n<span class="sql-kw">print</span>(nums.count(<span class="sql-num">2</span>), nums.index(<span class="sql-num">3</span>))`,
-    opts: ["3 3", "2 3", "3 2", "2 2"],
+    sql: `records <span class="sql-kw">=</span> [(<span class="sql-str">"Asha"</span>, <span class="sql-num">88</span>), (<span class="sql-str">"Ravi"</span>, <span class="sql-num">92</span>)]\n<span class="sql-kw">for</span> name, mark <span class="sql-kw">in</span> records:\n    <span class="sql-kw">print</span>(name, mark)`,
+    opts: ["Asha 88\\nRavi 92", "Asha Ravi", "('Asha', 88) ('Ravi', 92)", "An error, since records is not a dict"],
     ans: 0,
-    explain: "count() reports how many times a value appears — three 2s here. index() reports the position of the first match, and 3 sits at position 3."
+    explain: "Each tuple in the list is unpacked directly in the for line, giving name and mark separately on every pass. This is the standard way to loop over a list of record-like tuples."
+  },
+
+  {
+    topic: "Sets",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `s <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(s))`,
+    opts: ["3", "5", "2", "An error, since sets reject duplicates"],
+    ans: 0,
+    explain: "A set silently drops duplicates as it is built \u2014 writing a value twice is never an error, the extra copies simply never go in. Only 1, 2 and 3 remain, a length of 3."
   },
   {
-    topic: "List Methods",
+    topic: "Sets",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> {}\n<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(x))`,
+    opts: ["&lt;class 'list'&gt;", "&lt;class 'set'&gt;", "&lt;class 'dict'&gt;", "&lt;class 'NoneType'&gt;"],
+    ans: 2,
+    explain: "Empty curly braces make a dictionary, not a set \u2014 dictionaries claimed that spelling first. The only way to create an empty set is set()."
+  },
+  {
+    topic: "Sets",
+    difficulty: "Medium",
+    q: "What happens when this code runs?",
+    sql: `s <span class="sql-kw">=</span> {<span class="sql-num">10</span>, <span class="sql-num">20</span>, <span class="sql-num">30</span>}\n<span class="sql-kw">print</span>(s[<span class="sql-num">0</span>])`,
+    opts: ["It prints 30", "It raises a TypeError", "It prints the whole set", "It prints 10"],
+    ans: 1,
+    explain: "Sets have no positions, so there is nothing for index 0 to point at. Python raises a TypeError \u2014 loop over the set instead, or use sorted(s) for a predictable order."
+  },
+  {
+    topic: "Sets",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `s <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>}\ns.add(<span class="sql-num">2</span>)\ns.add(<span class="sql-num">3</span>)\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(s))`,
+    opts: ["An error on the duplicate add", "3", "2", "4"],
+    ans: 1,
+    explain: "Adding 2 when it is already present does nothing at all \u2014 no error, no second copy. Only 3 is genuinely new, so the set holds 1, 2 and 3, a length of 3."
+  },
+  {
+    topic: "Sets",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `marks <span class="sql-kw">=</span> [<span class="sql-num">45</span>, <span class="sql-num">67</span>, <span class="sql-num">45</span>, <span class="sql-num">89</span>, <span class="sql-num">67</span>]\n<span class="sql-kw">print</span>(<span class="sql-kw">sorted</span>(<span class="sql-kw">set</span>(marks)))`,
+    opts: ["[89, 67, 45]", "[45, 67, 89]", "{45, 67, 89}", "[45, 45, 67, 67, 89]"],
+    ans: 1,
+    explain: "set() strips duplicates and sorted() returns the remaining values as an ordered list. Converting to a set does lose the original ordering, which sorted() then restores deliberately."
+  },
+  {
+    topic: "Sets",
     difficulty: "Hard",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums.insert(<span class="sql-num">1</span>, <span class="sql-num">9</span>)\nnums.reverse()\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[3, 2, 9, 1]", "[1, 9, 2, 3]", "[3, 9, 2, 1]", "[9, 3, 2, 1]"],
-    ans: 0,
-    explain: "insert(1, 9) puts 9 at position 1, giving [1, 9, 2, 3]. reverse() then flips that in place, so the list reads [3, 2, 9, 1]."
-  },
-  {
-    topic: "Mutation & Copying",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `a <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nb <span class="sql-kw">=</span> a\nb.append(<span class="sql-num">3</span>)\n<span class="sql-kw">print</span>(a)`,
-    opts: ["[1, 2]", "[1, 2, 3]", "[3]", "It throws an error"],
-    ans: 1,
-    explain: "b = a does not copy anything — both names point at the same list, so a change through one shows up through the other. This is aliasing, and it catches almost everyone once."
-  },
-  {
-    topic: "Mutation & Copying",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `a <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nb <span class="sql-kw">=</span> a.copy()\nb.append(<span class="sql-num">3</span>)\n<span class="sql-kw">print</span>(a)`,
-    opts: ["[1, 2]", "[1, 2, 3]", "None", "[3]"],
-    ans: 0,
-    explain: "copy() builds a genuinely separate list, so appending to b leaves a alone. a[:] and list(a) do exactly the same job if you prefer those spellings."
-  },
-  {
-    topic: "Mutation & Copying",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums[<span class="sql-num">0</span>] <span class="sql-kw">=</span> <span class="sql-num">99</span>\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[1, 2, 3]", "[99, 1, 2, 3]", "[99, 2, 3]", "It throws an error"],
+    sql: `a <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>}\nb <span class="sql-kw">=</span> {<span class="sql-num">3</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>}\n<span class="sql-kw">print</span>(a <span class="sql-kw">==</span> b)`,
+    opts: ["A TypeError", "False", "True", "None"],
     ans: 2,
-    explain: "Lists are mutable, so assigning to an index replaces that item in place. Strings do not allow this — s[0] = 'x' raises a TypeError."
+    explain: "Sets compare equal when they hold the same values, regardless of the order they were written in or the order Python stores them internally. a and b both contain exactly 1, 2 and 3."
   },
   {
-    topic: "Mutation & Copying",
+    topic: "Sets",
+    difficulty: "Easy",
+    q: "Which method removes a value from a set without raising an error if it is missing?",
+    opts: ["remove()", "discard()", "pop()", "delete()"],
+    ans: 1,
+    explain: "discard() is the safe option \u2014 it does nothing if the value is not present. remove() raises a KeyError for a missing value, which discard() never does."
+  },
+  {
+    topic: "Sets",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `seen <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>, <span class="sql-str">"ravi"</span>}\n<span class="sql-kw">print</span>(<span class="sql-str">"ravi"</span> <span class="sql-kw">in</span> seen, <span class="sql-str">"kiran"</span> <span class="sql-kw">in</span> seen)`,
+    opts: ["True False", "False False", "True True", "False True"],
+    ans: 0,
+    explain: "in checks membership directly against the set's contents. \"ravi\" is present so the first check is True; \"kiran\" is not, so the second is False."
+  },
+
+  {
+    topic: "Set Operations",
     difficulty: "Easy",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">del</span> nums[<span class="sql-num">0</span>]\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[2, 3]", "[1, 2]", "[1, 3]", "[]"],
-    ans: 0,
-    explain: "del removes by position and shifts everything after it down one place. Use remove() when you know the value but not where it sits."
-  },
-  {
-    topic: "Mutation & Copying",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nnums.clear()\n<span class="sql-kw">print</span>(nums, <span class="sql-kw">len</span>(nums))`,
-    opts: ["None 0", "[] 0", "[0] 1", "It throws an error"],
+    sql: `a <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>}\nb <span class="sql-kw">=</span> {<span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(a <span class="sql-kw">|</span> b))`,
+    opts: ["3", "5", "2", "7"],
     ans: 1,
-    explain: "clear() empties the list but keeps the list object itself, so you are left with [] and a length of 0. Every other name pointing at that same list sees it emptied too."
+    explain: "Union collects everything from both sets, but 3 and 4 are shared and never stored twice. The result holds 1, 2, 3, 4 and 5 \u2014 five items, not seven."
   },
   {
-    topic: "Mutation & Copying",
-    difficulty: "Hard",
-    q: "What will the following code print?",
-    sql: `a <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>]\nb <span class="sql-kw">=</span> a\na <span class="sql-kw">=</span> a <span class="sql-kw">+</span> [<span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(b)`,
-    opts: ["[1, 2, 3]", "[1, 2]", "[3]", "None"],
-    ans: 1,
-    explain: "a + [3] builds a brand new list and rebinds the name a to it. b still points at the original, so b is unchanged — unlike a.append(3), which would have mutated the shared list."
-  },
-  {
-    topic: "Mutation & Copying",
-    difficulty: "Hard",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-str">"two"</span>, <span class="sql-num">3</span>]\nnums.sort()`,
-    opts: [
-      "[1, 3, 'two']",
-      "['two', 1, 3]",
-      "TypeError",
-      "It sorts silently"
-    ],
-    ans: 2,
-    explain: "Sorting needs to compare items with <, and Python refuses to compare an int with a str. Mixed-type lists are fine to store, but not to sort without a key function."
-  },
-  {
-    topic: "Loops with Lists",
+    topic: "Set Operations",
     difficulty: "Easy",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    total <span class="sql-kw">+=</span> n\n<span class="sql-kw">print</span>(total)`,
-    opts: ["3", "123", "6", "0"],
-    ans: 2,
-    explain: "The loop variable takes each value in turn and adds it to the running total, giving 6. Built-in sum(nums) does the same in one step once you trust it."
-  },
-  {
-    topic: "Loops with Lists",
-    difficulty: "Easy",
-    q: "In `for i, v in enumerate(items):`, what does i hold?",
-    opts: ["The value", "The index", "The length", "A copy of the list"],
-    ans: 1,
-    explain: "enumerate() pairs each item with its position, index first and value second. It saves you from the clumsy range(len(items)) pattern."
-  },
-  {
-    topic: "Loops with Lists",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">==</span> <span class="sql-num">3</span>:\n        <span class="sql-kw">break</span>\n    <span class="sql-kw">print</span>(n, end<span class="sql-kw">=</span><span class="sql-str">" "</span>)`,
-    opts: ["1 2", "1 2 3", "1 2 4", "1 2 3 4"],
+    sql: `a <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>}\nb <span class="sql-kw">=</span> {<span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">sorted</span>(a <span class="sql-kw">&</span> b))`,
+    opts: ["[3, 4]", "[5]", "[1, 2]", "[1, 2, 3, 4, 5]"],
     ans: 0,
-    explain: "break leaves the loop immediately, before the print on that pass ever runs. Swap it for continue and you would see 1 2 4 instead."
+    explain: "Intersection keeps only what both sets share, which is 3 and 4. It gives the same result either direction \u2014 a & b equals b & a."
   },
   {
-    topic: "Loops with Lists",
+    topic: "Set Operations",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\nout <span class="sql-kw">=</span> []\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    out.append(n <span class="sql-kw">*</span> <span class="sql-num">2</span>)\n<span class="sql-kw">print</span>(out)`,
-    opts: ["[1, 2, 3]", "[2, 4, 6]", "[1, 2, 3, 1, 2, 3]", "[6]"],
-    ans: 1,
-    explain: "This is the build-a-new-list pattern: start empty, append one result per pass. A comprehension writes the same thing as [n * 2 for n in nums]."
-  },
-  {
-    topic: "Loops with Lists",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">max</span>([<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>]), <span class="sql-kw">min</span>([<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>]), <span class="sql-kw">sum</span>([<span class="sql-num">3</span>, <span class="sql-num">7</span>, <span class="sql-num">2</span>]))`,
-    opts: ["7 2 12", "7 3 12", "3 2 12", "7 2 372"],
-    ans: 0,
-    explain: "max, min and sum each walk the list for you. Reaching for them instead of hand-written loops keeps code short and much harder to get wrong."
-  },
-  {
-    topic: "Loops with Lists",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>]\n<span class="sql-kw">print</span>(<span class="sql-num">2</span> <span class="sql-kw">in</span> nums, <span class="sql-num">5</span> <span class="sql-kw">in</span> nums)`,
-    opts: ["True True", "True False", "False True", "1 0"],
-    ans: 1,
-    explain: "The in operator checks membership and gives back a bool. It is the readable alternative to writing a loop that searches for a value."
-  },
-  {
-    topic: "Loops with Lists",
-    difficulty: "Hard",
-    q: "What will the following code print?",
-    sql: `nums <span class="sql-kw">=</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>]\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums[:]:\n    <span class="sql-kw">if</span> n <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>:\n        nums.remove(n)\n<span class="sql-kw">print</span>(nums)`,
-    opts: ["[1, 3]", "[2, 4]", "[1, 2, 3]", "[]"],
-    ans: 0,
-    explain: "Looping over nums[:] iterates a copy, so removing from the original is safe and both even numbers go. Drop the [:] and the loop skips items, because the list shifts underneath it."
-  },
-  {
-    topic: "List Comprehensions",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>([x <span class="sql-kw">*</span> x <span class="sql-kw">for</span> x <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">4</span>)])`,
-    opts: ["[1, 4, 9, 16]", "[0, 1, 4, 9]", "[0, 1, 2, 3]", "[0, 2, 4, 6]"],
-    ans: 1,
-    explain: "range(4) gives 0, 1, 2, 3 and each is squared, producing [0, 1, 4, 9]. Remember that range stops before the number you give it."
-  },
-  {
-    topic: "List Comprehensions",
-    difficulty: "Easy",
-    q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>([x <span class="sql-kw">for</span> x <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">6</span>) <span class="sql-kw">if</span> x <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span>])`,
-    opts: ["[1, 3, 5]", "[2, 4, 6]", "[0, 2, 4]", "[0, 1, 2]"],
-    ans: 2,
-    explain: "The trailing if filters items out before they reach the list. Only the even numbers below 6 survive: 0, 2 and 4."
-  },
-  {
-    topic: "List Comprehensions",
-    difficulty: "Medium",
-    q: "What will the following code print?",
-    sql: `words <span class="sql-kw">=</span> [<span class="sql-str">"cat"</span>, <span class="sql-str">"dog"</span>]\n<span class="sql-kw">print</span>([w.upper() <span class="sql-kw">for</span> w <span class="sql-kw">in</span> words])`,
-    opts: ["['CAT', 'DOG']", "['cat', 'dog']", "'CATDOG'", "It throws an error"],
-    ans: 0,
-    explain: "The expression on the left runs once per item, so each word comes back uppercased in a new list. The original words list is untouched."
-  },
-  {
-    topic: "List Comprehensions",
-    difficulty: "Medium",
-    q: "Which comprehension is equivalent to this loop?",
-    sql: `out <span class="sql-kw">=</span> []\n<span class="sql-kw">for</span> n <span class="sql-kw">in</span> nums:\n    <span class="sql-kw">if</span> n <span class="sql-kw">></span> <span class="sql-num">0</span>:\n        out.append(n)`,
-    opts: [
-      "[n for n in nums]",
-      "[if n > 0 for n in nums]",
-      "[n > 0 for n in nums]",
-      "[n for n in nums if n > 0]"
-    ],
+    sql: `a <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>}\nb <span class="sql-kw">=</span> {<span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">sorted</span>(b <span class="sql-kw">-</span> a))`,
+    opts: ["[1, 2, 5]", "[3, 4]", "[1, 2]", "[5]"],
     ans: 3,
-    explain: "The order is always value first, then for, then the filter. [n > 0 for n in nums] would give a list of True and False values instead of the numbers."
+    explain: "Difference keeps what is in the left set and not in the right. b - a leaves only 5 \u2014 swap the sides and a - b would instead give [1, 2]."
   },
   {
-    topic: "List Comprehensions",
+    topic: "Set Operations",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>(<span class="sql-kw">len</span>([c <span class="sql-kw">for</span> c <span class="sql-kw">in</span> <span class="sql-str">"py2ai"</span>]))`,
-    opts: ["3", "4", "6", "5"],
+    sql: `a <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>}\nb <span class="sql-kw">=</span> {<span class="sql-num">3</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">sorted</span>(a <span class="sql-kw">^</span> b))`,
+    opts: ["[]", "[1, 2, 5]", "[1, 2, 3, 4, 5]", "[3, 4]"],
+    ans: 1,
+    explain: "^ keeps items that sit in exactly one of the two sets, dropping the shared 3 and 4. It is the exact opposite of intersection."
+  },
+  {
+    topic: "Set Operations",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `a <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>, <span class="sql-num">4</span>}\n<span class="sql-kw">print</span>({<span class="sql-num">1</span>, <span class="sql-num">2</span>} <span class="sql-kw">&lt;=</span> a, a.isdisjoint({<span class="sql-num">9</span>}))`,
+    opts: ["False True", "True False", "An error, since sets cannot be compared", "True True"],
     ans: 3,
-    explain: "Iterating a string yields one character at a time, so the comprehension builds a five-item list. Digits and letters both count as characters."
+    explain: "Every item of {1, 2} is inside a, so the subset check is True. a shares nothing with {9} at all, so isdisjoint() is also True."
   },
   {
-    topic: "List Comprehensions",
+    topic: "Set Operations",
     difficulty: "Hard",
     q: "What will the following code print?",
-    sql: `<span class="sql-kw">print</span>([x <span class="sql-kw">if</span> x <span class="sql-kw">%</span> <span class="sql-num">2</span> <span class="sql-kw">==</span> <span class="sql-num">0</span> <span class="sql-kw">else</span> <span class="sql-num">0</span> <span class="sql-kw">for</span> x <span class="sql-kw">in</span> <span class="sql-kw">range</span>(<span class="sql-num">4</span>)])`,
-    opts: ["[0, 0, 2, 0]", "[0, 2]", "[0, 1, 2, 3]", "It throws an error"],
+    sql: `x <span class="sql-kw">=</span> {<span class="sql-num">1</span>, <span class="sql-num">2</span>}\nx <span class="sql-kw">|=</span> {<span class="sql-num">3</span>}\nx <span class="sql-kw">-=</span> {<span class="sql-num">1</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">sorted</span>(x))`,
+    opts: ["[2, 3]", "[3]", "[1, 2]", "[1, 2, 3]"],
     ans: 0,
-    explain: "When if...else sits before the for it is a choice, not a filter — every item is kept but odd ones are replaced by 0. A filter-only if goes after the for instead."
+    explain: "|= updates x in place with the union, adding 3 to give {1, 2, 3}. -= then removes 1 in place, leaving {2, 3}."
   },
   {
-    topic: "List Comprehensions",
-    difficulty: "Hard",
+    topic: "Set Operations",
+    difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `pairs <span class="sql-kw">=</span> [(a, b) <span class="sql-kw">for</span> a <span class="sql-kw">in</span> [<span class="sql-num">1</span>, <span class="sql-num">2</span>] <span class="sql-kw">for</span> b <span class="sql-kw">in</span> [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(pairs))`,
-    opts: ["2", "3", "4", "8"],
-    ans: 2,
-    explain: "Two fors nest just like nested loops, so every a is paired with every b — two by two is four pairs. The leftmost for is the outer loop."
+    sql: `py <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>, <span class="sql-str">"ravi"</span>, <span class="sql-str">"meera"</span>}\nsql <span class="sql-kw">=</span> {<span class="sql-str">"ravi"</span>, <span class="sql-str">"kiran"</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(py <span class="sql-kw">|</span> sql))`,
+    opts: ["5", "3", "2", "4"],
+    ans: 3,
+    explain: "Union combines both sets without duplicating ravi, who appears in each. The four distinct students are asha, ravi, meera and kiran."
   },
   {
-    topic: "Nested Lists",
+    topic: "Set Operations",
+    difficulty: "Easy",
+    q: "Which operator gives items that appear in exactly one of two sets, never both?",
+    opts: ["|", "-", "&", "^"],
+    ans: 3,
+    explain: "^ is symmetric difference, the opposite of intersection. | is union, & is intersection, and - is difference, which only looks one direction at a time."
+  },
+
+  {
+    topic: "Dictionaries",
     difficulty: "Easy",
     q: "What will the following code print?",
-    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\n<span class="sql-kw">print</span>(m[<span class="sql-num">1</span>][<span class="sql-num">0</span>])`,
-    opts: ["2", "1", "4", "3"],
+    sql: `student <span class="sql-kw">=</span> {<span class="sql-str">"name"</span>: <span class="sql-str">"Asha"</span>, <span class="sql-str">"age"</span>: <span class="sql-num">21</span>, <span class="sql-str">"marks"</span>: <span class="sql-num">88</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(student))`,
+    opts: ["6", "1", "An error, since len() does not work on dictionaries", "3"],
     ans: 3,
-    explain: "Read the indexes left to right: m[1] picks the second inner list, then [0] picks its first item. Row first, then column."
+    explain: "len() on a dictionary counts key-value pairs, not keys and values separately. There are three pairs here \u2014 name, age and marks \u2014 so the length is 3."
   },
   {
-    topic: "Nested Lists",
+    topic: "Dictionaries",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>], [<span class="sql-num">4</span>, <span class="sql-num">5</span>]]\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(m), <span class="sql-kw">len</span>(m[<span class="sql-num">0</span>]))`,
-    opts: ["2 3", "5 3", "2 2", "3 2"],
+    sql: `student <span class="sql-kw">=</span> {<span class="sql-str">"name"</span>: <span class="sql-str">"Asha"</span>}\n<span class="sql-kw">print</span>(student.get(<span class="sql-str">"grade"</span>, <span class="sql-str">"N/A"</span>))`,
+    opts: ["N/A", "An empty string", "None", "A KeyError"],
     ans: 0,
-    explain: "len(m) counts the rows and len(m[0]) counts the items in the first row. Rows do not have to be the same length in Python."
+    explain: "get() never raises an error for a missing key. Its second argument is the fallback to use instead of None, so this returns \"N/A\"."
   },
   {
-    topic: "Nested Lists",
+    topic: "Dictionaries",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> row <span class="sql-kw">in</span> m:\n    <span class="sql-kw">for</span> v <span class="sql-kw">in</span> row:\n        total <span class="sql-kw">+=</span> v\n<span class="sql-kw">print</span>(total)`,
-    opts: ["4", "10", "6", "7"],
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"age"</span>: <span class="sql-num">21</span>}\nd[<span class="sql-str">"age"</span>] <span class="sql-kw">=</span> <span class="sql-num">22</span>\nd[<span class="sql-str">"grade"</span>] <span class="sql-kw">=</span> <span class="sql-str">"A"</span>\n<span class="sql-kw">print</span>(d)`,
+    opts: ["A KeyError on the second line", "{'age': 22, 'grade': 'A'}", "{'age': 21, 'grade': 'A'}", "{'age': 21, 'age': 22, 'grade': 'A'}"],
     ans: 1,
-    explain: "The outer loop walks the rows and the inner loop walks the values inside each row, so all four numbers are added: 1 + 2 + 3 + 4 = 10."
+    explain: "Assigning to an existing key updates it in place \u2014 age becomes 22, not a second entry. Assigning to a new key, grade, simply adds it."
   },
   {
-    topic: "Nested Lists",
-    difficulty: "Hard",
-    q: "What will the following code print?",
-    sql: `row <span class="sql-kw">=</span> [<span class="sql-num">0</span>, <span class="sql-num">0</span>]\ngrid <span class="sql-kw">=</span> [row, row]\ngrid[<span class="sql-num">0</span>][<span class="sql-num">0</span>] <span class="sql-kw">=</span> <span class="sql-num">9</span>\n<span class="sql-kw">print</span>(grid)`,
-    opts: ["[[9, 0], [0, 0]]", "[[0, 0], [0, 0]]", "[[9, 0], [9, 0]]", "It throws an error"],
-    ans: 2,
-    explain: "Both rows are the same list object, so editing one edits both. Build grids with a comprehension like [[0, 0] for _ in range(2)] to get independent rows."
-  },
-  {
-    topic: "Nested Lists",
+    topic: "Dictionaries",
     difficulty: "Medium",
     q: "What will the following code print?",
-    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\nflat <span class="sql-kw">=</span> [v <span class="sql-kw">for</span> row <span class="sql-kw">in</span> m <span class="sql-kw">for</span> v <span class="sql-kw">in</span> row]\n<span class="sql-kw">print</span>(flat)`,
-    opts: ["[[1, 2], [3, 4]]", "[1, 3]", "[1, 2, 3, 4]", "It throws an error"],
-    ans: 2,
-    explain: "This is the standard flattening comprehension — outer loop over rows, inner loop over values. The result is one flat list of all four items."
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"name"</span>: <span class="sql-str">"Asha"</span>, <span class="sql-str">"grade"</span>: <span class="sql-str">"A"</span>}\nremoved <span class="sql-kw">=</span> d.pop(<span class="sql-str">"grade"</span>)\n<span class="sql-kw">print</span>(removed, d)`,
+    opts: ["A {'name': 'Asha', 'grade': 'A'}", "A {'name': 'Asha'}", "None {'name': 'Asha'}", "grade {'name': 'Asha'}"],
+    ans: 1,
+    explain: "pop() deletes the key and hands back the value that was stored there, \"A\". The dictionary itself is left holding only the name entry."
   },
   {
-    topic: "Nested Lists",
+    topic: "Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `student <span class="sql-kw">=</span> {<span class="sql-str">"name"</span>: <span class="sql-str">"Asha"</span>, <span class="sql-str">"age"</span>: <span class="sql-num">21</span>}\n<span class="sql-kw">print</span>(<span class="sql-str">"Asha"</span> <span class="sql-kw">in</span> student)`,
+    opts: ["True", "None", "False", "A TypeError"],
+    ans: 2,
+    explain: "Plain in on a dictionary checks the keys, not the values. \"Asha\" is a value here, not a key \u2014 the keys are name and age \u2014 so this is False despite the data being right there."
+  },
+  {
+    topic: "Dictionaries",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> {}\n<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(x))`,
+    opts: ["&lt;class 'dict'&gt;", "&lt;class 'set'&gt;", "&lt;class 'list'&gt;", "&lt;class 'tuple'&gt;"],
+    ans: 0,
+    explain: "Unlike with sets, empty curly braces genuinely make an empty dictionary. {} is the one container where this spelling does what it looks like it should."
+  },
+  {
+    topic: "Dictionaries",
     difficulty: "Hard",
     q: "What will the following code print?",
-    sql: `m <span class="sql-kw">=</span> [[<span class="sql-num">1</span>, <span class="sql-num">2</span>], [<span class="sql-num">3</span>, <span class="sql-num">4</span>]]\nm[<span class="sql-num">0</span>].append(<span class="sql-num">5</span>)\n<span class="sql-kw">print</span>(m)`,
-    opts: ["[[1, 2, 5], [3, 4]]", "[[1, 2], [3, 4], 5]", "[[1, 2], [3, 4, 5]]", "[[1, 2], [3, 4]]"],
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"a"</span>: <span class="sql-num">1</span>, <span class="sql-str">"b"</span>: <span class="sql-num">2</span>}\n<span class="sql-kw">for</span> k <span class="sql-kw">in</span> d:\n    <span class="sql-kw">print</span>(k)`,
+    opts: ["('a', 1)\\n('b', 2)", "a\\nb", "1\\n2", "a 1\\nb 2"],
+    ans: 1,
+    explain: "A plain for loop over a dictionary walks its keys only, never the values. Printing k on each pass shows a then b."
+  },
+  {
+    topic: "Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"x"</span>: <span class="sql-num">1</span>, <span class="sql-str">"y"</span>: <span class="sql-num">2</span>}\n<span class="sql-kw">del</span> d[<span class="sql-str">"x"</span>]\n<span class="sql-kw">print</span>(d)`,
+    opts: ["A KeyError", "{}", "{'y': 2}", "{'x': 1}"],
+    ans: 2,
+    explain: "del removes the given key outright and gives nothing back, unlike pop(). After removing \"x\", only \"y\": 2 remains."
+  },
+  {
+    topic: "Dictionaries",
+    difficulty: "Easy",
+    q: "Which expression correctly reads a value that is guaranteed not to crash if the key is missing?",
+    opts: ["d[key]", "d.key", "d.get(key)", "d(key)"],
+    ans: 2,
+    explain: "d[key] raises KeyError on a missing key, while d.get(key) simply returns None (or a given default) instead. d.key and d(key) are not valid dictionary syntax at all."
+  },
+
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"name"</span>: <span class="sql-str">"Asha"</span>, <span class="sql-str">"age"</span>: <span class="sql-num">22</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">list</span>(d.items()))`,
+    opts: ["['Asha', 22]", "{'name': 'Asha', 'age': 22}", "[('name', 'Asha'), ('age', 22)]", "['name', 'age']"],
+    ans: 2,
+    explain: "items() hands back each key paired with its value as a tuple. Wrapped in list(), those pairs show plainly; keys() alone would give option one, values() the last one."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"a"</span>: <span class="sql-num">1</span>, <span class="sql-str">"b"</span>: <span class="sql-num">2</span>}\n<span class="sql-kw">for</span> k, v <span class="sql-kw">in</span> d.items():\n    <span class="sql-kw">print</span>(k, v)`,
+    opts: ["a b", "a 1\\nb 2", "1 2", "('a', 1)\\n('b', 2)"],
+    ans: 1,
+    explain: "items() gives (key, value) pairs, and for k, v unpacks each pair on the fly. Each pass prints the key and value as separate values on their own line."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"a"</span>: <span class="sql-num">1</span>}\nd.update({<span class="sql-str">"b"</span>: <span class="sql-num">2</span>, <span class="sql-str">"a"</span>: <span class="sql-num">9</span>})\n<span class="sql-kw">print</span>(d)`,
+    opts: ["{'a': 1, 'a': 9, 'b': 2}", "{'a': 9, 'b': 2}", "{'a': 1, 'b': 2}", "A KeyError, since 'a' already exists"],
+    ans: 1,
+    explain: "update() overwrites matching keys with the incoming value, so 'a' becomes 9. The new key 'b' is simply added."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"a"</span>: <span class="sql-num">1</span>}\nd2 <span class="sql-kw">=</span> d.copy()\nd2[<span class="sql-str">"b"</span>] <span class="sql-kw">=</span> <span class="sql-num">2</span>\n<span class="sql-kw">print</span>(d)`,
+    opts: ["{}", "A TypeError", "{'a': 1, 'b': 2}", "{'a': 1}"],
+    ans: 3,
+    explain: "copy() creates a genuinely separate dictionary, so changing d2 never touches d. Had it been d2 = d instead, both names would share one dictionary and d would show the new key too."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `marks <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>: <span class="sql-num">88</span>, <span class="sql-str">"ravi"</span>: <span class="sql-num">92</span>, <span class="sql-str">"meera"</span>: <span class="sql-num">79</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">max</span>(marks, key<span class="sql-kw">=</span>marks.get))`,
+    opts: ["meera", "asha", "92", "ravi"],
+    ans: 3,
+    explain: "max() with key=marks.get ranks each key by looking up its value, and returns the key itself, not the value. The highest mark, 92, belongs to ravi."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `words <span class="sql-kw">=</span> [<span class="sql-str">"a"</span>, <span class="sql-str">"b"</span>, <span class="sql-str">"a"</span>]\ncounts <span class="sql-kw">=</span> {}\n<span class="sql-kw">for</span> w <span class="sql-kw">in</span> words:\n    counts[w] <span class="sql-kw">=</span> counts.get(w, <span class="sql-num">0</span>) <span class="sql-kw">+</span> <span class="sql-num">1</span>\n<span class="sql-kw">print</span>(counts)`,
+    opts: ["{'a': 3, 'b': 1}", "{'a': 1, 'b': 1}", "{'a': 2, 'b': 1}", "A KeyError on the first pass"],
+    ans: 2,
+    explain: "get(w, 0) returns 0 the first time a word is seen, since it is not in counts yet, so the count starts at 1. Each repeat adds one more to the running total \u2014 'a' appears twice, giving 2."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Easy",
+    q: "Which method empties a dictionary completely while keeping the variable usable?",
+    opts: ["d.clear()", "d.pop()", "del d", "d = {}"],
     ans: 0,
-    explain: "m[0] is itself a list, so calling append() on it grows that inner list only. Appending to m instead would have added 5 as a third top-level item."
+    explain: "clear() empties the dictionary in place, leaving {} behind. del d would delete the variable name entirely, and d = {} rebinds the name rather than emptying the original object."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"a"</span>: <span class="sql-num">5</span>, <span class="sql-str">"b"</span>: <span class="sql-num">2</span>, <span class="sql-str">"c"</span>: <span class="sql-num">8</span>}\n<span class="sql-kw">print</span>(<span class="sql-kw">sum</span>(d.values()))`,
+    opts: ["3", "8", "15", "An error, since sum() needs a list"],
+    ans: 2,
+    explain: "values() returns a view of all the dictionary's values, and sum() accepts it directly just like it would a list. 5 + 2 + 8 is 15."
+  },
+  {
+    topic: "Dictionary Methods",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `d <span class="sql-kw">=</span> {<span class="sql-str">"a"</span>: <span class="sql-num">1</span>, <span class="sql-str">"b"</span>: <span class="sql-num">2</span>}\nd2 <span class="sql-kw">=</span> d\nd2[<span class="sql-str">"c"</span>] <span class="sql-kw">=</span> <span class="sql-num">3</span>\n<span class="sql-kw">print</span>(d)`,
+    opts: ["A TypeError", "{'a': 1, 'b': 2, 'c': 3}", "{}", "{'a': 1, 'b': 2}"],
+    ans: 1,
+    explain: "d2 = d does not copy anything \u2014 both names point at the same dictionary. Changing d2 is the same as changing d directly, so d shows the new key too. Use d.copy() to avoid this."
+  },
+
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `students <span class="sql-kw">=</span> {\n    <span class="sql-str">"asha"</span>: {<span class="sql-str">"age"</span>: <span class="sql-num">21</span>, <span class="sql-str">"marks"</span>: <span class="sql-num">88</span>},\n    <span class="sql-str">"ravi"</span>: {<span class="sql-str">"age"</span>: <span class="sql-num">22</span>, <span class="sql-str">"marks"</span>: <span class="sql-num">92</span>}\n}\n<span class="sql-kw">print</span>(students[<span class="sql-str">"ravi"</span>][<span class="sql-str">"marks"</span>])`,
+    opts: ["92", "{'age': 22, 'marks': 92}", "22", "A KeyError"],
+    ans: 0,
+    explain: "Read the brackets left to right: students[\"ravi\"] picks the inner dictionary for ravi, then [\"marks\"] picks one field from it. That field holds 92."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `students <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">88</span>}}\nstudents[<span class="sql-str">"asha"</span>][<span class="sql-str">"marks"</span>] <span class="sql-kw">=</span> <span class="sql-num">95</span>\n<span class="sql-kw">print</span>(students)`,
+    opts: ["{'asha': 95}", "{'asha': {'marks': 88}}", "{'asha': {'marks': 95}}", "A KeyError"],
+    ans: 2,
+    explain: "Chaining brackets on the left of = reaches into the inner dictionary and updates just that one field. The outer structure stays a dictionary of dictionaries, only the marks value changes."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `students <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">88</span>}, <span class="sql-str">"ravi"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">92</span>}}\n<span class="sql-kw">for</span> name, info <span class="sql-kw">in</span> students.items():\n    <span class="sql-kw">print</span>(name, info[<span class="sql-str">"marks"</span>])`,
+    opts: ["An error, since info is a dictionary", "{'marks': 88} {'marks': 92}", "asha 88\\nravi 92", "asha ravi"],
+    ans: 2,
+    explain: "items() gives the outer key and the whole inner dictionary as a pair. info[\"marks\"] then reaches one field from that inner dictionary on each pass."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `inventory <span class="sql-kw">=</span> {\n    <span class="sql-str">"pen"</span>: {<span class="sql-str">"price"</span>: <span class="sql-num">10</span>, <span class="sql-str">"stock"</span>: <span class="sql-num">20</span>},\n    <span class="sql-str">"bag"</span>: {<span class="sql-str">"price"</span>: <span class="sql-num">500</span>, <span class="sql-str">"stock"</span>: <span class="sql-num">3</span>}\n}\ntotal <span class="sql-kw">=</span> <span class="sql-num">0</span>\n<span class="sql-kw">for</span> item, info <span class="sql-kw">in</span> inventory.items():\n    total <span class="sql-kw">+=</span> info[<span class="sql-str">"price"</span>] <span class="sql-kw">*</span> info[<span class="sql-str">"stock"</span>]\n<span class="sql-kw">print</span>(total)`,
+    opts: ["23", "200", "530", "1700"],
+    ans: 3,
+    explain: "Each pass multiplies one item's price by its stock and adds it to the running total. Pen contributes 10 \u00d7 20 = 200, bag contributes 500 \u00d7 3 = 1500, giving 1700 together."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `students <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">95</span>}, <span class="sql-str">"ravi"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">92</span>}}\ntopper <span class="sql-kw">=</span> <span class="sql-kw">max</span>(students, key<span class="sql-kw">=</span><span class="sql-kw">lambda</span> n: students[n][<span class="sql-str">"marks"</span>])\n<span class="sql-kw">print</span>(topper)`,
+    opts: ["95", "ravi", "asha", "{'marks': 95}"],
+    ans: 2,
+    explain: "The lambda ranks each outer key by that student's marks field. asha's 95 beats ravi's 92, and max() returns the key itself \u2014 asha \u2014 not the marks value."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `contact <span class="sql-kw">=</span> {<span class="sql-str">"phone"</span>: {<span class="sql-str">"home"</span>: <span class="sql-str">"011"</span>, <span class="sql-str">"mobile"</span>: <span class="sql-str">"98765"</span>}}\n<span class="sql-kw">print</span>(<span class="sql-kw">type</span>(contact[<span class="sql-str">"phone"</span>]))`,
+    opts: ["&lt;class 'list'&gt;", "&lt;class 'str'&gt;", "&lt;class 'tuple'&gt;", "&lt;class 'dict'&gt;"],
+    ans: 3,
+    explain: "contact[\"phone\"] on its own is simply an ordinary dictionary \u2014 the nesting does not change what type the inner value is, it is a dict just like any other."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `students <span class="sql-kw">=</span> {\n    <span class="sql-str">"asha"</span>: {<span class="sql-str">"age"</span>: <span class="sql-num">21</span>, <span class="sql-str">"marks"</span>: <span class="sql-num">88</span>},\n    <span class="sql-str">"kiran"</span>: {<span class="sql-str">"age"</span>: <span class="sql-num">23</span>}\n}\n<span class="sql-kw">print</span>(students[<span class="sql-str">"kiran"</span>].get(<span class="sql-str">"marks"</span>, <span class="sql-str">"not recorded"</span>))`,
+    opts: ["88", "None", "A KeyError", "not recorded"],
+    ans: 3,
+    explain: "Kiran's inner dictionary has no \"marks\" key at all. get() with a default handles that gracefully instead of crashing, returning \"not recorded\" rather than raising a KeyError."
+  },
+  {
+    topic: "Nested Dictionaries",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `students <span class="sql-kw">=</span> {<span class="sql-str">"asha"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">88</span>}, <span class="sql-str">"ravi"</span>: {<span class="sql-str">"marks"</span>: <span class="sql-num">92</span>}}\n<span class="sql-kw">print</span>(<span class="sql-kw">len</span>(students))`,
+    opts: ["4", "1", "An error", "2"],
+    ans: 3,
+    explain: "len() on a nested dictionary still counts only the outer keys \u2014 two students here \u2014 no matter how many fields each inner dictionary holds."
   }
 ]
 
 const tips = {
-  "Creating & Indexing": "Indexes start at 0 and -1 is the last item; len() counts top-level items only, and going past the end raises IndexError.",
-  "Slicing": "A slice excludes its stop, clips instead of erroring, and always returns a new list — [::-1] reverses without touching the original.",
-  "List Methods": "append adds one object while extend adds contents; sort() and reverse() change the list in place and return None.",
-  "Mutation & Copying": "b = a shares one list, b = a.copy() makes a second one — and rebinding with + is not the same as mutating with append.",
-  "Loops with Lists": "Use enumerate() when you need positions, in for membership, and loop over a copy if you plan to remove items.",
-  "List Comprehensions": "Value first, then for, then the filter; an if before the for is a choice, an if after it is a filter.",
-  "Nested Lists": "Read m[row][col] left to right, and never build a grid by repeating one row object — every copy would be the same list."
+  "Tuples": "Round brackets make a tuple, a single item needs the trailing comma, and it cannot be edited after creation.",
+  "Sets": "Curly braces or set() build a set; duplicates vanish silently and there is no indexing at all.",
+  "Set Operations": "| union, & intersection, - difference, ^ symmetric difference \u2014 direction only matters for -.",
+  "Dictionaries": "{key: value} pairs read with [] or get(); in and a plain for loop both work on keys only.",
+  "Dictionary Methods": "keys(), values() and items() unlock real loops; update(), copy() and max(d, key=d.get) do the rest.",
+  "Nested Dictionaries": "d[outer][inner] reads left to right \u2014 trace the outer key, then the inner key, separately."
 }
 
 let current = 0;
@@ -1289,10 +1272,10 @@ function showResults() {
   document.getElementById('resPct').textContent = pct + '%';
 
   let grade, sub;
-  if (pct >= 90) { grade = 'Excellent — Lists Mastered'; sub = 'Lists are genuinely solid. On to tuples and dictionaries!'; }
+  if (pct >= 90) { grade = 'Excellent — Ready for Week 7'; sub = 'Tuples, sets and dictionaries are genuinely solid. On to functions!'; }
   else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Strong grasp overall. Review the weak topics below, then move on.'; }
-  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'Lists need another pass before Week 7 builds on them.'; }
-  else { grade = 'Needs Work — Revisit Week 6'; sub = 'Rewatch Days 36 to 42 before moving ahead.'; }
+  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'These containers need another pass before Week 7 builds on them.'; }
+  else { grade = 'Needs Work — Revisit Week 6'; sub = 'Rewatch Days 38 to 43 before starting Week 7.'; }
   document.getElementById('gradeLabel').textContent = grade;
   document.getElementById('gradeSub').textContent = sub;
 

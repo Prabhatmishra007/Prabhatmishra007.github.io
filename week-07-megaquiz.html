@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Quiz &mdash; Week 7 Mega Quiz: Functions (Days 45&ndash;50)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --card: #1a1a1a;
+  --card-hover: #202020;
+  --gold: #f5a623;
+  --gold-dim: rgba(245,166,35,0.15);
+  --gold-border: rgba(245,166,35,0.3);
+  --accent: #f5a623;
+  --accent2: #e05c3a;
+  --accent3: #7c6af7;
+  --text: #f0ede8;
+  --text-secondary: #c8c0b0;
+  --muted: #7a7060;
+  --correct: #5a9e6f;
+  --wrong: #c0442a;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(245,166,35,0.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(245,166,35,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(124,106,247,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TOP BAR */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0a0a0a;
+  border-bottom: 2px solid var(--gold);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.top-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); }
+.top-bar-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.top-bar-right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  padding: 4px 12px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* SCREEN VISIBILITY */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── WELCOME ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.eyebrow span { color: var(--gold); }
+
+h1.main-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h1.main-title em { color: var(--gold); font-style: italic; }
+
+.welcome-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 540px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.topic-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: 4px 10px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+@media(min-width:520px){ .stat-grid { grid-template-columns: repeat(4,1fr); } }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1.1rem .9rem;
+  text-align: center;
+}
+.stat-card .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: .2rem;
+}
+.stat-card .lbl {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.notice-box {
+  background: var(--card);
+  border-left: 4px solid var(--accent3);
+  padding: 16px 20px;
+  margin-bottom: 2rem;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.notice-box strong { color: var(--text); }
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: .85rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-start:hover { background: #ffbb4d; transform: translateY(-2px); }
+
+.hint-text {
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .5px;
+}
+.hint-text span { color: var(--accent2); }
+
+/* ── QUIZ HEADER ── */
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.q-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.q-counter strong { color: var(--text); }
+.timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--border-gold);
+  padding: .3rem .75rem;
+  transition: color .3s, background .3s;
+}
+.timer.warn { color: var(--accent2); background: rgba(224,92,58,0.1); border-color: rgba(224,92,58,0.3); }
+
+.progress-wrap { margin-bottom: 1.5rem; }
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: .4rem;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .4s ease;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  background: var(--gold-dim);
+  padding: .25rem .8rem;
+  margin-bottom: .9rem;
+}
+
+.difficulty-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .22rem .7rem;
+  margin-bottom: .9rem;
+  margin-left: 8px;
+}
+.diff-easy { color: var(--correct); border: 1px solid rgba(90,158,111,0.3); background: rgba(90,158,111,0.08); }
+.diff-medium { color: var(--accent3); border: 1px solid rgba(124,106,247,0.3); background: rgba(124,106,247,0.08); }
+.diff-hard { color: var(--accent2); border: 1px solid rgba(224,92,58,0.3); background: rgba(224,92,58,0.08); }
+.diff-challenge { color: #d9376e; border: 1px solid rgba(217,55,110,0.35); background: rgba(217,55,110,0.1); }
+
+.question-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+.question-text code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(245,166,35,0.1);
+  border: 1px solid var(--border-gold);
+  padding: .15rem .45rem;
+  font-size: .88em;
+  color: var(--gold);
+}
+
+.sql-block {
+  background: #111;
+  border-left: 3px solid var(--gold);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  color: #c3d4e8;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.sql-kw { color: var(--gold); font-weight: 700; }
+.sql-str { color: #8ec07c; }
+.sql-num { color: var(--accent3); }
+.sql-com { color: var(--muted); font-style: italic; }
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1.6rem;
+}
+.option-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: .85rem;
+  transition: border-color .15s, background .15s;
+  font-size: .93rem;
+  color: var(--text-secondary);
+  user-select: none;
+  line-height: 1.55;
+}
+.option-card:hover { border-left-color: var(--gold); background: var(--card-hover); color: var(--text); }
+.option-card.selected { border-left-color: var(--gold); background: rgba(245,166,35,0.07); color: var(--text); border-color: var(--border-gold); }
+.option-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+}
+.option-card.selected .option-label { color: var(--gold); }
+
+.option-card code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(245,166,35,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .35rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+
+.nav-row {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: .65rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .12s;
+}
+.btn:disabled { opacity: .3; cursor: not-allowed; transform: none !important; }
+.btn-skip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-skip:hover:not(:disabled) { border-color: rgba(255,255,255,0.2); color: var(--text-secondary); }
+.btn-next {
+  background: var(--gold);
+  color: #0d0d0d;
+}
+.btn-next:hover:not(:disabled) { background: #ffbb4d; transform: translateY(-1px); }
+
+/* ── RESULTS ── */
+.results-top { text-align: center; margin-bottom: 2.2rem; }
+.ring-wrap { display: flex; justify-content: center; margin-bottom: 1.2rem; }
+.ring-wrap svg { overflow: visible; }
+.ring-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 12; }
+.ring-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: butt;
+  stroke: var(--gold);
+  stroke-dasharray: 390;
+  stroke-dashoffset: 390;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1);
+}
+.ring-pct { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; fill: var(--text); }
+.ring-lbl { font-size: .7rem; fill: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+.grade-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: .3rem;
+}
+.grade-sub { color: var(--text-secondary); font-size: .93rem; }
+
+.res-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+.res-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1rem;
+  text-align: center;
+}
+.res-stat-card .rv {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: .2rem;
+}
+.rv.green { color: var(--correct); }
+.rv.red { color: var(--wrong); }
+.rv.gold { color: var(--gold); }
+.res-stat-card .rl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-family: 'JetBrains Mono', monospace; }
+
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-bottom: .9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-bars { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+.topic-row { display: flex; flex-direction: column; gap: .35rem; }
+.topic-row-head { display: flex; justify-content: space-between; align-items: center; }
+.topic-name { font-size: .85rem; font-weight: 500; color: var(--text-secondary); }
+.topic-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .55rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.status-strong { background: rgba(90,158,111,0.1); color: var(--correct); border: 1px solid rgba(90,158,111,0.25); }
+.status-moderate { background: rgba(124,106,247,0.1); color: var(--accent3); border: 1px solid rgba(124,106,247,0.22); }
+.status-weak { background: rgba(192,68,42,0.1); color: var(--wrong); border: 1px solid rgba(192,68,42,0.22); }
+.bar-track { height: 4px; background: rgba(255,255,255,0.05); }
+.bar-fill { height: 100%; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+.focus-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent2);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.focus-box h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: .85rem;
+}
+.focus-item {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: .7rem;
+  font-size: .87rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.focus-item:last-child { margin-bottom: 0; }
+.focus-bullet { color: var(--gold); flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+
+.review-list { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 2rem; }
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 1rem 1.1rem;
+}
+.review-card.correct-card { border-left-color: var(--correct); }
+.review-card.wrong-card { border-left-color: var(--wrong); }
+.review-qnum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+  letter-spacing: .5px;
+}
+.review-q { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .55rem; line-height: 1.5; }
+.review-q code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(245,166,35,0.08);
+  border: 1px solid var(--border-gold);
+  padding: .1rem .3rem;
+  font-size: .85em;
+  color: var(--gold);
+}
+.review-answers { display: flex; flex-direction: column; gap: .3rem; }
+.review-ans {
+  font-size: .8rem;
+  padding: .3rem .65rem;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.5;
+}
+.ans-correct { background: rgba(90,158,111,0.08); color: var(--correct); border: 1px solid rgba(90,158,111,0.2); }
+.ans-wrong-pick { background: rgba(192,68,42,0.08); color: var(--wrong); border: 1px solid rgba(192,68,42,0.2); }
+.ans-skipped { background: rgba(122,122,154,0.08); color: var(--muted); border: 1px solid rgba(122,122,154,0.18); }
+
+.explanation-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(245,166,35,0.06);
+  border-left: 2px solid var(--gold);
+  font-size: .8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+.explanation-box strong { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: .75rem; }
+
+.btn-retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .9rem;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-retry:hover { background: #ffbb4d; transform: translateY(-2px); }
+
+.divider { height: 1px; background: var(--border); margin: 1.6rem 0; }
+.footer-note {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-top: 3rem;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-dot"></div>
+    <div class="top-bar-title">Python Week 7 Mega Quiz</div>
+  </div>
+  <div class="top-bar-right">Days 45-50 / 100</div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="container">
+    <div class="eyebrow">100 Days of Python &middot; Week 7 &middot; <span>Mega Quiz</span></div>
+    <h1 class="main-title">Week 7 &mdash;<br><em>Functions</em></h1>
+    <p class="welcome-sub">The Week 7 checkpoint — fifty questions covering everything from Days 45 to 50. Defining and calling functions, parameters and arguments, return values, scope, default arguments and keyword arguments. Heavy on code-tracing, so read each snippet line by line. Medium to hard difficulty.</p>
+
+    <div class="topic-tags">
+      <span class="topic-tag">Functions</span>
+      <span class="topic-tag">Parameters</span>
+      <span class="topic-tag">Return Values</span>
+      <span class="topic-tag">Scope</span>
+      <span class="topic-tag">Default Arguments</span>
+      <span class="topic-tag">Keyword Arguments</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><span class="val">50</span><span class="lbl">Questions</span></div>
+      <div class="stat-card"><span class="val">45</span><span class="lbl">Minutes</span></div>
+      <div class="stat-card"><span class="val">6</span><span class="lbl">Topics</span></div>
+      <div class="stat-card"><span class="val">Med&ndash;Hard</span><span class="lbl">Difficulty</span></div>
+    </div>
+
+    <div class="notice-box">
+      <strong>The Week 7 checkpoint.</strong> Fifty questions across all six topics &mdash; longer than a daily quiz, and deliberately so. Functions are how every real program gets organised from here on, so clear this comfortably before Week 8.
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+    <div class="hint-text">Timer starts immediately. <span>Skip costs you nothing — review is shown at the end.</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 2 — QUIZ
+════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="container">
+    <div class="quiz-header">
+      <div class="q-counter">Question <strong id="qNum">1</strong> of 50</div>
+      <div class="timer" id="timer">45:00</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">0 answered</div>
+    </div>
+    <span class="topic-pill" id="topicPill">Functions</span>
+    <span class="difficulty-pill" id="diffPill">Easy</span>
+    <div class="question-text" id="questionText"></div>
+    <div id="sqlSnippet"></div>
+    <div class="options-list" id="optionsList"></div>
+    <div class="nav-row">
+      <button class="btn btn-skip" onclick="skipQuestion()">Skip</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 3 — RESULTS
+════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="results-top">
+      <div class="ring-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f5a623"/>
+              <stop offset="100%" stop-color="#ffbb4d"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="65" cy="65" r="62"/>
+          <circle class="ring-fill" id="ringFill" cx="65" cy="65" r="62"/>
+          <text class="ring-pct" id="ringPct" x="65" y="62" text-anchor="middle" dominant-baseline="middle">0%</text>
+          <text class="ring-lbl" x="65" y="80" text-anchor="middle">Score</text>
+        </svg>
+      </div>
+      <div class="grade-label" id="gradeLabel"></div>
+      <div class="grade-sub" id="gradeSub"></div>
+    </div>
+
+    <div class="res-stat-grid">
+      <div class="res-stat-card"><span class="rv green" id="resCorrect">0</span><span class="rl">Correct</span></div>
+      <div class="res-stat-card"><span class="rv red" id="resWrong">0</span><span class="rl">Wrong</span></div>
+      <div class="res-stat-card"><span class="rv gold" id="resPct">0%</span><span class="rl">Score</span></div>
+    </div>
+
+    <div class="section-title">Performance by Topic</div>
+    <div class="topic-bars" id="topicBars"></div>
+
+    <div class="focus-box" id="focusBox">
+      <h3>→ Focus Areas</h3>
+      <div id="focusTips"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Full Review</div>
+    <div class="review-list" id="reviewList"></div>
+
+    <button class="btn-retry" onclick="retryQuiz()">↺ Retry Quiz</button>
+    <div class="footer-note" style="margin-top:2rem;">100 Days of Python &middot; Days 45&ndash;50 &middot; Week 7 Mega Quiz</div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Functions",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> greet():\n    <span class="sql-kw">print</span>(<span class="sql-str">"Hello!"</span>)\n\ngreet()\ngreet()`,
+    opts: ["Hello!", "Nothing prints", "A SyntaxError", "Hello!\\nHello!"],
+    ans: 3,
+    explain: "Each call to greet() runs the function's body from the top. Called twice, \"Hello!\" prints twice, once per call."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> greet():\n    <span class="sql-kw">print</span>(<span class="sql-str">"Hello!"</span>)\n\n<span class="sql-kw">print</span>(<span class="sql-str">"Done"</span>)`,
+    opts: ["Done", "Hello!\\nDone", "A NameError", "Hello!"],
+    ans: 0,
+    explain: "def only defines the function \u2014 nothing inside it runs until it is called. greet() is never called here, so only \"Done\" prints."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> greet():\n    <span class="sql-kw">print</span>(<span class="sql-str">"Hello!"</span>)\n\ngreet`,
+    opts: ["A NameError", "Nothing prints", "greet", "Hello!"],
+    ans: 1,
+    explain: "Writing greet without parentheses only refers to the function \u2014 it does not call it. With no call, the body never runs, so nothing is printed and no error is raised."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Medium",
+    q: "What happens when the following code runs?",
+    sql: `sayhi()\n\n<span class="sql-kw">def</span> sayhi():\n    <span class="sql-kw">print</span>(<span class="sql-str">"hi"</span>)`,
+    opts: ["It prints \"hi\"", "It raises a NameError", "It prints nothing and continues", "Python defines sayhi first automatically"],
+    ans: 1,
+    explain: "Python reads top to bottom, and sayhi() is called before the def line that creates it. At that point the name does not exist yet, so Python raises a NameError."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Easy",
+    q: "Which symbol must end the first line of a function definition?",
+    opts: ["A semicolon ;", "A colon :", "Nothing at all", "An arrow ->"],
+    ans: 1,
+    explain: "Just like if and for, a def line ends with a colon before the indented body begins. Leaving it out raises a SyntaxError."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Easy",
+    q: "Which of these is a valid Python function name?",
+    opts: ["def", "calculate-total", "calculate_total", "2nd_function"],
+    ans: 2,
+    explain: "Function names follow the same rules as variables: letters, digits and underscores, never starting with a digit, and no hyphens. calculate_total fits; the others break a rule or reuse a keyword."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Medium",
+    q: "How many lines will the following code print in total?",
+    sql: `<span class="sql-kw">def</span> show_menu():\n    <span class="sql-kw">print</span>(<span class="sql-str">"1. Start"</span>)\n    <span class="sql-kw">print</span>(<span class="sql-str">"2. Exit"</span>)\n\nshow_menu()\nshow_menu()\nshow_menu()`,
+    opts: ["6", "0", "2", "3"],
+    ans: 0,
+    explain: "Each call runs both print lines in the body, so one call prints 2 lines. Three calls print 2 \u00d7 3 = 6 lines in total."
+  },
+  {
+    topic: "Functions",
+    difficulty: "Easy",
+    q: "Which keyword starts a function definition in Python?",
+    opts: ["func", "define", "def", "function"],
+    ans: 2,
+    explain: "def is the keyword that introduces every function definition in Python, followed by the name, parentheses and a colon."
+  },
+
+  {
+    topic: "Parameters",
+    difficulty: "Easy",
+    q: "In the call greet(\"Asha\"), where greet is defined as def greet(name):, what is \"Asha\"?",
+    opts: ["The return value", "The parameter", "The function body", "The argument"],
+    ans: 3,
+    explain: "name is the parameter \u2014 the placeholder in the definition. \"Asha\" is the argument: the real value supplied at the moment the function is called."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> add(a, b):\n    <span class="sql-kw">print</span>(a <span class="sql-kw">+</span> b)\n\nadd(<span class="sql-num">10</span>, <span class="sql-num">20</span>)`,
+    opts: ["20", "10", "30", "1020"],
+    ans: 2,
+    explain: "The two arguments are matched to a and b by position, giving a = 10 and b = 20. The function prints their sum, 30."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> info(name, age):\n    <span class="sql-kw">print</span>(name, <span class="sql-str">"is"</span>, age)\n\ninfo(<span class="sql-num">21</span>, <span class="sql-str">"Asha"</span>)`,
+    opts: ["Asha is 21", "21 is Asha", "A TypeError, since the types are swapped", "None is None"],
+    ans: 1,
+    explain: "Without keywords, arguments fill parameters strictly by position \u2014 21 goes into name and \"Asha\" goes into age. Python does not check that they look right, so it prints 21 is Asha."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Medium",
+    q: "What happens when the following code runs?",
+    sql: `<span class="sql-kw">def</span> total(a, b):\n    <span class="sql-kw">print</span>(a <span class="sql-kw">+</span> b)\n\ntotal(<span class="sql-num">5</span>)`,
+    opts: ["It raises a TypeError about a missing argument", "It prints None", "It prints 5", "It treats b as 0"],
+    ans: 0,
+    explain: "Neither parameter has a default value, so both need an argument. Supplying only one leaves b without a value, and Python raises a TypeError naming the missing argument."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Medium",
+    q: "What happens when the following code runs?",
+    sql: `<span class="sql-kw">def</span> total(a, b):\n    <span class="sql-kw">print</span>(a <span class="sql-kw">+</span> b)\n\ntotal(<span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">3</span>)`,
+    opts: ["It raises a TypeError", "It prints 6", "It prints 3", "It ignores the extra argument"],
+    ans: 0,
+    explain: "total takes exactly two arguments, and three were given. Python raises a TypeError saying it takes 2 positional arguments but 3 were given."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> print_square(n):\n    <span class="sql-kw">print</span>(n <span class="sql-kw">*</span> n)\n\n<span class="sql-kw">for</span> x <span class="sql-kw">in</span> [<span class="sql-num">2</span>, <span class="sql-num">3</span>]:\n    print_square(x)`,
+    opts: ["5", "23", "2\\n3", "4\\n9"],
+    ans: 3,
+    explain: "The loop calls print_square once for each value in the list, passing a new argument each time. 2 squared is 4 and 3 squared is 9, printed on separate lines."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Easy",
+    q: "How many arguments must be supplied to call a function defined as def f(a, b, c):?",
+    opts: ["One", "Three", "Two", "Any number"],
+    ans: 1,
+    explain: "With no defaults, every parameter needs exactly one argument. Three parameters means three arguments, matched by position."
+  },
+  {
+    topic: "Parameters",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> multiply(a, b):\n    <span class="sql-kw">print</span>(a <span class="sql-kw">*</span> b)\n\nmultiply(<span class="sql-num">3</span>, <span class="sql-num">4</span>)`,
+    opts: ["34", "An error", "7", "12"],
+    ans: 3,
+    explain: "a gets 3 and b gets 4 by position, and the function prints their product: 3 \u00d7 4 = 12."
+  },
+
+  {
+    topic: "Return Values",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> show():\n    <span class="sql-kw">print</span>(<span class="sql-str">"working"</span>)\n\nx <span class="sql-kw">=</span> show()\n<span class="sql-kw">print</span>(x)`,
+    opts: ["working\\nNone", "None\\nworking", "working\\nworking", "A TypeError"],
+    ans: 0,
+    explain: "show() prints \"working\" while it runs, but it has no return statement, so it silently gives back None. That None is what ends up stored in x."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> add(a, b):\n    <span class="sql-kw">return</span> a <span class="sql-kw">+</span> b\n\n<span class="sql-kw">print</span>(add(<span class="sql-num">2</span>, <span class="sql-num">3</span>) <span class="sql-kw">+</span> add(<span class="sql-num">1</span>, <span class="sql-num">1</span>))`,
+    opts: ["7", "5", "2", "An error, since add() cannot be used inside +"],
+    ans: 0,
+    explain: "Each call resolves to a real number before the outer addition runs. add(2, 3) gives 5 and add(1, 1) gives 2, and 5 + 2 is 7."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> greet():\n    <span class="sql-kw">print</span>(<span class="sql-str">"hi"</span>)\n    <span class="sql-kw">return</span>\n    <span class="sql-kw">print</span>(<span class="sql-str">"bye"</span>)\n\ngreet()`,
+    opts: ["bye", "hi\\nbye", "hi", "A SyntaxError"],
+    ans: 2,
+    explain: "The moment return runs, the function exits immediately \u2014 any line after it is never reached. Only \"hi\" prints."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> check(n):\n    <span class="sql-kw">if</span> n <span class="sql-kw">&gt;</span> <span class="sql-num">0</span>:\n        <span class="sql-kw">return</span> <span class="sql-str">"positive"</span>\n    <span class="sql-kw">return</span> <span class="sql-str">"not positive"</span>\n\n<span class="sql-kw">print</span>(check(<span class="sql-num">5</span>), check(<span class="sql-kw">-</span><span class="sql-num">3</span>))`,
+    opts: ["positive positive", "not positive positive", "positive not positive", "not positive not positive"],
+    ans: 2,
+    explain: "For 5 the if is True, so the first return fires and the function exits. For -3 the if is False, so Python falls through to the second return."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> square(n):\n    <span class="sql-kw">return</span> n <span class="sql-kw">*</span> n\n\n<span class="sql-kw">print</span>(square(square(<span class="sql-num">2</span>)))`,
+    opts: ["8", "An error", "4", "16"],
+    ans: 3,
+    explain: "The inner square(2) runs first and returns 4. That 4 is passed straight into the outer square(), giving 4 \u00d7 4 = 16."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> cube(n):\n    <span class="sql-kw">return</span> n <span class="sql-kw">**</span> <span class="sql-num">3</span>\n\nc <span class="sql-kw">=</span> cube(<span class="sql-num">2</span>)\n<span class="sql-kw">print</span>(c <span class="sql-kw">+</span> <span class="sql-num">1</span>)`,
+    opts: ["None", "8", "9", "2"],
+    ans: 2,
+    explain: "cube(2) computes 2 ** 3 = 8 and returns it into c. Since c holds a real number, c + 1 is an ordinary addition that gives 9."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Easy",
+    q: "Which statement about return and print() is true?",
+    opts: ["They do exactly the same thing", "print() sends a value back to the caller; return only displays it", "return sends a value back to the caller; print() only displays it", "return can only be used with numbers"],
+    ans: 2,
+    explain: "return hands a value back so it can be stored or reused. print() only shows something on screen and gives nothing back for the program to use."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Easy",
+    q: "What does a function give back if it has no return statement?",
+    opts: ["None", "0", "An error is raised", "An empty string"],
+    ans: 0,
+    explain: "Every Python function returns something. With no return statement, it silently returns None."
+  },
+  {
+    topic: "Return Values",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> half(n):\n    <span class="sql-kw">return</span> n <span class="sql-kw">/</span> <span class="sql-num">2</span>\n\n<span class="sql-kw">print</span>(half(half(<span class="sql-num">40</span>)))`,
+    opts: ["10.0", "20", "10", "5.0"],
+    ans: 0,
+    explain: "The inner half(40) returns 20.0, since / always gives a float. The outer half() then halves that, giving 10.0."
+  },
+
+  {
+    topic: "Scope",
+    difficulty: "Easy",
+    q: "What happens when the following code runs?",
+    sql: `<span class="sql-kw">def</span> show():\n    y <span class="sql-kw">=</span> <span class="sql-num">10</span>\n    <span class="sql-kw">print</span>(y)\n\nshow()\n<span class="sql-kw">print</span>(y)`,
+    opts: ["It raises an error immediately", "It prints 10 and then None", "It prints 10, then raises a NameError", "It prints 10 and then 10 again"],
+    ans: 2,
+    explain: "y is created inside show(), so it is local and disappears once show() finishes. The print inside works, but the one outside cannot find y at all."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `message <span class="sql-kw">=</span> <span class="sql-str">"Hello"</span>\n\n<span class="sql-kw">def</span> greet():\n    <span class="sql-kw">print</span>(message)\n\ngreet()`,
+    opts: ["message", "Hello", "None", "A NameError"],
+    ans: 1,
+    explain: "greet() only reads message, it never assigns to it. A function can read a global variable with no special syntax, so Python finds it one level out."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `x <span class="sql-kw">=</span> <span class="sql-num">100</span>\n\n<span class="sql-kw">def</span> change():\n    x <span class="sql-kw">=</span> <span class="sql-num">5</span>\n    <span class="sql-kw">print</span>(x)\n\nchange()\n<span class="sql-kw">print</span>(x)`,
+    opts: ["5\\n5", "100\\n5", "100\\n100", "5\\n100"],
+    ans: 3,
+    explain: "Assigning x = 5 inside change() creates a brand new local x that shadows the global one. The local prints 5, and the global x outside is untouched at 100."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Hard",
+    q: "What happens when the following code runs?",
+    sql: `count <span class="sql-kw">=</span> <span class="sql-num">0</span>\n\n<span class="sql-kw">def</span> increment():\n    count <span class="sql-kw">=</span> count <span class="sql-kw">+</span> <span class="sql-num">1</span>\n\nincrement()`,
+    opts: ["count stays 0", "count becomes 1", "It prints 1", "It raises an UnboundLocalError"],
+    ans: 3,
+    explain: "Because increment() assigns to count, Python treats count as local for the whole function \u2014 then count + 1 tries to read a local value that was never set. Without global count, this raises UnboundLocalError."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Hard",
+    q: "What will the following code print?",
+    sql: `count <span class="sql-kw">=</span> <span class="sql-num">0</span>\n\n<span class="sql-kw">def</span> increment():\n    <span class="sql-kw">global</span> count\n    count <span class="sql-kw">=</span> count <span class="sql-kw">+</span> <span class="sql-num">1</span>\n\nincrement()\nincrement()\n<span class="sql-kw">print</span>(count)`,
+    opts: ["An UnboundLocalError", "2", "0", "1"],
+    ans: 1,
+    explain: "global count tells Python to use the outer count instead of creating a local one. Each call genuinely updates the shared variable, so two calls leave it at 2."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> square(n):\n    n <span class="sql-kw">=</span> n <span class="sql-kw">*</span> n\n    <span class="sql-kw">return</span> n\n\nnum <span class="sql-kw">=</span> <span class="sql-num">5</span>\n<span class="sql-kw">print</span>(square(num))\n<span class="sql-kw">print</span>(num)`,
+    opts: ["25\\n5", "5\\n5", "5\\n25", "25\\n25"],
+    ans: 0,
+    explain: "n is a parameter, so it is local like any other variable inside the function. Reassigning n only changes that local copy \u2014 num outside is never affected and still prints 5."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> add_one(n):\n    n <span class="sql-kw">=</span> n <span class="sql-kw">+</span> <span class="sql-num">1</span>\n    <span class="sql-kw">return</span> n\n\n<span class="sql-kw">print</span>(add_one(<span class="sql-num">5</span>))\n<span class="sql-kw">print</span>(add_one(<span class="sql-num">5</span>))`,
+    opts: ["5\\n5", "6\\n6", "6\\n7", "6\\n5"],
+    ans: 1,
+    explain: "Local variables are created fresh on every call and thrown away afterward. Both calls start with n = 5, so both print 6, not 6 then 7."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Easy",
+    q: "What is a variable created at the top level of a file, outside every function, called?",
+    opts: ["Global", "Private", "Temporary", "Local"],
+    ans: 0,
+    explain: "A variable created outside every function is global \u2014 it belongs to the whole program. One created inside a function is local to that function."
+  },
+  {
+    topic: "Scope",
+    difficulty: "Medium",
+    q: "Which statement about a function's parameters is true?",
+    opts: ["They can only be read, never changed", "They are global variables", "They are local to the function", "They keep their value between calls"],
+    ans: 2,
+    explain: "Parameters are local variables that exist only while the function runs. They start fresh each call and changing one never affects a variable outside."
+  },
+
+  {
+    topic: "Default Arguments",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> greet(name<span class="sql-kw">=</span><span class="sql-str">"Guest"</span>):\n    <span class="sql-kw">print</span>(<span class="sql-str">"Hello, "</span> <span class="sql-kw">+</span> name)\n\ngreet()`,
+    opts: ["A TypeError", "Hello, name", "Hello, ", "Hello, Guest"],
+    ans: 3,
+    explain: "Calling greet() with nothing means name has no argument, so Python falls back to the default \"Guest\" written in the def line."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> power(base, exp<span class="sql-kw">=</span><span class="sql-num">2</span>):\n    <span class="sql-kw">print</span>(base <span class="sql-kw">**</span> exp)\n\npower(<span class="sql-num">5</span>)`,
+    opts: ["3125", "10", "7", "25"],
+    ans: 3,
+    explain: "Only base was supplied, so exp falls back to its default of 2. The function prints 5 ** 2 = 25."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> power(base, exp<span class="sql-kw">=</span><span class="sql-num">2</span>):\n    <span class="sql-kw">print</span>(base <span class="sql-kw">**</span> exp)\n\npower(<span class="sql-num">2</span>, <span class="sql-num">5</span>)`,
+    opts: ["4", "25", "7", "32"],
+    ans: 3,
+    explain: "Supplying a second argument overrides the default exp=2 for this call, so exp becomes 5. The function computes 2 ** 5 = 32."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> describe(name<span class="sql-kw">=</span><span class="sql-str">"Unknown"</span>, age<span class="sql-kw">=</span><span class="sql-num">18</span>):\n    <span class="sql-kw">print</span>(name, age)\n\ndescribe(<span class="sql-str">"Ravi"</span>)`,
+    opts: ["A TypeError", "Unknown 18", "Unknown Ravi", "Ravi 18"],
+    ans: 3,
+    explain: "Positional matching fills name first, so \"Ravi\" goes there. No second argument was given, so age keeps its default of 18."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Hard",
+    q: "What happens when Python reads the following definition?",
+    sql: `<span class="sql-kw">def</span> bad(a<span class="sql-kw">=</span><span class="sql-num">1</span>, b):\n    <span class="sql-kw">print</span>(a, b)`,
+    opts: ["It defines the function normally", "It raises a TypeError only when called", "b automatically gets the same default as a", "It raises a SyntaxError"],
+    ans: 3,
+    explain: "A parameter without a default cannot follow one that has a default \u2014 Python could no longer tell from position which arguments are required. It is rejected immediately as a SyntaxError."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> tax(amount, rate<span class="sql-kw">=</span><span class="sql-num">0.18</span>):\n    <span class="sql-kw">print</span>(amount <span class="sql-kw">*</span> rate)\n\ntax(<span class="sql-num">1000</span>)`,
+    opts: ["1000", "180.0", "An error, since rate was not given", "0.18"],
+    ans: 1,
+    explain: "Only amount was supplied, so rate falls back to 0.18. The function prints 1000 \u00d7 0.18 = 180.0."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> tax(amount, rate<span class="sql-kw">=</span><span class="sql-num">0.18</span>):\n    <span class="sql-kw">print</span>(amount <span class="sql-kw">*</span> rate)\n\ntax(<span class="sql-num">1000</span>, <span class="sql-num">0.05</span>)`,
+    opts: ["180.0", "50.0", "5.0", "1000.05"],
+    ans: 1,
+    explain: "The second argument overrides the default rate for this call only. The function prints 1000 \u00d7 0.05 = 50.0."
+  },
+  {
+    topic: "Default Arguments",
+    difficulty: "Easy",
+    q: "Which of these is a valid function definition?",
+    opts: ["def f(a, b=2):", "def f(=1, b):", "def f(a=1, b):", "def f(a=1, b, c=3):"],
+    ans: 0,
+    explain: "Every parameter without a default must come before every parameter that has one. def f(a, b=2): follows that rule; the others put a required parameter after a defaulted one or are not valid syntax."
+  },
+
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Easy",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> greet(name, greeting):\n    <span class="sql-kw">print</span>(greeting <span class="sql-kw">+</span> <span class="sql-str">", "</span> <span class="sql-kw">+</span> name)\n\ngreet(greeting<span class="sql-kw">=</span><span class="sql-str">"Hi"</span>, name<span class="sql-kw">=</span><span class="sql-str">"Asha"</span>)`,
+    opts: ["A TypeError, since the order is swapped", "Asha, Hi", "Hi, Asha", "None"],
+    ans: 2,
+    explain: "Naming both arguments removes any dependence on order \u2014 greeting matches greeting and name matches name wherever they sit. The result is \"Hi, Asha\"."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> describe(name, age, city):\n    <span class="sql-kw">print</span>(name, age, city)\n\ndescribe(<span class="sql-str">"Ravi"</span>, city<span class="sql-kw">=</span><span class="sql-str">"Pune"</span>, age<span class="sql-kw">=</span><span class="sql-num">22</span>)`,
+    opts: ["Ravi Pune 22", "Ravi 22 Pune", "An error, since city was named before age", "A SyntaxError, since the keywords are out of order"],
+    ans: 1,
+    explain: "\"Ravi\" fills name positionally. The keyword arguments after it can be in any order \u2014 Python matches them by name, so age gets 22 and city gets Pune."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Hard",
+    q: "What happens when the following code runs?",
+    sql: `<span class="sql-kw">def</span> describe(name, age, city):\n    <span class="sql-kw">print</span>(name, age, city)\n\ndescribe(name<span class="sql-kw">=</span><span class="sql-str">"Ravi"</span>, <span class="sql-num">22</span>, <span class="sql-str">"Pune"</span>)`,
+    opts: ["It prints Ravi 22 Pune", "It raises a TypeError at call time", "It raises a SyntaxError", "age and city are set to None"],
+    ans: 2,
+    explain: "Once an argument is named, every argument after it in that call must be named too. An unnamed one cannot follow a keyword one, so Python rejects it as a SyntaxError before running."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> book(title, author<span class="sql-kw">=</span><span class="sql-str">"Unknown"</span>, year<span class="sql-kw">=</span><span class="sql-num">2024</span>):\n    <span class="sql-kw">print</span>(title, author, year)\n\nbook(<span class="sql-str">"Dune"</span>, year<span class="sql-kw">=</span><span class="sql-num">1965</span>)`,
+    opts: ["Dune Unknown 1965", "Dune Unknown 2024", "An error, since author was skipped", "Dune 1965 Unknown"],
+    ans: 0,
+    explain: "Naming year lets it skip past author without supplying it, so author keeps its default of \"Unknown\". Positional calling alone could never reach year without also setting author."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Medium",
+    q: "What happens when the following code runs?",
+    sql: `<span class="sql-kw">def</span> add(a, b):\n    <span class="sql-kw">print</span>(a <span class="sql-kw">+</span> b)\n\nadd(a<span class="sql-kw">=</span><span class="sql-num">1</span>, c<span class="sql-kw">=</span><span class="sql-num">2</span>)`,
+    opts: ["c is silently ignored", "It raises a TypeError naming c", "It prints 3", "It prints 1"],
+    ans: 1,
+    explain: "add() only has parameters a and b \u2014 there is no c for the keyword to match. Python raises a TypeError naming the unexpected keyword."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Medium",
+    q: "What happens when the following code runs?",
+    sql: `<span class="sql-kw">def</span> add(a, b):\n    <span class="sql-kw">print</span>(a <span class="sql-kw">+</span> b)\n\nadd(a<span class="sql-kw">=</span><span class="sql-num">1</span>, a<span class="sql-kw">=</span><span class="sql-num">2</span>)`,
+    opts: ["It raises a SyntaxError", "It raises a TypeError at call time", "It prints 3", "It uses the second value only"],
+    ans: 0,
+    explain: "Giving the same keyword twice makes no sense, and Python rejects it as a SyntaxError before the code even runs."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Medium",
+    q: "What will the following code print?",
+    sql: `<span class="sql-kw">def</span> book(title, author<span class="sql-kw">=</span><span class="sql-str">"Unknown"</span>, year<span class="sql-kw">=</span><span class="sql-num">2024</span>):\n    <span class="sql-kw">print</span>(title, author, year)\n\nbook(year<span class="sql-kw">=</span><span class="sql-num">1999</span>, title<span class="sql-kw">=</span><span class="sql-str">"Wings"</span>)`,
+    opts: ["A SyntaxError", "1999 Unknown 2024", "Wings Unknown 1999", "Wings 1999 Unknown"],
+    ans: 2,
+    explain: "Both required and defaulted parameters can be named in any order. title gets \"Wings\", year gets 1999, and author keeps its default \"Unknown\"."
+  },
+  {
+    topic: "Keyword Arguments",
+    difficulty: "Hard",
+    q: "What is the difference between def f(x=5): and f(x=5)?",
+    opts: ["There is no difference", "The first sets a default in the definition; the second is a keyword argument in a call", "The first is a keyword argument; the second sets a default", "Both are SyntaxErrors"],
+    ans: 1,
+    explain: "Both use =, but in different places for different reasons. In a def line it gives a parameter a fallback; in a call it names which parameter the supplied value belongs to."
+  }
+]
+
+const tips = {
+  "Functions": "def only defines a function; name() with parentheses calls it, and it must be defined before the call.",
+  "Parameters": "Parameters are placeholders in the def; arguments are the values at the call, matched by position.",
+  "Return Values": "return sends a value back and ends the function; no return means None, and print() only displays.",
+  "Scope": "Variables made inside a function are local; assigning to a name makes it local unless declared global.",
+  "Default Arguments": "parameter=value in the def gives a fallback; defaulted parameters must come after required ones.",
+  "Keyword Arguments": "name=value at the call labels an argument; positional ones come first, and order no longer matters."
+}
+
+let current = 0;
+let answered = 0;
+let userAnswers = [];
+let timerInterval = null;
+let secondsLeft = 45 * 60;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function startQuiz() {
+  current = 0;
+  answered = 0;
+  userAnswers = new Array(questions.length).fill(null);
+  secondsLeft = 45 * 60;
+  showScreen('quiz');
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  const el = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    el.textContent = formatTime(secondsLeft);
+    el.classList.toggle('warn', secondsLeft < 60);
+    if (secondsLeft <= 0) { clearInterval(timerInterval); showResults(); }
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qNum').textContent = current + 1;
+  document.getElementById('topicPill').textContent = q.topic;
+
+  const diffEl = document.getElementById('diffPill');
+  diffEl.textContent = q.difficulty;
+  diffEl.className = 'difficulty-pill';
+  if (q.difficulty === 'Easy') diffEl.classList.add('diff-easy');
+  else if (q.difficulty === 'Medium') diffEl.classList.add('diff-medium');
+  else if (q.difficulty === 'Hard') diffEl.classList.add('diff-hard');
+  else diffEl.classList.add('diff-challenge');
+
+  document.getElementById('questionText').innerHTML = q.q;
+
+  const sqlEl = document.getElementById('sqlSnippet');
+  if (q.sql) {
+    sqlEl.innerHTML = '<div class="sql-block">' + q.sql + '</div>';
+  } else {
+    sqlEl.innerHTML = '';
+  }
+
+  const pct = (answered / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = answered + ' of ' + questions.length + ' answered';
+
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if (userAnswers[current] === i) card.classList.add('selected');
+    card.innerHTML = `<div class="option-label">${labels[i]}</div><span>${opt}</span>`;
+    card.addEventListener('click', () => selectOption(i));
+    list.appendChild(card);
+  });
+
+  const btnNext = document.getElementById('btnNext');
+  btnNext.disabled = userAnswers[current] === null;
+  btnNext.textContent = current === questions.length - 1 ? 'Finish ✓' : 'Next →';
+}
+
+function selectOption(idx) {
+  if (userAnswers[current] === null) answered++;
+  userAnswers[current] = idx;
+  document.querySelectorAll('.option-card').forEach((card, i) => {
+    card.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function skipQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else showResults();
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) { current++; renderQuestion(); }
+  else { clearInterval(timerInterval); showResults(); }
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  showScreen('results');
+
+  let correct = 0;
+  userAnswers.forEach((ans, i) => { if (ans === questions[i].ans) correct++; });
+  const wrong = userAnswers.filter((a,i) => a !== null && a !== questions[i].ans).length;
+  const pct = Math.round((correct / questions.length) * 100);
+
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = wrong;
+  document.getElementById('resPct').textContent = pct + '%';
+
+  let grade, sub;
+  if (pct >= 90) { grade = 'Excellent — Ready for Week 8'; sub = 'Functions are genuinely solid. On to what comes next!'; }
+  else if (pct >= 75) { grade = 'Good — Almost There'; sub = 'Strong grasp overall. Review the weak topics below, then move on.'; }
+  else if (pct >= 55) { grade = 'Developing — Keep Going'; sub = 'Functions need another pass before Week 8 builds on them.'; }
+  else { grade = 'Needs Work — Revisit Week 7'; sub = 'Rewatch Days 45 to 50 before starting Week 8.'; }
+  document.getElementById('gradeLabel').textContent = grade;
+  document.getElementById('gradeSub').textContent = sub;
+
+  setTimeout(() => {
+    document.getElementById('ringFill').style.strokeDashoffset = 390 - (390 * correct / questions.length);
+    document.getElementById('ringPct').textContent = pct + '%';
+  }, 150);
+
+  // Topic breakdown
+  const topicStats = {};
+  questions.forEach((q, i) => {
+    if (!topicStats[q.topic]) topicStats[q.topic] = { total: 0, correct: 0 };
+    topicStats[q.topic].total++;
+    if (userAnswers[i] === q.ans) topicStats[q.topic].correct++;
+  });
+
+  const barsEl = document.getElementById('topicBars');
+  barsEl.innerHTML = '';
+  Object.entries(topicStats).forEach(([topic, stat]) => {
+    const p = Math.round((stat.correct / stat.total) * 100);
+    let statusClass, statusLabel;
+    if (p >= 70) { statusClass = 'status-strong'; statusLabel = 'Strong'; }
+    else if (p >= 40) { statusClass = 'status-moderate'; statusLabel = 'Moderate'; }
+    else { statusClass = 'status-weak'; statusLabel = 'Needs Work'; }
+    const color = p >= 70 ? 'var(--correct)' : p >= 40 ? 'var(--accent3)' : 'var(--wrong)';
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML = `
+      <div class="topic-row-head">
+        <span class="topic-name">${topic} (${stat.correct}/${stat.total})</span>
+        <span class="topic-status ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" data-width="${p}" style="background:${color}"></div></div>
+    `;
+    barsEl.appendChild(row);
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
+    });
+  });
+
+  // Focus tips
+  const focusTipsEl = document.getElementById('focusTips');
+  focusTipsEl.innerHTML = '';
+  const weakTopics = Object.entries(topicStats).filter(([,s]) => (s.correct/s.total) < 0.7);
+  if (weakTopics.length === 0) {
+    document.getElementById('focusBox').style.display = 'none';
+  } else {
+    weakTopics.forEach(([topic]) => {
+      const div = document.createElement('div');
+      div.className = 'focus-item';
+      div.innerHTML = `<span class="focus-bullet">→</span><span><strong>${topic}:</strong> ${tips[topic]}</span>`;
+      focusTipsEl.appendChild(div);
+    });
+  }
+
+  // Review list
+  const reviewEl = document.getElementById('reviewList');
+  reviewEl.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const isCorrect = ua === q.ans;
+    const isSkipped = ua === null;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (isSkipped ? '' : isCorrect ? 'correct-card' : 'wrong-card');
+    let ansHTML = '';
+    if (isSkipped) {
+      ansHTML = `<div class="review-ans ans-skipped">⟶ Skipped &nbsp;|&nbsp; Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>`;
+    } else if (isCorrect) {
+      ansHTML = `<div class="review-ans ans-correct">✓ [${labels[ua]}] ${q.opts[ua]}</div>`;
+    } else {
+      ansHTML = `
+        <div class="review-ans ans-wrong-pick">✗ Your answer: [${labels[ua]}] ${q.opts[ua]}</div>
+        <div class="review-ans ans-correct">✓ Correct: [${labels[q.ans]}] ${q.opts[q.ans]}</div>
+      `;
+    }
+    const diffClass = q.difficulty === 'Easy' ? 'diff-easy' : q.difficulty === 'Medium' ? 'diff-medium' : q.difficulty === 'Hard' ? 'diff-hard' : 'diff-challenge';
+    card.innerHTML = `
+      <div class="review-qnum">Q${i+1} · ${q.topic} · <span class="difficulty-pill ${diffClass}" style="font-size:.62rem;padding:.1rem .45rem;">${q.difficulty}</span> ${isSkipped ? '· Skipped' : isCorrect ? '· ✓ Correct' : '· ✗ Wrong'}</div>
+      <div class="review-q">${q.q}</div>
+      <div class="review-answers">${ansHTML}</div>
+      <div class="explanation-box"><strong>Explanation →</strong> ${q.explain}</div>
+    `;
+    reviewEl.appendChild(card);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('focusBox').style.display = '';
+  startQuiz();
+}
+</script>
+</body>
+</html>

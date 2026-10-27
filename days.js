@@ -400,10 +400,31 @@ const UNLOCKED_DAYS = {
   },
    52: {
     kind: "lesson",
-    yt: "",
+    yt: "wCAEGiNZl-Y",
     quiz: "day-52-quiz.html",
     practice: "day-52-practice.pdf",
     notes: "day-52-notes.html"
+  },
+   53: {
+    kind: "lesson",
+    yt: "ZOw7dwjh4vs",
+    quiz: "day-53-quiz.html",
+    practice: "day-52-practice.pdf",
+    notes: "day-52-notes.html"
+  },
+   54: {
+    kind: "lesson",
+    yt: "wT4r5mu9rLE",
+    quiz: "day-54-quiz.html",
+    practice: "day-54-practice.pdf",
+    notes: "day-54-notes.html"
+  },
+   55: {
+    kind: "lesson",
+    yt: "yutgiqVPKdk",
+    quiz: "day-55-quiz.html",
+    practice: "day-55-practice.pdf",
+    notes: "day-55-notes.html"
   }
 
   /* ── NEXT DAY GOES HERE ──────────────────────────────────

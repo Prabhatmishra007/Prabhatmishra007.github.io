@@ -316,8 +316,17 @@
     user = u;
     if (!u) {
       if (!isPublic && pageKey !== 'signup') {
+        // Loop guard: if we've bounced 4+ times in 15 s, stop and show the page
+        try {
+          var hops = JSON.parse(sessionStorage.getItem('py2ai-hops') || '[]')
+            .filter(function (t) { return Date.now() - t < 15000; });
+          hops.push(Date.now());
+          sessionStorage.setItem('py2ai-hops', JSON.stringify(hops));
+          if (hops.length > 3) { document.documentElement.classList.remove('py2ai-wait'); return; }
+        } catch (e) {}
         var next = norm(page) + location.search + location.hash;
-        location.replace('signup.html?next=' + encodeURIComponent(next));
+        if (/signup/i.test(next)) next = '';
+        location.replace('signup.html' + (next ? '?next=' + encodeURIComponent(next) : ''));
       }
       return;
     }

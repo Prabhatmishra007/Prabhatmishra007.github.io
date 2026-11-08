@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<script src="auth-config.js"></script>
+<script src="auth.js"></script>
+<script src="days.js"></script>
+<script src="track.js"></script>
+
+<script>
+(function(){try{var t=localStorage.getItem('py2ai-theme');
+if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta name="theme-color" content="#f5a623"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="py2ai-shell.css"/>
+<title>Python Lab · Py2AI</title>
+<meta name="description" content="Python Lab: three coding problems for each day of 100 Days of Python. Write, run and test your code in the browser."/>
+<style>
+body { font-size: 15px; }
+[hidden] { display: none !important; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ── GATE (signed out) ─────────────────────────── */
+.gate {
+  min-height: 100svh; display: grid; place-items: center;
+  padding: 120px 20px 60px;
+}
+.gate-card {
+  max-width: 560px; width: 100%;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 22px; padding: 40px 36px; text-align: center;
+}
+.gate-lock {
+  width: 52px; height: 52px; margin: 0 auto 20px;
+  display: grid; place-items: center; border-radius: 14px;
+  background: rgba(245,166,35,.12); color: var(--accent);
+}
+.gate-lock svg { width: 24px; height: 24px; }
+.gate h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 800; letter-spacing: -.025em; line-height: 1.12; margin-bottom: 12px; }
+.gate p { color: var(--text2); margin: 0 auto 26px; max-width: 420px; }
+.gate-facts { display: flex; justify-content: center; gap: 28px; margin-bottom: 30px; flex-wrap: wrap; }
+.gate-facts div { text-align: center; }
+.gate-facts b { display: block; font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.1; }
+.gate-facts span { font-size: 13px; color: var(--muted); }
+.gate-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.gate-actions a { padding: 13px 26px; font-size: 15px; }
+
+/* ── LAB SHELL ─────────────────────────────────── */
+.lab {
+  display: grid; grid-template-columns: 250px 1fr;
+  max-width: 1500px; margin: 0 auto;
+  padding: 88px 24px 32px; gap: 24px;
+  min-height: 100svh;
+}
+.days {
+  position: sticky; top: 88px; align-self: start;
+  max-height: calc(100svh - 110px); overflow-y: auto;
+  border: 1px solid var(--border); border-radius: 16px;
+  background: var(--card); padding: 10px 8px 14px;
+}
+.days-head { padding: 8px 10px 12px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+.days-head b { display: block; font-size: 15px; }
+.days-head span { font-size: 12.5px; color: var(--muted); }
+.days-bar { height: 4px; background: var(--border); border-radius: 4px; margin-top: 8px; overflow: hidden; }
+.days-bar.course i { background: var(--accent); }
+.course-txt { display: block; margin-top: 10px; }
+.days-bar i { display: block; height: 100%; background: var(--green); width: 0; transition: width .4s; }
+.wk { font-size: 12px; font-weight: 700; color: var(--purple); padding: 14px 10px 6px; }
+.dbtn {
+  width: 100%; display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 6px;
+  background: transparent; border: none; cursor: pointer; text-align: left;
+  padding: 7px 10px; border-radius: 9px; color: var(--text2);
+  font: 500 13.5px 'Inter', sans-serif;
+}
+.dbtn:hover { background: var(--card2); color: var(--text); }
+.dbtn.on { background: rgba(245,166,35,.13); color: var(--text); }
+.dbtn .n { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+.dbtn.on .n { color: var(--accent); }
+.dbtn .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dots { display: flex; gap: 3px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); }
+.dots i.ok { background: var(--green); }
+.day-select { display: none; }
+
+.main { min-width: 0; }
+.day-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+.day-top small { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--accent); }
+.day-top h1 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -.025em; line-height: 1.15; }
+.day-nav { display: flex; gap: 8px; align-items: center; }
+.pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font: 600 13px 'Inter', sans-serif; color: var(--text2);
+  background: var(--card); border: 1px solid var(--border2);
+  padding: 8px 14px; border-radius: 100px; cursor: pointer;
+}
+.pill:hover:not([disabled]) { color: var(--text); border-color: var(--muted); }
+.pill[disabled] { opacity: .4; cursor: default; }
+.py-status { cursor: default; font-weight: 500; font-size: 12.5px; }
+.py-status i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.py-status.ready i { background: var(--green); }
+.py-status.loading i { background: var(--accent); animation: blink 1s infinite; }
+.py-status.error i { background: #ff6b6b; }
+@keyframes blink { 50% { opacity: .3; } }
+
+.qtabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.qtab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 11px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--border);
+  font: 600 14px 'Inter', sans-serif; color: var(--text2);
+}
+.qtab:hover { color: var(--text); }
+.qtab.on { border-color: var(--accent); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
+.qtab .ck { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border2); position: relative; }
+.qtab.done .ck { background: var(--green); border-color: var(--green); }
+.qtab.done .ck::after { content: ''; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #07090d; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+.work { display: grid; grid-template-columns: minmax(280px, 0.85fr) 1.15fr; gap: 18px; align-items: start; }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 16px; }
+.q-panel { padding: 22px 22px 18px; }
+.q-panel h2 { font-size: 19px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 10px; }
+.q-prompt { color: var(--text2); line-height: 1.7; }
+.q-prompt code, .q-prompt pre {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  background: var(--card2); border: 1px solid var(--border); border-radius: 6px; color: var(--text);
+}
+.q-prompt code { padding: 1px 6px; }
+.q-prompt pre { padding: 10px 12px; margin: 8px 0; white-space: pre; overflow-x: auto; }
+.q-note { margin-top: 12px; font-size: 13px; color: var(--muted); }
+.ex { margin-top: 18px; display: grid; gap: 10px; }
+.ex h3, .tests h3 { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
+.box {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 12px; white-space: pre; overflow-x: auto; color: var(--text); min-height: 40px;
+}
+.box.empty { color: var(--muted); font-style: italic; }
+
+.ed-panel { overflow: hidden; display: flex; flex-direction: column; }
+.ed-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); gap: 10px; }
+.ed-bar span { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--muted); }
+.ed-bar .small-btn { background: none; border: none; cursor: pointer; font: 600 12.5px 'Inter', sans-serif; color: var(--muted); padding: 4px 6px; border-radius: 6px; }
+.ed-bar .small-btn:hover { color: var(--accent); }
+.editor { position: relative; display: grid; grid-template-columns: 44px 1fr; background: var(--surface); }
+.gutter {
+  font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 22px;
+  color: var(--muted); opacity: .6; text-align: right; padding: 14px 10px 14px 0;
+  user-select: none; overflow: hidden; white-space: pre;
+}
+.code {
+  font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 22px;
+  color: var(--text); background: transparent; border: none; resize: none;
+  padding: 14px 14px 14px 6px; min-height: 300px; height: 300px; width: 100%;
+  tab-size: 4; white-space: pre; overflow: auto; outline: none;
+}
+.code:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--accent); }
+.stdin-wrap { border-top: 1px solid var(--border); padding: 10px 14px 12px; }
+.stdin-wrap label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.stdin-wrap textarea {
+  width: 100%; height: 64px; resize: vertical;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.5;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border2); border-radius: 8px; padding: 8px 10px;
+}
+.stdin-wrap textarea:focus { outline: none; border-color: var(--accent); }
+.actions { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+.actions .btn-primary, .actions .btn-outline { padding: 11px 22px; font-size: 14px; border-radius: 11px; }
+.actions .btn-primary[disabled], .actions .btn-outline[disabled] { opacity: .5; cursor: wait; transform: none; }
+.actions .hint { margin-left: auto; font-size: 12px; color: var(--muted); }
+.console { border-top: 1px solid var(--border); }
+.console-head { display: flex; justify-content: space-between; padding: 8px 14px; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.console pre {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;
+  padding: 0 14px 14px; white-space: pre-wrap; word-break: break-word; color: var(--text);
+  max-height: 260px; overflow: auto; min-height: 44px;
+}
+.console pre .err { color: #ff8f8f; }
+[data-theme="light"] .console pre .err { color: #b42318; }
+.console pre .dim { color: var(--muted); }
+
+.tests { margin-top: 18px; }
+.tlist { display: grid; gap: 8px; }
+.trow { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+.trow summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; font-size: 13.5px; color: var(--text2);
+}
+.trow summary::-webkit-details-marker { display: none; }
+.trow summary .lbl { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st { flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border2); position: relative; }
+.trow.pass .st { background: var(--green); border-color: var(--green); }
+.trow.pass .st::after { content: ''; position: absolute; left: 5px; top: 2px; width: 4px; height: 8px; border: solid #07090d; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.trow.fail .st { background: #ff6b6b; border-color: #ff6b6b; }
+.trow.fail .st::after, .trow.fail .st::before { content: ''; position: absolute; left: 7.5px; top: 3px; width: 1.8px; height: 9px; background: #07090d; transform: rotate(45deg); }
+.trow.fail .st::before { transform: rotate(-45deg); }
+.trow.running .st { border-color: var(--accent); border-top-color: transparent; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.tbody { padding: 0 12px 12px; display: grid; gap: 8px; }
+.tbody .box { min-height: 0; }
+.tbody h4 { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.tbody .why { font-size: 13px; color: #ff8f8f; }
+[data-theme="light"] .tbody .why { color: #b42318; }
+
+.done-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 16px; padding: 14px 18px; border-radius: 14px;
+  background: rgba(62,207,142,.1); border: 1px solid rgba(62,207,142,.3);
+}
+.done-banner b { color: var(--green); }
+[data-theme="light"] .done-banner b { color: #0f7a4f; }
+.done-banner .btn-primary { padding: 10px 18px; font-size: 14px; border-radius: 10px; }
+
+@media (max-width: 1100px) {
+  .work { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .lab { grid-template-columns: 1fr; padding: 84px 14px 24px; }
+  .days { display: none; }
+  .day-select {
+    display: block; width: 100%; margin-bottom: 14px;
+    font: 600 15px 'Inter', sans-serif; color: var(--text);
+    background: var(--card); border: 1px solid var(--border2); border-radius: 12px; padding: 12px 14px;
+  }
+  .actions .hint { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="nav-outer">
+  <a href="index.html" class="nav-brand">
+    <img src="assets/logo-white.png" alt="py2ai.in" class="nav-logo-dark"/>
+    <img src="assets/logo-black.png" alt="py2ai.in" class="nav-logo-light"/>
+  </a>
+  <ul class="navbar">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="roadmap.html">Roadmap</a></li>
+    <li><a href="project.html">Project</a></li>
+    <li><a href="lab.html" class="active">Python Lab</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <button class="theme-btn" onclick="toggleTheme()">
+    <span id="t-icon">☀️</span>
+    <span id="t-lbl">Light</span>
+  </button>
+  <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu" id="nav-toggle-btn">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+
+<!-- Shown while we check the account -->
+<div class="gate" id="checking"><p style="color:var(--muted)">Checking your account…</p></div>
+
+<!-- SIGNED OUT -->
+<section class="gate" id="gate" hidden>
+  <div class="gate-card">
+    <div class="gate-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <h1>The Python Lab is for subscribers</h1>
+    <p>Create a free account to practise every day of the course right here — write code, run it, and check it against tests.</p>
+    <div class="gate-facts">
+      <div><b>57</b><span>days ready</span></div>
+      <div><b>3</b><span>problems a day</span></div>
+      <div><b>171</b><span>auto-checked</span></div>
+    </div>
+    <div class="gate-actions">
+      <a class="btn-primary" id="gate-up" href="signup.html?next=lab.html">Sign up free</a>
+      <a class="btn-outline" id="gate-in" href="signup.html?mode=signin&amp;next=lab.html">Sign in</a>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNED IN -->
+<div class="lab" id="lab" hidden>
+  <aside class="days" id="days" aria-label="Days"></aside>
+
+  <main class="main">
+    <select class="day-select" id="day-select" aria-label="Choose a day"></select>
+
+    <div class="day-top">
+      <div>
+        <small id="day-num">Day 1</small>
+        <h1 id="day-topic">Topic</h1>
+      </div>
+      <div class="day-nav">
+        <span class="pill py-status loading" id="py-status"><i></i><span>Loading Python…</span></span>
+        <button class="pill" id="prev-day" aria-label="Previous day">← Prev</button>
+        <button class="pill" id="next-day" aria-label="Next day">Next →</button>
+      </div>
+    </div>
+
+    <div class="done-banner" id="done-banner" hidden>
+      <span><b>Day complete.</b> All three problems pass.</span>
+      <button class="btn-primary" id="done-next">Go to next day</button>
+    </div>
+
+    <div class="qtabs" id="qtabs" role="tablist"></div>
+
+    <div class="work">
+      <section class="panel q-panel">
+        <h2 id="q-title"></h2>
+        <div class="q-prompt" id="q-prompt"></div>
+        <p class="q-note" id="q-note"></p>
+        <div class="ex" id="ex"></div>
+        <div class="tests">
+          <h3>Tests</h3>
+          <div class="tlist" id="tlist"></div>
+        </div>
+      </section>
+
+      <section class="panel ed-panel">
+        <div class="ed-bar">
+          <span>main.py</span>
+          <button class="small-btn" id="reset" type="button">Reset code</button>
+        </div>
+        <div class="editor">
+          <div class="gutter" id="gutter">1</div>
+          <textarea class="code" id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code editor"></textarea>
+        </div>
+        <div class="stdin-wrap" id="stdin-wrap">
+          <label for="stdin">Input for Run (one value per line)</label>
+          <textarea id="stdin" spellcheck="false"></textarea>
+        </div>
+        <div class="actions">
+          <button class="btn-outline" id="run" type="button">Run</button>
+          <button class="btn-primary" id="test" type="button">Test</button>
+          <span class="hint">Ctrl + Enter runs · Ctrl + Shift + Enter tests</span>
+        </div>
+        <div class="console">
+          <div class="console-head"><span>Output</span><span id="run-time"></span></div>
+          <pre id="out"><span class="dim">Press Run to see what your code prints.</span></pre>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script src="lab-questions.js"></script>
+<script>
+(function () {
+  'use strict';
+  var LAB = window.PY2AI_LAB || {};
+  var DAYS = Object.keys(LAB).map(Number).sort(function (a, b) { return a - b; });
+  var MAX_DAY = DAYS[DAYS.length - 1];
+  var A = window.PY2AI_AUTH;
+  var $ = function (id) { return document.getElementById(id); };
+  var user = null, progress = {}, curDay = 1, curQ = 0, busy = false;
+
+  /* ── Storage (per account) ─────────────────────── */
+  function key() { return 'py2ai-lab:' + (user ? user.uid : 'anon'); }
+  function load() { try { progress = JSON.parse(localStorage.getItem(key()) || '{}'); } catch (e) { progress = {}; } }
+  function save() { try { localStorage.setItem(key(), JSON.stringify(progress)); } catch (e) {} }
+  function rec(d, q) { var k = d + '-' + (q + 1); return progress[k] || (progress[k] = {}); }
+  function passed(d, q) { var r = progress[d + '-' + (q + 1)]; return !!(r && r.passed); }
+
+  /* ── Python in a Web Worker (page never freezes) ── */
+  var RUNNER = "# Shared runner \u2014 the SAME code is embedded in the browser worker (lab.html).\nimport sys, io, traceback\n\nclass _Py2aiOut(io.StringIO):\n    LIMIT = 20000\n    def write(self, s):\n        if self.tell() > self.LIMIT:\n            raise RuntimeError(\"Too much output (over 20,000 characters). Check for a runaway loop.\")\n        return super().write(s)\n\ndef _py2ai_run(user_code, stdin_text, call_code, echo):\n    lines = stdin_text.split(\"\\n\") if stdin_text else []\n    if lines and lines[-1] == \"\":\n        lines.pop()\n    feed = iter(lines)\n    out = _Py2aiOut()\n\n    def _input(prompt=\"\"):\n        if echo:\n            out.write(str(prompt))\n        try:\n            v = next(feed)\n        except StopIteration:\n            raise EOFError(\"input() asked for more lines than were given\") from None\n        if echo:\n            out.write(v + \"\\n\")\n        return v\n\n    ns = {\"__name__\": \"__main__\", \"input\": _input}\n    old_out, old_err = sys.stdout, sys.stderr\n    sys.stdout = sys.stderr = out\n    err = None\n    stage = \"code\"\n    try:\n        exec(compile(user_code, \"main.py\", \"exec\"), ns)\n        if call_code:\n            stage = \"call\"\n            out.seek(0); out.truncate(0)\n            exec(compile(call_code, \"test.py\", \"exec\"), ns)\n    except SystemExit:\n        pass\n    except BaseException as e:\n        name = type(e).__name__\n        line = None\n        if isinstance(e, SyntaxError) and e.filename == \"main.py\":\n            line = e.lineno\n        else:\n            for fr in traceback.extract_tb(e.__traceback__):\n                if fr.filename == \"main.py\":\n                    line = fr.lineno\n        msg = f\"{name}: {e}\"\n        if line:\n            msg = f\"Line {line} \u2192 {msg}\"\n        elif stage == \"call\":\n            msg = f\"While running the test call \u2192 {msg}\"\n        err = msg\n    finally:\n        sys.stdout, sys.stderr = old_out, old_err\n    return [out.getvalue(), err]\n";
+  var PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+  var WORKER_SRC = [
+    "importScripts('" + PYODIDE + "pyodide.js');",
+    "var ready = null, runFn = null;",
+    "self.onmessage = async function (e) {",
+    "  var m = e.data;",
+    "  if (m.runner) {",
+    "    ready = loadPyodide({ indexURL: '" + PYODIDE + "' }).then(function (py) {",
+    "      py.runPython(m.runner); runFn = py.globals.get('_py2ai_run'); return py; });",
+    "    ready.then(function () { postMessage({ ready: true }); }, function (err) { postMessage({ fatal: String(err) }); });",
+    "    return;",
+    "  }",
+    "  await ready;",
+    "  try {",
+    "    var res = runFn(m.code, m.stdin || '', m.call || null, !!m.echo);",
+    "    var arr = res.toJs(); res.destroy();",
+    "    postMessage({ id: m.id, out: arr[0], err: arr[1] || null });",
+    "  } catch (err) { postMessage({ id: m.id, out: '', err: String(err) }); }",
+    "};"
+  ].join('\n');
+
+  var worker = null, pyReady = false, pending = {}, seq = 0, readyWaiters = [];
+  function status(kind, text) {
+    var s = $('py-status'); s.className = 'pill py-status ' + kind; s.lastChild.textContent = text;
+  }
+  function startWorker() {
+    pyReady = false;
+    status('loading', 'Loading Python…');
+    var url = URL.createObjectURL(new Blob([WORKER_SRC], { type: 'text/javascript' }));
+    worker = new Worker(url);
+    worker.onmessage = function (e) {
+      var m = e.data;
+      if (m.ready) { pyReady = true; status('ready', 'Python ready'); readyWaiters.splice(0).forEach(function (f) { f(); }); return; }
+      if (m.fatal) { status('error', 'Python failed to load'); showOut('<span class="err">Python could not load. Check your internet connection and refresh.</span>'); return; }
+      var p = pending[m.id]; if (!p) return;
+      delete pending[m.id]; clearTimeout(p.timer); p.resolve(m);
+    };
+    worker.onerror = function () { status('error', 'Python failed to load'); };
+    worker.postMessage({ runner: RUNNER });
+  }
+  function whenReady() { return pyReady ? Promise.resolve() : new Promise(function (r) { readyWaiters.push(r); }); }
+  function runPy(payload, ms) {
+    return whenReady().then(function () {
+      return new Promise(function (resolve) {
+        var id = ++seq;
+        payload.id = id;
+        var t0 = performance.now();
+        pending[id] = {
+          resolve: function (m) { m.ms = performance.now() - t0; resolve(m); },
+          timer: setTimeout(function () {
+            delete pending[id];
+            worker.terminate();
+            startWorker();
+            resolve({ id: id, out: '', err: 'Timed out after ' + (ms / 1000) + ' seconds — is there a loop that never ends?', timeout: true });
+          }, ms)
+        };
+        worker.postMessage(payload);
+      });
+    });
+  }
+
+  /* ── Helpers ───────────────────────────────────── */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function norm(s) {
+    return String(s).replace(/\r/g, '').split('\n').map(function (l) { return l.replace(/\s+$/, ''); }).join('\n').replace(/\n+$/, '');
+  }
+  function weekLabel(d) {
+    if (d <= 28) return 'Week ' + Math.ceil(d / 7);
+    if (d <= 30) return 'Month 1 Project';
+    return 'Week ' + (4 + Math.ceil((d - 30) / 7));
+  }
+  function showOut(html) { $('out').innerHTML = html; }
+  function box(text) {
+    return text === '' ? '<div class="box empty">(nothing)</div>' : '<div class="box">' + esc(text) + '</div>';
+  }
+
+  /* ── Day list ──────────────────────────────────── */
+  function renderDays() {
+    var html = '<div class="days-head"><b>Python Lab</b><span id="solved-txt"></span><div class="days-bar"><i id="solved-bar"></i></div>' +
+      '<span class="course-txt" id="course-txt"></span><div class="days-bar course"><i id="course-bar"></i></div></div>';
+    var sel = '', lastWk = '';
+    DAYS.forEach(function (d) {
+      var wk = weekLabel(d);
+      if (wk !== lastWk) { html += '<div class="wk">' + wk + '</div>'; sel += (lastWk ? '</optgroup>' : '') + '<optgroup label="' + wk + '">'; lastWk = wk; }
+      html += '<button class="dbtn" data-day="' + d + '"><span class="n">' + String(d).padStart(2, '0') + '</span>' +
+              '<span class="t">' + esc(LAB[d].topic) + '</span><span class="dots" id="dots-' + d + '"></span></button>';
+      sel += '<option value="' + d + '">Day ' + d + ' · ' + esc(LAB[d].topic) + '</option>';
+    });
+    $('days').innerHTML = html;
+    $('day-select').innerHTML = sel + '</optgroup>';
+    $('days').addEventListener('click', function (e) {
+      var b = e.target.closest('.dbtn'); if (b) go(+b.dataset.day, 0);
+    });
+    $('day-select').onchange = function () { go(+this.value, 0); };
+    refreshDots();
+  }
+  function refreshDots() {
+    var total = 0;
+    DAYS.forEach(function (d) {
+      var h = '';
+      for (var q = 0; q < 3; q++) { var ok = passed(d, q); if (ok) total++; h += '<i' + (ok ? ' class="ok"' : '') + '></i>'; }
+      var el = $('dots-' + d); if (el) el.innerHTML = h;
+    });
+    $('solved-txt').textContent = 'Lab: ' + total + ' of ' + DAYS.length * 3 + ' problems solved';
+    $('solved-bar').style.width = (total / (DAYS.length * 3) * 100) + '%';
+    if (window.PY2AI_TRACK) {
+      var cd = PY2AI_TRACK.completedDays();
+      $('course-txt').textContent = 'Course: ' + cd + ' of 100 days completed';
+      $('course-bar').style.width = cd + '%';
+    }
+  }
+
+  /* ── Show a question ───────────────────────────── */
+  function go(d, q, keepScroll) {
+    if (!LAB[d]) d = DAYS[0];
+    curDay = d; curQ = q || 0;
+    try { history.replaceState(null, '', '#day-' + d + (curQ ? '-q' + (curQ + 1) : '')); } catch (e) {}
+    document.querySelectorAll('.dbtn').forEach(function (b) { b.classList.toggle('on', +b.dataset.day === d); });
+    var on = document.querySelector('.dbtn.on'); if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest' });
+    $('day-select').value = d;
+    $('day-num').textContent = 'Day ' + d;
+    $('day-topic').textContent = LAB[d].topic;
+    $('prev-day').disabled = d === DAYS[0];
+    $('next-day').disabled = d === MAX_DAY;
+    renderTabs();
+    renderQuestion();
+    if (!keepScroll) window.scrollTo({ top: 0 });
+  }
+  function renderTabs() {
+    var h = '';
+    for (var i = 0; i < 3; i++) {
+      h += '<button class="qtab' + (i === curQ ? ' on' : '') + (passed(curDay, i) ? ' done' : '') + '" role="tab" aria-selected="' + (i === curQ) + '" data-q="' + i + '">' +
+           '<span class="ck"></span>Q' + (i + 1) + ' · ' + esc(LAB[curDay].qs[i].title) + '</button>';
+    }
+    $('qtabs').innerHTML = h;
+    var all = passed(curDay, 0) && passed(curDay, 1) && passed(curDay, 2);
+    $('done-banner').hidden = !all;
+    $('done-next').hidden = curDay === MAX_DAY;
+  }
+  $('qtabs').addEventListener('click', function (e) {
+    var b = e.target.closest('.qtab'); if (!b) return;
+    curQ = +b.dataset.q; go(curDay, curQ, true);
+  });
+
+  function Q() { return LAB[curDay].qs[curQ]; }
+  function isCall(q) { return !!q.tests[0].call; }
+
+  function renderQuestion() {
+    var q = Q(), t0 = q.tests[0];
+    $('q-title').textContent = q.title;
+    $('q-prompt').innerHTML = q.prompt;
+    $('q-note').textContent = isCall(q)
+      ? 'Tests call your function and compare what gets printed. You don\u2019t need input().'
+      : (t0.in ? 'Tests feed the input lines to input(). Prompts inside input("...") are ignored when testing.' : 'No input needed — just print the output.');
+    var ex = '';
+    if (isCall(q)) ex += '<div><h3>Example call</h3>' + box(t0.call) + '</div>';
+    else if (t0.in) ex += '<div><h3>Example input</h3>' + box(t0.in) + '</div>';
+    ex += '<div><h3>Expected output</h3>' + box(norm(t0.out)) + '</div>';
+    $('ex').innerHTML = ex;
+    renderTests(null);
+
+    var r = rec(curDay, curQ);
+    $('code').value = typeof r.code === 'string' ? r.code : q.starter;
+    $('stdin-wrap').hidden = isCall(q) || !t0.in;
+    $('stdin').value = t0.in || '';
+    updateGutter();
+    showOut('<span class="dim">Press Run to see what your code prints.</span>');
+    $('run-time').textContent = '';
+  }
+
+  function renderTests(results) {
+    var q = Q(), h = '';
+    q.tests.forEach(function (t, i) {
+      var r = results && results[i];
+      var cls = !r ? '' : r === 'running' ? ' running' : r.pass ? ' pass' : ' fail';
+      var label = t.call ? t.call.split('\n').join(' ; ') : (t.in ? t.in.split('\n').join(' · ') : 'no input');
+      h += '<details class="trow' + cls + '"' + (r && r !== 'running' && !r.pass ? ' open' : '') + '><summary><span class="st"></span>' +
+           '<span>Test ' + (i + 1) + '</span><span class="lbl">' + esc(label) + '</span></summary><div class="tbody">';
+      if (t.call) h += '<div><h4>Call</h4>' + box(t.call) + '</div>';
+      else if (t.in) h += '<div><h4>Input</h4>' + box(t.in) + '</div>';
+      h += '<div><h4>Expected output</h4>' + box(norm(t.out)) + '</div>';
+      if (r && r !== 'running' && !r.pass) {
+        h += '<div><h4>Your output</h4>' + box(norm(r.out)) + '</div>';
+        if (r.err) h += '<p class="why">' + esc(r.err) + '</p>';
+        else h += '<p class="why">Output doesn\u2019t match. Check spelling, spaces, capitals and line breaks.</p>';
+      }
+      h += '</div></details>';
+    });
+    $('tlist').innerHTML = h;
+  }
+
+  /* ── Run & Test ────────────────────────────────── */
+  function setBusy(on) { busy = on; $('run').disabled = on; $('test').disabled = on; }
+  function persistCode() { rec(curDay, curQ).code = $('code').value; save(); }
+
+  function run() {
+    if (busy) return;
+    persistCode(); setBusy(true);
+    showOut('<span class="dim">' + (pyReady ? 'Running…' : 'Loading Python (first time takes a few seconds)…') + '</span>');
+    var q = Q();
+    runPy({ code: $('code').value, stdin: isCall(q) ? '' : $('stdin').value, echo: true }, 8000).then(function (m) {
+      var h = esc(m.out);
+      if (m.err) h += (h ? '\n' : '') + '<span class="err">' + esc(m.err) + '</span>';
+      if (!h) h = '<span class="dim">' + (isCall(q) ? 'Finished with no output. Press Test to check your function.' : 'Finished with no output.') + '</span>';
+      showOut(h);
+      $('run-time').textContent = m.ms ? Math.round(m.ms) + ' ms' : '';
+      setBusy(false);
+    });
+  }
+
+  function test() {
+    if (busy) return;
+    persistCode(); setBusy(true);
+    var q = Q(), d = curDay, qi = curQ, code = $('code').value;
+    var results = q.tests.map(function () { return null; });
+    showOut('<span class="dim">' + (pyReady ? 'Testing…' : 'Loading Python (first time takes a few seconds)…') + '</span>');
+    var i = 0;
+    (function next() {
+      if (i >= q.tests.length || (d !== curDay || qi !== curQ)) return finish();
+      results[i] = 'running'; renderTests(results);
+      var t = q.tests[i];
+      runPy({ code: code, stdin: t.in || '', call: t.call || null, echo: false }, 5000).then(function (m) {
+        results[i] = { pass: !m.err && norm(m.out) === norm(t.out), out: m.out, err: m.err };
+        i++;
+        if (m.timeout) { for (; i < q.tests.length; i++) results[i] = { pass: false, out: '', err: 'Not run — the previous test timed out.' }; }
+        next();
+      });
+    })();
+    function finish() {
+      setBusy(false);
+      if (d !== curDay || qi !== curQ) return;
+      renderTests(results);
+      var n = results.filter(function (r) { return r && r.pass; }).length;
+      var all = n === q.tests.length;
+      showOut(all
+        ? '<span style="color:var(--green)">All ' + n + ' tests passed.</span>'
+        : '<span class="err">' + n + ' of ' + q.tests.length + ' tests passed.</span> <span class="dim">Open a red test to compare outputs.</span>');
+      $('run-time').textContent = '';
+      var r = rec(d, qi);
+      if (all) r.passed = true;
+      save(); refreshDots(); renderTabs();
+    }
+  }
+
+  $('run').onclick = run;
+  $('test').onclick = test;
+  $('reset').onclick = function () {
+    if (!confirm('Replace your code with the starter code?')) return;
+    $('code').value = Q().starter; persistCode(); updateGutter();
+  };
+  $('prev-day').onclick = function () { go(curDay - 1, 0); };
+  $('next-day').onclick = function () { go(curDay + 1, 0); };
+  $('done-next').onclick = function () { go(curDay + 1, 0); };
+
+  /* ── Editor: line numbers, tab, auto-indent ────── */
+  var code = $('code'), gutter = $('gutter'), saveTimer;
+  function updateGutter() {
+    var n = code.value.split('\n').length, s = '';
+    for (var i = 1; i <= n; i++) s += i + '\n';
+    gutter.textContent = s;
+    var lines = Math.max(n + 2, 12);
+    code.style.height = Math.min(Math.max(lines * 22 + 28, 300), 620) + 'px';
+    gutter.scrollTop = code.scrollTop;
+  }
+  code.addEventListener('input', function () {
+    updateGutter();
+    clearTimeout(saveTimer); saveTimer = setTimeout(persistCode, 400);
+  });
+  code.addEventListener('scroll', function () { gutter.scrollTop = code.scrollTop; });
+  function insert(text) {
+    if (!document.execCommand('insertText', false, text)) code.setRangeText(text, code.selectionStart, code.selectionEnd, 'end');
+  }
+  code.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); e.shiftKey ? test() : run(); return; }
+    var v = code.value, s = code.selectionStart, en = code.selectionEnd;
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      var ls = v.lastIndexOf('\n', s - 1) + 1;
+      if (e.shiftKey) {
+        var lead = v.slice(ls).match(/^ {1,4}/);
+        if (lead) { code.setSelectionRange(ls, ls + lead[0].length); insert(''); code.setSelectionRange(Math.max(ls, s - lead[0].length), Math.max(ls, en - lead[0].length)); }
+      } else if (s !== en && v.slice(s, en).indexOf('\n') !== -1) {
+        var block = v.slice(ls, en);
+        code.setSelectionRange(ls, en);
+        insert(block.replace(/^/gm, '    '));
+      } else insert('    ');
+      updateGutter(); return;
+    }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      var lineStart = v.lastIndexOf('\n', s - 1) + 1;
+      var line = v.slice(lineStart, s);
+      var ind = (line.match(/^ */) || [''])[0];
+      if (/:\s*(#.*)?$/.test(line)) ind += '    ';
+      insert('\n' + ind);
+      updateGutter(); return;
+    }
+    if (e.key === 'Backspace' && s === en) {
+      var before = v.slice(v.lastIndexOf('\n', s - 1) + 1, s);
+      if (before.length && /^ +$/.test(before) && before.length % 4 === 0) {
+        e.preventDefault(); code.setSelectionRange(s - 4, s); insert(''); updateGutter();
+      }
+    }
+  });
+
+  /* ── Boot ──────────────────────────────────────── */
+  function fromHash() {
+    var m = location.hash.match(/^#day-(\d+)(?:-q([123]))?$/);
+    return m ? { d: +m[1], q: m[2] ? +m[2] - 1 : 0 } : null;
+  }
+  var booted = false;
+  A.onChange(function (u) {
+    $('checking').hidden = true;
+    user = u;
+    if (!u) {
+      $('lab').hidden = true; $('gate').hidden = false;
+      var nx = encodeURIComponent('lab.html' + location.hash);
+      $('gate-up').href = 'signup.html?next=' + nx;
+      $('gate-in').href = 'signup.html?mode=signin&next=' + nx;
+      return;
+    }
+    $('gate').hidden = true; $('lab').hidden = false;
+    load();
+    if (!booted) {
+      booted = true;
+      renderDays();
+      var h = fromHash();
+      if (h && LAB[h.d]) go(h.d, h.q);
+      else {
+        var first = DAYS.find(function (d) { return !(passed(d, 0) && passed(d, 1) && passed(d, 2)); }) || DAYS[0];
+        go(first, 0);
+      }
+      startWorker();
+    } else { refreshDots(); go(curDay, curQ, true); }
+  });
+  window.addEventListener('hashchange', function () { var h = fromHash(); if (h && user && LAB[h.d]) go(h.d, h.q, true); });
+})();
+</script>
+<script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var dark = html.getAttribute('data-theme') !== 'light';
+  var next = dark ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  if (window.py2aiSaveTheme) window.py2aiSaveTheme(next);
+  if (window.py2aiSyncThemeButton) window.py2aiSyncThemeButton();
+}
+function toggleNav() {
+  document.querySelector('.navbar').classList.toggle('open');
+  document.getElementById('nav-toggle-btn').classList.toggle('open');
+}
+</script>
+<script src="site.js"></script>
+</body>
+</html>

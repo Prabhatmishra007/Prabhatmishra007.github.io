@@ -2,6 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
+<script src="auth-config.js"></script>
+<script src="auth.js"></script>
+<script src="track.js"></script>
+
 <script>
 /* Theme boot — runs before first paint so switching pages never flashes.
    Must stay inline and stay in <head>. */
@@ -543,6 +547,13 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
 @media(prefers-reduced-motion: reduce){
   .rv { opacity: 1; transform: none; }
 }
+
+/* ── YOUR PROGRESS (track.js) ── */
+.pj-my { max-width: 720px; margin: 0 auto 36px; padding: 0 24px; }
+.pj-done-tag {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px;
+  font-size: 12.5px; font-weight: 700; color: var(--green);
+}
 </style>
 </head>
 <body>
@@ -557,6 +568,7 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
     <li><a href="index.html">Home <span class="slash">/</span></a></li>
     <li><a href="roadmap.html">Roadmap</a></li>
     <li><a href="project.html" class="active">Project</a></li>
+    <li><a href="lab.html">Python Lab</a></li>
     <li><a href="about.html">About</a></li>
   </ul>
   <button class="theme-btn" onclick="toggleTheme()">
@@ -585,6 +597,8 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
     <div class="pj-progress-label"><strong id="pj-unlocked-count">0</strong> / <span id="pj-total-count">13</span> projects unlocked</div>
   </div>
 </section>
+
+<div class="pj-my" data-py2ai-bars data-links></div>
 
 <div class="pj-legend">
   <span class="pj-legend-item"><span class="pj-legend-dot mini"></span>Mini Project</span>
@@ -717,6 +731,20 @@ function updateProgress() {
 
 renderProjects();
 updateProgress();
+
+/* Mark projects the learner has completed (code + mega quiz / brief opened) */
+if (window.PY2AI_TRACK) PY2AI_TRACK.onReady(function () {
+  document.querySelectorAll('#pj-root .pj-card').forEach(function (card, i) {
+    const p = PROJECTS[i];
+    if (!p || !UNLOCKED_DAYS[p.day] || card.querySelector('.pj-done-tag')) return;
+    if (PY2AI_TRACK.dayStatus(p.day).done) {
+      const tag = document.createElement('span');
+      tag.className = 'pj-done-tag';
+      tag.textContent = '✓ Completed';
+      card.insertBefore(tag, card.querySelector('.pj-cta'));
+    }
+  });
+});
 </script>
 <script src="site.js"></script>
 </body>

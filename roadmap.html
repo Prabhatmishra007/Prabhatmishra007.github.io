@@ -2,6 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
+<script src="auth-config.js"></script>
+<script src="auth.js"></script>
+<script src="track.js"></script>
+
 <script>
 /* Theme boot — runs before first paint so switching pages never flashes.
    Must stay inline and stay in <head>. */
@@ -988,6 +992,34 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
 @media(prefers-reduced-motion: reduce){
   .rv { opacity: 1; transform: none; }
 }
+
+/* ── YOUR PROGRESS (track.js) ────────────────────── */
+.rm-my { width: 100%; max-width: 720px; margin-top: 28px; position: relative; z-index: 1; }
+.rm-legend-dot.done { background: transparent; box-shadow: inset 0 0 0 2px var(--green); border-radius: 50%; }
+.rm-day.done { border-color: rgba(62,207,142,.5); }
+.rm-day.done:hover { border-color: var(--green); }
+.rm-day-done {
+  position: absolute; top: 12px; right: 12px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--green); display: grid; place-items: center;
+}
+.rm-day-done::after {
+  content: ''; width: 5px; height: 9px; margin-top: -2px;
+  border: solid #07090d; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.rm-day-part {
+  display: inline-block; margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+  color: var(--accent); letter-spacing: .04em;
+}
+.rm-modal-status {
+  font-size: 14px; color: var(--text2); margin: 0 0 12px;
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+}
+.rm-modal-status b { color: var(--green); }
+.rm-modal-status .q { color: var(--accent); font-weight: 600; }
+.rm-modal-actions a.seen::before { content: '✓'; color: var(--green); font-weight: 800; margin-right: 2px; }
+.rm-modal-actions a.btn-primary.seen::before { color: #07090d; }
 </style>
 </head>
 <body>
@@ -1002,6 +1034,7 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
     <li><a href="index.html">Home <span class="slash">/</span></a></li>
     <li><a href="roadmap.html" class="active">Roadmap</a></li>
     <li><a href="project.html">Project</a></li>
+    <li><a href="lab.html">Python Lab</a></li>
     <li><a href="about.html">About</a></li>
   </ul>
   <button class="theme-btn" onclick="toggleTheme()">
@@ -1029,12 +1062,16 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
     </div>
     <div class="rm-progress-label"><strong id="rm-unlocked-count">2</strong> / 100 days unlocked</div>
   </div>
+
+  <!-- Your progress (course + Python Lab) — filled by track.js -->
+  <div class="rm-my" data-py2ai-bars></div>
 </section>
 
 <div class="rm-legend">
   <span class="rm-legend-item"><span class="rm-legend-dot unlocked"></span>Unlocked</span>
   <span class="rm-legend-item"><span class="rm-legend-dot mini"></span>Mini Project</span>
   <span class="rm-legend-item"><span class="rm-legend-dot major"></span>Major Project</span>
+  <span class="rm-legend-item"><span class="rm-legend-dot done"></span>Completed</span>
   <span class="rm-legend-item"><span class="rm-legend-dot locked"></span>Locked</span>
 </div>
 
@@ -1054,6 +1091,7 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
     <div class="rm-modal-yt">
       <iframe id="rm-modal-iframe" src="" title="lesson video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    <p class="rm-modal-status" id="rm-modal-status"></p>
     <div class="rm-modal-actions" id="rm-modal-actions"></div>
   </div>
 </div>
@@ -1066,6 +1104,7 @@ a:focus-visible, button:focus-visible, .rm-day:focus-visible, .pj-card:focus-vis
 </footer>
 <!-- Shared unlock registry — the ONLY place days get added -->
 <script src="days.js"></script>
+<script>window.PY2AI_LAB_DAYS = 57;</script>
 
 <script>
 function toggleTheme() {
@@ -1296,6 +1335,12 @@ function openDay(dayNum, title) {
       '<a href="' + data.notes + '" class="btn-outline" style="justify-content:center;">Read Notes</a>';
   }
 
+  /* Python Lab link — Days 1–57 have 3 lab problems each */
+  if (window.PY2AI_LAB_DAYS && dayNum <= window.PY2AI_LAB_DAYS) {
+    actions.innerHTML += '<a href="lab.html#day-' + dayNum + '" class="btn-outline" style="justify-content:center;">Python Lab · 3 Problems</a>';
+  }
+
+  decorateModal(dayNum);
   document.getElementById('rm-modal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -1330,9 +1375,63 @@ function openDayFromQuery() {
   }
 }
 
+/* ── Learner progress (track.js) ───────────────────────────
+   A day turns green once its quiz, notes and practice PDF have
+   all been opened (project days: code + mega quiz / brief). */
+function markProgress() {
+  if (!window.PY2AI_TRACK || !PY2AI_TRACK.user()) return;
+  document.querySelectorAll('.rm-day[data-day]').forEach(function (card) {
+    const d = +card.getAttribute('data-day');
+    if (!UNLOCKED_DAYS[d]) return;
+    const st = PY2AI_TRACK.dayStatus(d);
+    card.classList.toggle('done', st.done);
+    const play = card.querySelector('.rm-day-play, .rm-day-done');
+    if (play) {
+      if (st.done && play.classList.contains('rm-day-play')) { play.className = 'rm-day-done'; play.innerHTML = ''; }
+      if (!st.done && play.classList.contains('rm-day-done')) { play.className = 'rm-day-play'; play.innerHTML = playSVG; }
+    }
+    let part = card.querySelector('.rm-day-part');
+    if (!st.done && st.visited > 0) {
+      if (!part) { part = document.createElement('span'); part.className = 'rm-day-part'; card.appendChild(part); }
+      part.textContent = st.visited + '/' + st.total + ' done';
+    } else if (part) part.remove();
+  });
+}
+
+function decorateModal(dayNum) {
+  const status = document.getElementById('rm-modal-status');
+  status.innerHTML = '';
+  if (!window.PY2AI_TRACK || !PY2AI_TRACK.user()) return;
+  document.querySelectorAll('#rm-modal-actions a').forEach(function (a) {
+    a.classList.toggle('seen', PY2AI_TRACK.isVisited(a.getAttribute('href')));
+  });
+  const st = PY2AI_TRACK.dayStatus(dayNum);
+  let html = st.done
+    ? '<span><b>✓ Day completed</b></span>'
+    : '<span>' + st.visited + ' of ' + st.total + ' done · open each item to complete this day</span>';
+  const data = UNLOCKED_DAYS[dayNum];
+  const quizFile = data.quiz || (data.week ? PY2AI.megaQuizLink(data.week) : null);
+  const rec = quizFile ? PY2AI_TRACK.quizRecord(quizFile) : null;
+  if (rec) {
+    const last = rec.attempts[rec.attempts.length - 1];
+    html += '<span class="q">Quiz: last ' + last.correct + '/' + last.total + ' · best ' + rec.best.correct + '/' + rec.best.total + '</span>';
+  }
+  status.innerHTML = html;
+}
+
+/* Keep cards fresh when a PDF / code link is clicked from the modal */
+document.getElementById('rm-modal-actions').addEventListener('click', function () {
+  setTimeout(function () {
+    markProgress();
+    const t = document.getElementById('rm-modal-eyebrow').textContent.replace(/\D/g, '');
+    if (t) decorateModal(+t);
+  }, 50);
+});
+
 renderCurriculum();
 updateProgress();
 openDayFromQuery();
+if (window.PY2AI_TRACK) PY2AI_TRACK.onReady(function () { markProgress(); });
 </script>
 <script src="site.js"></script>
 </body>

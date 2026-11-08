@@ -409,8 +409,8 @@ const UNLOCKED_DAYS = {
     kind: "lesson",
     yt: "ZOw7dwjh4vs",
     quiz: "day-53-quiz.html",
-    practice: "day-52-practice.pdf",
-    notes: "day-52-notes.html"
+    practice: "day-53-practice.pdf",
+    notes: "day-53-notes.html"
   },
    54: {
     kind: "lesson",
@@ -426,7 +426,7 @@ const UNLOCKED_DAYS = {
     practice: "day-55-practice.pdf",
     notes: "day-55-notes.html"
   },
-   55: {
+   56: {
     kind: "lesson",
     yt: "qAo5_wj979Y",
     quiz: "day-56-quiz.html",

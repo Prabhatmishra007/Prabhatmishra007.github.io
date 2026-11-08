@@ -1,15 +1,13 @@
 /* ============================================================
    py2ai.in — Firebase config for Sign up / Sign in
-   ------------------------------------------------------------
-   Paste the config from Firebase Console → Project settings →
-   Your apps → Web app. Until you do, the site runs in
-   "local mode": accounts are saved only in each visitor's own
-   browser (fine for testing, NOT real accounts).
-   Full steps: see SIGNUP-SETUP.md
+   Project: py2ai-64916  (Firebase Console → Project settings)
+   This web apiKey is meant to be public — safe to commit.
    ============================================================ */
 window.PY2AI_FIREBASE_CONFIG = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyC_5GtnTfN31iynckMqC7OykeCYDMBRYnA",
+  authDomain: "py2ai-64916.firebaseapp.com",
+  projectId: "py2ai-64916",
+  storageBucket: "py2ai-64916.firebasestorage.app",
+  messagingSenderId: "1075262552968",
+  appId: "1:1075262552968:web:3c41045ffe5d742af2183d"
 };

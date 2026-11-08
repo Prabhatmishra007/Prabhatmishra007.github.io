@@ -19,17 +19,27 @@
 (function () {
   'use strict';
 
+  /* "day-12-notes", "day-12-notes.html", "/day-12-notes?x#y" → "day-12-notes.html"
+     (files with another extension, like .pdf / .py, keep it) */
+  function norm(href) {
+    if (!href) return '';
+    var k = String(href).split('#')[0].split('?')[0].split('/').pop().toLowerCase();
+    if (k && k.indexOf('.') === -1) k += '.html';
+    return k;
+  }
+
   /* ── Settings ───────────────────────────────────────── */
   // Py2AI channel (@py.2ai) — sub_confirmation=1 opens YouTube's Subscribe dialog
   var YT_URL = 'https://www.youtube.com/channel/UCp2tB_f66OyRVQbnm3cDECQ?sub_confirmation=1';
-  var PUBLIC_PAGES = ['', 'index.html', 'about.html', 'signup.html'];
-  var YT_PAGES = ['roadmap.html', 'project.html', 'lab.html'];
+  // Page names WITHOUT ".html": GitHub Pages serves both /signup and /signup.html
+  var PUBLIC_PAGES = ['', 'index', 'about', 'signup', '404'];
+  var YT_PAGES = ['roadmap', 'project', 'lab'];
   var TOTAL_DAYS = 100;
   var LAB_TOTAL = 171;
 
   var A = window.PY2AI_AUTH;
-  var page = (location.pathname.split('/').pop() || 'index.html');
-  var pageKey = page.toLowerCase();
+  var page = (location.pathname.split('/').pop() || '');
+  var pageKey = norm(page).replace(/\.html$/, '');
   var isPublic = PUBLIC_PAGES.indexOf(pageKey) !== -1;
   var user = null;
 
@@ -51,10 +61,7 @@
     return d;
   }
   function writeStore(d) { try { localStorage.setItem(storeKey(), JSON.stringify(d)); } catch (e) {} }
-  function norm(href) {
-    if (!href) return '';
-    return String(href).split('#')[0].split('?')[0].split('/').pop().toLowerCase();
-  }
+
 
   /* ── 2. Visits and day completion ───────────────────── */
   function markVisited(href) {
@@ -308,8 +315,8 @@
   A.onChange(function (u) {
     user = u;
     if (!u) {
-      if (!isPublic) {
-        var next = page + location.search + location.hash;
+      if (!isPublic && pageKey !== 'signup') {
+        var next = norm(page) + location.search + location.hash;
         location.replace('signup.html?next=' + encodeURIComponent(next));
       }
       return;

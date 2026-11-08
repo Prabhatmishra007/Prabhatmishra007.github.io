@@ -229,7 +229,7 @@
     li.innerHTML = '<a id="py2ai-acct" class="py2ai-acct pending" href="signup.html">Sign up</a>';
     bar.appendChild(li);
     var a = li.firstChild;
-    if (/signup\.html$/.test(location.pathname)) a.classList.add('active');
+    if (/\/signup(\.html)?$/.test(location.pathname)) a.classList.add('active');
 
     window.PY2AI_AUTH.onChange(function (u) {
       a.classList.remove('pending');
@@ -244,7 +244,9 @@
       } else {
         a.classList.remove('is-in');
         a.textContent = 'Sign up';
-        a.href = 'signup.html?next=' + encodeURIComponent(location.pathname.split('/').pop() || 'index.html');
+        var here = location.pathname.split('/').pop() || 'index.html';
+        if (here.indexOf('.') === -1) here += '.html';
+        a.href = /^signup/.test(here) ? 'signup.html' : 'signup.html?next=' + encodeURIComponent(here);
       }
     });
   }

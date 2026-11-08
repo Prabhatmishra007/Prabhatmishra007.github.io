@@ -219,7 +219,7 @@ w = input()
   var $ = function (id) { return document.getElementById(id); };
   var params = new URLSearchParams(location.search);
   var next = params.get('next') || '';
-  if (!/^[\w.-]+\.html(\?[\w=&-]*)?(#[\w-]+)?$/.test(next) || /^signup\.html/.test(next)) next = 'lab.html';
+  if (!/^[\w.-]+(\.html)?(\?[\w=&-]*)?(#[\w-]+)?$/.test(next) || /^signup/.test(next)) next = 'lab.html';
   if (params.get('next')) { $('acct-go').href = next; $('gate-note').hidden = false; }
   var justAuthed = false;
 
